@@ -1,0 +1,252 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"><html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en-US" lang="en-US"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /><title>Using the developerWorks XML validation tools</title><meta http-equiv="PICS-Label" content="(PICS-1.1 &quot;http://www.icra.org/ratingsv02.html&quot; l gen true r (cz 1 lz 1 nz 1 oz 1 vz 1) &quot;http://www.rsac.org/ratingsv01.html&quot; l gen true r (n 0 s 0 v 0 l 0) &quot;http://www.classify.org/safesurf/&quot; l gen true r (SS~~000 1))" /><link rel="schema.DC" href="http://purl.org/DC/elements/1.0/" /><link rel="SHORTCUT ICON" href="http://www.ibm.com/favicon.ico" /><meta name="Owner" content="dW Information/Raleigh/IBM" /><meta name="DC.Language" scheme="rfc1766" content="en-US" /><meta name="IBM.Country" content="ZZ" /><meta name="Security" content="Public" /><meta name="Abstract" content="If you can't find a validating XML editor you like, or prefer not to take the time now to learn how to use one, you can edit the XML for your developerWorks articles and tutorials using your preferred text editor.  Ian Shields has created some great tools to help you validate, transform, and preview your article or tutorial. This article shows you how easy it is to use those tools on Microsoft Windows or Linux." /><meta name="Description" content="If you can't find a validating XML editor you like, or prefer not to take the time now to learn how to use one, you can edit the XML for your developerWorks articles and tutorials using your preferred text editor.  Ian Shields has created some great tools to help you validate, transform, and preview your article or tutorial. This article shows you how easy it is to use those tools on Microsoft Windows or Linux." /><meta name="Keywords" content="authoring, validate, editor, tool, author, guideline, write, writing, article, xml, html, template, paper, compose, generate,  publish, tttxca" /><meta name="DC.Date" scheme="iso8601" content="2005-10-24" /><meta name="Source" content="Based on v14 Template Generator, Template 14.0" /><meta name="DC.Rights" content="Copyright (c) 2005 by IBM Corporation" /> <meta name="Robots" content="index,follow" /><meta name="IBM.Effective" scheme="W3CDTF" content="2005-07-28" /><meta name="Last update" content="25102005gemoore@us.ibm.com" /><link rel="stylesheet" type="text/css" media="screen,print" href="http://www.ibm.com/common/v14/table.css" /><script language="JavaScript" src="http://www.ibm.com/developerworks/js/dwcss14.js" type="text/javascript"></script><link rel="stylesheet" type="text/css" href="http://www.ibm.com/common/v14/main.css" /><link rel="stylesheet" type="text/css" media="all" href="http://www.ibm.com/common/v14/screen.css" /><link rel="stylesheet" type="text/css" media="print" href="http://www.ibm.com/common/v14/print.css" /><script language="JavaScript" src="http://www.ibm.com/common/v14/detection.js" type="text/javascript"></script><script language="JavaScript" src="http://www.ibm.com/developerworks/js/dropdown.js" type="text/javascript"></script><script language="JavaScript" src="http://www.ibm.com/developerworks/email/grabtitle.js" type="text/javascript"></script><script language="JavaScript" src="http://www.ibm.com/developerworks/email/emailfriend2.js" type="text/javascript"></script><style type="text/css">
+code.section {font-family: Andale Mono, Lucida Console, Monaco, fixed, monospace; font-size: 11px}
+.boldcode {font-family: Andale Mono, Lucida Console, Monaco, fixed, monospace; font-size: 11px; font-weight: bold} .rboldcode {font-family: Andale Mono, Lucida Console, Monaco, fixed, monospace; font-size: 11px; font-weight: bold; color: #ff0000}
+.gboldcode {font-family: Andale Mono, Lucida Console, Monaco, fixed, monospace; font-size: 11px; font-weight: bold; color: #ff6600}
+.bboldcode {font-family: Andale Mono, Lucida  Console, Monaco, fixed, monospace; font-size: 11px; font-weight: bold; color: #3c5f84}
+</style><style type="text/css">
+.atitle { font-family:arial,sans-serif; font-size:18px; }
+</style><script type="text/javascript" language="JavaScript">var emailAbstract = "If you can't find a validating XML editor you like, or prefer not to take the time now to learn how to use one, you can edit the XML for your developerWorks articles and tutorials using your preferred text editor.  Ian Shields has created some great tools to help you validate, transform, and preview your article or tutorial. This article shows you how easy it is to use those tools on Microsoft Windows or Linux."; </script></head><body><!--MASTHEAD_BEGIN--><!--#include virtual="/developerworks/inc/s-topmast14.inc" --><!--MASTHEAD_END--><table width="100%" cellspacing="0" cellpadding="0" border="0" id="v14-body-table"><tr valign="top"><!--LEFTNAV_BEGIN--><td width="150" id="navigation"><table border="0" cellpadding="0" cellspacing="0" width="150"><tr><td class="left-nav-spacer"><a class="left-nav-overview" href="http://www.ibm.com/developerworks"> </a></td></tr></table><table border="0" cellpadding="0" cellspacing="0" width="150"><tr><td class="left-nav-overview" colspan="2"><a class="left-nav-overview" href="http://www.ibm.com/developerworks">developerWorks</a></td></tr></table><table border="0" cellpadding="0" cellspacing="0" width="150"><tr><td class="left-nav-highlight" colspan="2"><a class="left-nav" href="#">In this article:</a></td></tr><tr class="left-nav-child-highlight"><td><img src="../i/cl-bullet.gif" width="2" height="8" alt="" /></td><td><a class="left-nav-child" href="#start">Getting started</a></td></tr><tr class="left-nav-child-highlight"><td><img src="../i/cl-bullet.gif" width="2" height="8" alt="" /></td><td><a class="left-nav-child" href="#IDAPDQ2">Using Microsoft Windows</a></td></tr><tr class="left-nav-child-highlight"><td><img src="../i/cl-bullet.gif" width="2" height="8" alt="" /></td><td><a class="left-nav-child" href="#IDAHA13">Using Linux or   another operating system</a></td></tr><tr class="left-nav-child-highlight"><td><img src="../i/cl-bullet.gif" width="2" height="8" alt="" /></td><td><a class="left-nav-child" href="#resources">Resources</a></td></tr><tr class="left-nav-child-highlight"><td><img src="../i/cl-bullet.gif" width="2" height="8" alt="" /></td><td><a class="left-nav-child" href="#author">About the author</a></td></tr><tr class="left-nav-child-highlight"><td><img src="../i/cl-bullet.gif" width="2" height="8" alt="" /></td><td><a class="left-nav-child" href="#rate">Rate this page</a></td></tr><tr class="left-nav-last"><td width="14"><img src="../i/c.gif" width="14" height="1" alt="" class="display-img" /></td><td width="136"><img src="../i/left-nav-corner.gif" width="136" height="19" alt="" class="display-img" /></td></tr></table><br /><table border="0" cellpadding="0" cellspacing="0" width="150"><tr><td colspan="2" class="related"><b class="related">Related links</b></td></tr><tr class="rlinks"><td><img src="../i/rl-bullet.gif" width="2" height="8" alt="" /></td><td><a class="rlinks" href="http://www.ibm.com/developerworks/views/xml/library.jsp">XML technical library</a></td></tr><tr><td width="14"><img src="../i/c.gif" width="14" height="1" alt="" class="display-img" /></td><td width="136"><img src="../i/c.gif" width="136" height="19" alt="" class="display-img" /></td></tr></table></td><!--LEFTNAV_END--><td width="100%"><table width="100%" cellspacing="0" cellpadding="0" border="0" id="content-table"><tr valign="top"><td width="100%"><table width="100%" cellspacing="0" cellpadding="0" border="0"><tr><td><a name="main"><img src="../i/c.gif" width="592" height="1" alt="skip to main content" border="0" /></a></td></tr></table><table width="100%" cellspacing="0" cellpadding="0" border="0"><tr valign="top"><td width="10" height="18"><img src="../i/c.gif" width="10" height="18" alt="" /></td><td width="100%"><img src="../i/c.gif" width="1" height="6" alt="" /><br /><a class="bctl" href="http://www.ibm.com/developerworks/">developerWorks</a><span class="bct">  &gt;  </span><a class="bctl" href="http://www.ibm.com/developerworks/xml/">XML</a><span class="bct">  &gt;</span><img src="../i/c.gif" width="1" height="1" alt="" /><br /><h1>Using the developerWorks XML validation tools</h1><p id="subtitle"><em>Optional tools for authors creating articles and tutorials for publication on developerWorks</em></p><img class="display-img" src="../i/c.gif" width="1" height="6" alt="" /></td><td width="192" class="no-print"><img src="../i/dw.gif" width="192" height="18" alt="developerWorks" /></td></tr></table></td></tr></table><table width="100%" cellspacing="0" cellpadding="0" border="0"><tr valign="top"><td width="10"><img src="../i/c.gif" width="10" height="1" alt="" /></td><td width="100%"><table align="right" cellpadding="0" cellspacing="0" width="160" border="0" class="no-print"><tr><td width="10"><img src="../i/c.gif" width="10" height="1" alt="" /></td><td><table border="0" cellpadding="0" cellspacing="0" width="150"><tr><td class="v14-header-1-small">Document options</td></tr></table><table border="0" cellpadding="0" cellspacing="0" class="v14-gray-table-border"><tr><td width="150" class="no-padding"><table border="0" cellpadding="0" cellspacing="0" width="143"><script language="JavaScript" type="text/javascript">
+<!--
+document.write('<tr valign="top"><td width="8"><img src="../i/c.gif" width="8" height="1" alt=""/></td><td width="16"><img alt="Set printer orientation to landscape mode" height="16" src="../i/printer.gif" width="16" vspace="3" /></td><td width="122"><p><b><a class="smallplainlink" href="javascript:print()">Print this page</a></b></p></td></tr>');
+//-->
+</script>
+<noscript></noscript><script language="JavaScript" type="text/javascript">
+<!--
+document.write('<tr valign="top"><td width="8"><img src="../i/c.gif" width="8" height="1" alt=""/></td><td width="16"><img src="../i/em.gif" height="16" width="16" vspace="3" alt="Email this page" /></td><td width="122"><p><a class="smallplainlink" href="javascript:void newWindow()"><b>E-mail this page</b></a></p></td></tr>');
+//-->
+</script><noscript><tr valign="top"><td width="8"><img src="../i/c.gif" width="8" height="1" alt="" /></td><td width="16"><img src="../i/c.gif" height="16" width="16" alt="" /></td><td width="122" class="small"><p><span class="ast">Document options requiring JavaScript are not displayed</span></p></td></tr></noscript></table></td></tr></table><br /><table border="0" cellpadding="0" cellspacing="0" width="150"><tr><td class="v14-header-1-small">Rate this page</td></tr></table><table border="0" cellpadding="0" cellspacing="0" class="v14-gray-table-border"><tr><td width="150" class="no-padding"><table border="0" cellpadding="0" cellspacing="0" width="143"><tr valign="top"><td width="8"><img src="../i/c.gif" width="8" height="1" alt="" /></td><td><img src="../i/d_bold.gif" height="16" width="16" border="0" vspace="3" alt="" /></td><td width="125"><p><a class="smallplainlink" href="#rate"><b>Help us improve this content</b></a></p></td></tr></table></td></tr></table><br /></td></tr></table><p>Level: Introductory</p><p><a href="#author">Ian Shields</a> (<a href="mailto:ishields@us.ibm.com?subject=Using the developerWorks XML validation tools">ishields@us.ibm.com</a>), Senior Programmer, IBM developerWorks<br /></p><p> 28 Jul  2005<br />Updated 24  Oct  2005</p><blockquote>If you can't find a validating XML editor you like, or prefer not to take the time now to learn how to use one, you can edit the XML for your developerWorks articles and tutorials using your preferred text editor.  Ian Shields has created some great tools to help you validate, transform, and preview your article or tutorial. This article shows you how easy it is to use those tools on Microsoft&#174; Windows&#174; or Linux&#174;.</blockquote><p><a name="start"><span class="atitle">Getting started</span></a></p><p>Creating an article or tutorial for publication on developerWorks involves these steps:
+
+		<ol><li><b>Download</b> the author package and unzip the file.</li><li><b>Copy</b> the XML template for articles or the XML template for tutorials.</li><li><b>Edit</b> the XML template to add your content,  
+			then <b>validate</b> that XML against the schema and correct any errors.</li><li><b>Preview</b> your article or tutorial in a browser 
+			to get an idea of how it will appear on developerWorks.</li></ol></p><p>Start by reading and completing Step 1 and Step 2 in the article, 
+	"<a href="http://www.ibm.com/developerworks/library/i-dwauthors/">Authoring 
+	with the developerWorks XML templates</a>." That article shows 
+	you how to download the author package that contains the tools and all 
+	files you'll need.  It also includes tips for composing and submitting your content.</p><p>Then return to this article after you have completed Step 1 and Step 2. 
+	You will have downloaded the author package, unzipped the contents to 
+	your machine, and created a copy of the template using the new-tutorial 
+	or new-article tools described in that article. You are now ready to do the 
+	remaining steps: edit, validate, and preview your content using the 
+	instructions below.</p><br /><table width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td><img alt="" height="1" src="../i/blue_rule.gif" width="100%" /></td></tr></table><table align="right" cellpadding="0" cellspacing="0" class="no-print"><tr align="right"><td><table cellspacing="0" cellpadding="0" border="0"><tr><td valign="middle"><img alt="" border="0" height="16" src="../i/u_bold.gif" width="16" /><br /></td><td align="right" valign="top"><a class="fbox" href="#main"><b>Back to top</b></a></td></tr></table></td></tr></table><br /><br /><p><a name="IDAPDQ2"><span class="atitle">Using Microsoft Windows</span></a></p><p>You will need:
+		<ul><li>A text editor or word processor that can
+			save in plain text format.  Although not necessary, 
+			you will find it convenient to have an editor 
+			that can display line numbers, because any errors 
+			detected in the validation phase will be reported by 
+			line number. The Notepad application on Windows XP
+			will display line numbers if you select the
+			<b>View &gt; Status Bar</b> menu option. Note
+			that this option is not available in Notepad
+			in earlier versions of Windows.</li><li>The latest version of Microsoft's XML
+			Parser (MSXML), which is contained in MSXML
+			4.0 Service Pack 2 (Microsoft XML Core
+			Services) at this writing. (To get  the
+			parser, see the <a href="#resources">Resources</a> section of
+			this article for a link.) Use the link to <b>msxml.msi</b> 
+			to install MSXML 4.0 SP2 and the SDK on your 
+			computer. You may also save msxml.msi to your 
+			local disk for later installation. 
+			</li><li>Internet Explorer Version 6 or another Web browser 
+			such as Mozilla, Firefox, or Opera.</li></ul></p><p><a name="winedit"><span class="smalltitle">Step 1. Edit 
+	the XML file</span></a></p><p>Navigate to your new folder and edit your file
+	(<code>index.xml</code>)
+	using your favorite text editor. Notepad will suffice if 
+	you don't have another preferred editor. Follow the detailed 
+	comments in the <code>index.xml</code> template file. 
+	They will help you understand what you need to do.
+	</p><p>
+	Be sure to save your file
+	as plain text if you are using a word processor. 
+	Similarly, if you cut and paste from a file with 
+	embedded formatting, such as a Microsoft Word
+	file, either use your editor's capabilities to paste
+	(or paste special) as text, or be sure to save your 
+	XML file as plain text. Do not change 
+	the file name from index.xml, and do not edit the 
+	HTML file (index.html) that you may generate using our tools
+	as your developerWorks editor will work from the XML version.
+	Save any images, such as photos or
+	screen shots, in the directory you created for
+	your article or tutorial (my-article in our example).</p><p><a name="winvalidate"><span class="smalltitle">Step 2. Validate 
+	the XML</span></a></p><p>When editing your article or tutorial, you will need to validate the changes 
+	against our schema. If you are new to XML, we suggest 
+	validating your file as you go along.  It will help you identify the 
+	errors more easily.</p><p>
+	A tool for validating your XML was installed in your project directory when you created
+	your new article or tutorial.
+	 Click the <code>dw-transform.vbs</code> script in
+	your article or tutorial directory. Depending on your Windows settings, 
+	this may simply show as <code>dw-transform</code>. 
+	You should see a window like Figure 1.
+	</p><br /><a name="figure1"><b>Figure 1. Validating your article
+		with the dw-transform script</b></a><br /><img alt="Validating with the dw-transform script" height="93" src="winfig03.gif" width="308" /><br /><p><a name="winfixprob"><span class="smalltitle">Step 3. Correct 
+	validation problems</span></a></p><p>If you happened to make an XML coding error, you
+	will see an error output instead.  Using the dw-transform script, 
+	you should see a window like Figure 2.
+	</p><br /><a name="figure2"><b>Figure 2. An invalid article (VB script checker)
+		</b></a><br /><img alt="An invalid article (script checker)" height="202" src="winfig05.gif" width="338" /><br /><p>In this case, we introduced a deliberate error by including
+	<code>&lt;u&gt;Underlined
+	phrase&lt;/u&gt;</code>.  Because links are underlined, we do
+	not use underlined text for other purposes in developerWorks articles or tutorials,
+	so.the <code>&lt;u&gt;</code> and <code>&lt;/u&gt;</code> tags are not permitted by the
+	schema.  The tool will identify the location of the first
+	error and give a reason for it.  The reasons are generated by
+	the MSXML parser. Although they are somewhat cryptic, they
+	will usually help you locate the problem. 
+	If the reason contains <i>Expecting a, b, br, ...</i> with a long 
+	list of other tag names, you've probably mistyped a tag name or
+	attempted to use a tag that isn't supported by the developerWorks
+	schema (as in our example here). An editor that displays line 
+	numbers will help you find errors quickly. See Figure 3.
+	</p><br /><a name="figure3"><b>Figure 3. Locating an error in your
+		XML with Notepad</b></a><br /><img alt="Locating an   error in your XML with Notepad" height="245" src="winfig06.gif" width="407" /><br /><p>After you have located and corrected your error, save the
+	file and recheck it. If you used dw-xmlcheck.html, click the reload 
+	button in IE to recheck. If you used dw-transform.vbs, simply run it 
+	again.
+	Repeat this process until you have no more errors.</p><p><a name="winpreview"><span class="smalltitle">Step 4. Preview 
+	your article or tutorial</span></a></p><p>When you have no errors, you are ready to see a preview of how
+	your article or tutorial will look on developerWorks.You should have a file 
+	called <code>index.html</code> in your directory. 
+	Open this file with your preferred browser to preview your content.
+	If you are using Internet Explorer with Windows XP 
+	Service Pack 2, you may see a popup and an information bar advising that
+	Internet Explorer has restricted the file from showing active content.
+	Click on the information bar and select <b>Allow blocked content...</b>
+	in order to preview your article or tutorial. 
+	</p><br /><a name="figure4"><b>Figure 4. Previewing your
+		article</b></a><br /><img alt="Previewing your article" height="349" src="winfig07.gif" width="421" /><br /><p><b>Notes:</b><ul><li>Some of the stylesheets are included by the server, so the formatting in your 
+		preview won't appear exactly as it will when generated by the developerWorks 
+		staff and published on the server.</li><li>The final published version of a tutorial will be several separate pages, but the 
+		preview shows the tutorial on a single page.  On this single page, you can see 
+		where each new section begins. However, cross-links in the left navigation area 
+		and body of the tutorial do not work in the preview.  The developerWorks staff will 
+		correct the pagination and linking.</li></ul></p><p><a name="winpreview"><span class="smalltitle">Next steps</span></a></p><p>Congratulations!  You've edited, validated, and previewed your article or tutorial.  
+	Now, return to "<a href="http://www.ibm.com/developerworks/library/i-dwauthors/#composing">Authoring 
+	with the developerWorks XML templates</a>" for tips on finishing and submitting your 
+	content to your developerWorks editor.</p><br /><table width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td><img alt="" height="1" src="../i/blue_rule.gif" width="100%" /></td></tr></table><table align="right" cellpadding="0" cellspacing="0" class="no-print"><tr align="right"><td><table cellspacing="0" cellpadding="0" border="0"><tr><td valign="middle"><img alt="" border="0" height="16" src="../i/u_bold.gif" width="16" /><br /></td><td align="right" valign="top"><a class="fbox" href="#main"><b>Back to top</b></a></td></tr></table></td></tr></table><br /><br /><p><a name="IDAHA13"><span class="atitle">Using Linux or another operating system</span></a></p><p>You will need:
+		<ul><li>A text editor or word processor that can
+			save in plain text format.  Although not necessary, 
+			you will find it convenient to have an editor 
+			that can display line numbers, because any errors 
+			detected in the validation phase will be reported by 
+			line number. Many Linux and UNIX&#174; editors 
+			(including <code>vi</code> and
+			<code>emacs</code>) will display
+			line numbers, either always or as a user option.
+			</li><li>A Java runtime or development kit, at 1.4 level or greater.
+			We recommend using the IBM Runtime Environment for Java 2 
+			(JRE) as it includes the necessary Xalan and Xerces functions 
+			and can be installed alongside other Java implementations.
+			See the <a href="#resources">Resources</a> section of
+			this article for download links. 
+			If you use another Java runtime or developer kit
+			you may also need the Apache Xalan Version 2.6 package 
+			(which includes the required Xerces funcitons)
+			if it is not included with your Java version. You may also
+			need to modify the developerworks/tools/dwxmlxslt.sh script
+			or set a CLASSPATH environment variable.
+			</li><li>A graphical browser such as Mozilla, Firefox, or Opera.</li></ul></p><p><a name="linuxedit"><span class="smalltitle">Step 1. Edit 
+	your XML file</span></a></p><p>Navigate to your new folder and edit your XML file 
+	using your favorite text editor. Follow the detailed 
+	comments in the <code>index.xml</code> file. Be sure to save your file
+	as plain text if you are using a word processor. Do not change 
+	the file name from index.xml.  Save any images, such as photos or
+	screen shots, in the directory you created for
+	your article or tutorial (my-tutorial in our example).</p><p><a name="linuxvalidate"><span class="smalltitle">Step 2. Validate 
+	your XML</span></a></p><p>When editing your article or tutorial, you will need to validate the changes 
+	against our schema. If you are new to XML, we suggest 
+	validating your file as you go along.  It will help you identify the 
+	errors more easily.</p><p>The tool for validating your article or tutorial was installed in your 
+	directory when you created your new article or new tutorial. 
+	Run the <code>dw-transform.sh</code> script in
+	your directory. 
+	If you are running the KDE or GNOME desktops, you may run this 
+	from a graphical manager, such as Nautilus or Konqueror; otherwise, 
+	you should run the script in a terminal window.
+	</p><p>After a few moments, you should see a message box like Figure 5 
+	if all is well.
+	</p><br /><a name="figure5"><b>Figure 5. Validating your tutorial
+		with the dw-transform shell script</b></a><br /><img alt="Validating with the dw-transform shell script" height="218" src="lnxfig05.gif" width="346" /><br /><p><a name="linuxfixprob"><span class="smalltitle">Step 3. Correct 
+	validation problems</span></a></p><p>If you happened to make an XML coding error, your
+	message box will show an error similar to Figure 6. 
+	</p><br /><a name="figure6"><b>Figure 6. An invalid tutorial (shell script checker)
+		</b></a><br /><img alt="An invalid tutorial (shell script checker)" height="512" src="lnxfig06.gif" width="362" /><br /><p>In this case, we introduced a deliberate error by including
+	<code>&lt;u&gt;Underscore error&lt;/u&gt;</code>.  
+	Because links are underlined, we do not use underlined text 
+	for other purposes in developerWorks articles or tutorials,
+	so the <code>&lt;u&gt;</code> and 
+	<code>&lt;/u&gt;</code> tags are not permitted by the
+	schema.  The tool will identify the location of the first
+	error and give a reason for it.  The reasons are generated by
+	the Java parser. Although they are somewhat cryptic, they
+	will usually help you locate the problem. 
+	If the reason contains <i>One of '{"" </i> with a long 
+	list of other tag names, you've probably mistyped a tag name or
+	attempted to use a tag that isn't supported by the developerWorks
+	schema (as in our example here). An editor that displays line 
+	numbers will help you find errors quickly. See Figure 7.</p><br /><a name="figure7"><b>Figure 7. Locating an error in your
+		tutorial with the gedit editor</b></a><br /><img alt="Locating an error in your tutorial with nedit" height="332" src="lnxfig07.gif" width="405" /><br /><p>After you have located and corrected your error, save the
+	file and rerun the dw-transform.sh script to recheck your file.
+	Repeat this process until you have no more errors.</p><p><b>Notes:</b><ul><li>Some errors, such as a legitimate opening tag without 
+		a matching closing tag, may result in an error without a line 
+		number. Validate often.
+		</li><li>If you use tabs to indent your article or tutorial, the column number 
+		shown in your editor may not match the column number reported
+		in an error message.
+		</li></ul></p><p><a name="linuxpreview"><span class="smalltitle">Step 4. Preview 
+	your article or tutorial</span></a></p><p>When you have no more errors, you are ready to see a preview 
+	of how your article or tutorial will look on developerWorks. You should have a 
+	file called <code>index.html</code> in your  
+	directory. Open this file with your preferred browser to preview 
+	your article or tutorial.
+	</p><br /><a name="figure8"><b>Figure 8. Previewing your
+		tutorial</b></a><br /><img alt="Previewing your tutorial" height="382" src="lnxfig08.gif" width="388" /><br /><p><b>Notes:</b><ul><li>Some of the stylesheets are included by the server and so the 
+		formatting in your preview won't appear exactly as it will 
+		when generated by the developerWorks staff and published on the server.  </li><li>You may use the left navigation area to navigate between and within 
+		sections of you tutorial as the Linux transformation tool produces several 
+		html pages similar to those that will be in the final version.</li></ul></p><p><a name="winpreview"><span class="smalltitle">Next steps</span></a></p><p>Congratulations!  You've edited, validated, and previewed your article or tutorial.  
+	Now, return to "<a href="http://www.ibm.com/developerworks/library/i-dwauthors/#composing">Authoring 
+	with the developerWorks XML templates</a>" for tips on finishing and submitting your 
+	content to your developerWorks editor.</p><br /><table width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td><img alt="" height="1" src="../i/blue_rule.gif" width="100%" /></td></tr></table><table align="right" cellpadding="0" cellspacing="0" class="no-print"><tr align="right"><td><table cellspacing="0" cellpadding="0" border="0"><tr><td valign="middle"><img alt="" border="0" height="16" src="../i/u_bold.gif" width="16" /><br /></td><td align="right" valign="top"><a class="fbox" href="#main"><b>Back to top</b></a></td></tr></table></td></tr></table><br /><br /><p><a name="resources"><span class="atitle">Resources</span></a></p><b>Learn</b><br /><ul><li>
+	"<a href="http://www.ibm.com/developerworks/library/i-dwauthors/">Authoring 
+	with the developerWorks XML templates</a>" (developerWorks, July 2005): 
+	Begin your developerWorks authoring experience with our complete instructions 
+	and downloadable authoring package. 
+	<br /><br /></li><li>
+	"<a href="http://www.ibm.com/developerworks/library/i-dwgraphics/">Illustrating 
+	your article or tutorial for developerWorks: Graphic design tips for authors</a>." 
+	(developerWorks, January 2005): Get detailed guidelines and tips on creating and 
+	submitting graphics for your article or tutorial.
+	<br /><br /></li><li><a href="http://www.ibm.com/developerworks/aboutdw/author.html">developerWorks 
+	author guidelines and editorial policy</a>: Learn more about our editorial policy and 
+	peek at each developerWorks editor's content wish list.
+	<br /><br /></li></ul><br /><b>Get products and technologies</b><br /><ul><li><a href="http://www.microsoft.com/downloads/details.aspx?FamilyID=3144b72b-b4f2-46da-b4b6-c5d7485f2b42&amp;DisplayLang=en">Microsoft's 
+	XML Parser (MSXML)</a>: To use the dw-transform.vbs script to transform your article 
+	or tutorial, you need the latest version of the MSXML parser. The file you need is msxml.ms.i.
+	<br /><br /></li><li><a href="http://www-128.ibm.com/developerworks/java/jdk/">IBM Developer Kit for Java, 
+	Version 1.4.2</a>: To use the dw-transform.sh script on Linux to transform your article or 
+	tutorial, you need the IBM Developer Kit for Java, Version 1.4.2 or later.
+	<br /><br /></li><li><a href="http://xml.apache.org/xalan-j/index.html">Apache Xalan</a>: If 
+	you are using the Linux tools (dw-transform.sh) and not using the IBM 
+	Developer Kit for Java, you may need Apache Xalan.
+	<br /><br /></li><li><a href="http://www.ibm.com/developerworks/downloads/index.html">IBM trial 
+	products for download</a>: Build your next development project with IBM trial 
+	software, available for download directly from developerWorks.
+	<br /><br /></li></ul><br /><b>Discuss</b><br /><ul><li><a href="https://www-130.ibm.com/developerworks/secure/myideas.jsp?start=true&amp;domain=developerworks">Content 
+	submission form</a>: Submit an article or tutorial idea to developerWorks, and 
+	start talking with a developerWorks editor. Check to see what content is most 
+	desired in the <a href="http://www.ibm.com/developerworks/wishlist/">content wish list</a>.
+	<br /><br /></li><li><a href="http://www.ibm.com/developerworks/aboutdw/">developerWorks editor 
+	contact info</a>: If you have questions, contact the editor for the technology or 
+	product zone you're interested in.
+	</li></ul><br /><table width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td><img alt="" height="1" src="../i/blue_rule.gif" width="100%" /></td></tr></table><table align="right" cellpadding="0" cellspacing="0" class="no-print"><tr align="right"><td><table cellspacing="0" cellpadding="0" border="0"><tr><td valign="middle"><img alt="" border="0" height="16" src="../i/u_bold.gif" width="16" /><br /></td><td align="right" valign="top"><a class="fbox" href="#main"><b>Back to top</b></a></td></tr></table></td></tr></table><br /><br /><p><a name="author"><span class="atitle">About the author</span></a></p><table border="0" cellspacing="0" cellpadding="0" width="100%"><tr><td colspan="2"><img src="../i/c.gif" height="5" width="100%" alt="" /></td></tr><tr valign="top" align="left"><td><p><img alt="Ian Shields" height="80" src="http://www.ibm.com/developerworks/i/p-ishields.jpg" width="64" align="left" /></p></td><td><p>Ian Shields works on a multitude of Linux projects for the developerWorks Linux zone.  
+		He is  a Senior Programmer at IBM at the Research Triangle Park, NC. He joined IBM in 
+		Canberra, Australia, as a Systems Engineer in 1973, and has since worked on 
+		communications systems and pervasive computing in Montreal, Canada, 
+		and RTP, NC. He has several patents. His undergraduate degree is in 
+		pure mathematics and philosophy from the Australian National University. 
+		He has an M.S. and Ph.D. in computer science from North Carolina State University.</p></td></tr></table><br /><br /><table width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td><img alt="" height="1" src="../i/blue_rule.gif" width="100%" /></td></tr></table><table align="right" cellpadding="0" cellspacing="0" class="no-print"><tr align="right"><td><table cellspacing="0" cellpadding="0" border="0"><tr><td valign="middle"><img alt="" border="0" height="16" src="../i/u_bold.gif" width="16" /><br /></td><td align="right" valign="top"><a class="fbox" href="#main"><b>Back to top</b></a></td></tr></table></td></tr></table><br /><br /><p class="no-print"><span class="atitle"><a name="rate">Rate this page</a></span></p><span class="no-print"><form method="post" action="//www-128.ibm.com/developerworks/utils/RatingsHandler"><input type="hidden" name="ArticleTitle" value="Using the developerWorks XML validation tools" /><input type="hidden" name="Zone" value="XML" /><input type="hidden" name="RedirectURL" value="http://www.ibm.com/developerworks/thankyou/feedback-thankyou.html" /><input type="hidden" name="ArticleID" value="90784" /><img alt="" height="1" src="../i/gray_rule.gif" width="100%" /><br /><table border="0" cellpadding="0" cellspacing="0" class="v14-gray-table-border" width="100%"><tr><td width="100%"><table cellspacing="0" cellpadding="0" border="0" width="100%"><tr><td colspan="3"><p>Please take a moment to complete this form to help us better serve you.</p></td></tr><tr valign="top"><td width="140"><img alt="" height="1" src="../i/c.gif" width="140" /><br /><p><label for="Goal">Did the information help you to achieve your goal?</label></p></td><td width="303"><img alt="" height="6" src="../i/c.gif" width="303" /><br /><table border="0" cellpadding="0" cellspacing="0" width="100%"><tr><td><input type="radio" name="Goal" id="Goal" value="Yes" />Yes</td><td><input type="radio" name="Goal" id="Goal" value="No" />No</td><td><input type="radio" name="Goal" id="Goal" value="Don't know" />Don't know</td></tr></table></td><td width="100%"> </td></tr><tr><td colspan="3"><img src="../i/c.gif" width="8" height="12" alt="" /></td></tr><tr valign="top"><td width="140"><img alt="" height="1" src="../i/c.gif" width="140" /><br /><p><label for="Comments">Please provide us with comments to help improve this page:</label></p></td><td width="303"><img alt="" height="6" src="../i/c.gif" width="303" /><br /><table border="0" cellpadding="0" cellspacing="0" width="100%"><tr><td><textarea name="Comments" id="Comments" wrap="virtual" rows="5" cols="35" class="iform"> </textarea></td></tr></table></td><td width="100%"> </td></tr><tr><td colspan="3"><img src="../i/c.gif" width="8" height="12" alt="" /></td></tr><tr valign="top"><td width="140"><img alt="" height="1" src="../i/c.gif" width="140" /><br /><p><label for="Rating">How useful is the information?
+<br />
+(1 = Not at all,
+<br />
+5 = Extremely useful)</label></p></td><td width="303"><img alt="" height="6" src="../i/c.gif" width="303" /><br /><table border="0" cellpadding="0" cellspacing="0" width="100%"><tr><td><input type="radio" name="Rating" id="Rating" value="1" />1</td><td><input type="radio" name="Rating" id="Rating" value="2" />2</td><td><input type="radio" name="Rating" id="Rating" value="3" />3</td><td><input type="radio" name="Rating" id="Rating" value="4" />4</td><td><input type="radio" name="Rating" id="Rating" value="5" />5</td></tr></table></td><td width="100%"> </td></tr></table></td></tr></table><table cellspacing="0" cellpadding="0" border="0" width="100%" class="v14-gray-table-border"><tr><td colspan="3"><img src="../i/c.gif" width="8" height="8" alt="" /></td></tr><tr><td width="8"><img src="../i/c.gif" width="8" height="1" alt="" /></td><td colspan="3"><input type="image" src="../i/submit.gif" border="0" width="120" height="21" alt="Submit" /></td></tr><tr><td colspan="3"><img src="../i/c.gif" width="8" height="8" alt="" /></td></tr></table></form><br /></span><span class="no-print"><table align="right" cellpadding="0" cellspacing="0"><tr align="right"><td><table cellspacing="0" cellpadding="0" border="0"><tr><td valign="middle"><img alt="" border="0" height="16" src="../i/u_bold.gif" width="16" /><br /></td><td align="right" valign="top"><a class="fbox" href="#main"><b>Back to top</b></a></td></tr></table></td></tr></table><br /><br /></span></td><td width="10"><img src="../i/c.gif" width="10" height="1" alt="" /></td></tr></table></td></tr></table><!--FOOTER_BEGIN--><br /><table border="0" cellpadding="0" cellspacing="0" width="100%"><tr><td class="bbg" height="19"><table border="0" cellpadding="0" cellspacing="0"><tr><td><span class="spacer">    </span><a class="mainlink" href="http://www.ibm.com/ibm/">About IBM</a></td><td class="footer-divider" width="27">    </td><td><a class="mainlink" href="http://www.ibm.com/privacy/">Privacy</a></td><td class="footer-divider" width="27">    </td><td><a class="mainlink" href="http://www.ibm.com/contact/">Contact</a></td></tr></table></td></tr></table><script language="JavaScript1.2" type="text/javascript" src="http://www.ibm.com/common/stats/stats.js"></script><noscript><img src="http://stats.www.ibm.com/rc/images/uc.GIF?R=noscript" width="1" height="1" alt="" border="0" /></noscript><!--FOOTER_END--><!--XSLT stylesheet used to transform this file:  dw-document-html-5.2.xsl--></body></html>

@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<project name="SimpleProfiler" default="build" basedir=".">
+
+	<target name="clean">
+		<delete dir="${basedir}/profile"/>		
+		<delete dir="${basedir}/profilebin"/>
+		<delete dir="${basedir}/bin"/>
+	</target>
+	
+	<target name="compile" depends="clean">
+		<mkdir dir="${basedir}/profilebin"/>
+	    <javac srcdir="${basedir}/src/sample/profiler"
+			destdir="${basedir}/profilebin"
+			optimize="on"
+			extdirs="${basedir}/lib">
+		   <compilerarg value="-nowarn" compiler="javac1.5"/>
+		</javac>
+		<mkdir dir="${basedir}/bin"/>
+	    <javac srcdir="${basedir}/src/test/profiler"
+           destdir="${basedir}/bin"
+           optimize="on"
+			extdirs="${basedir}/lib">
+		   <compilerarg value="-nowarn" compiler="javac1.5"/>
+		</javac>
+	</target>
+	
+	<target name="build" depends="compile">
+		<mkdir dir="${basedir}/profile"/>
+		<jar jarfile="${basedir}/profile/profile.jar" 
+			basedir="${basedir}/profilebin"
+			manifest="${basedir}/src/manifest"
+			includes="sample/**"/>
+		<copy file="${basedir}/lib/asm-2.0.jar" 
+			todir="${basedir}/profile"/>
+		<copy file="${basedir}/lib/asm-attrs-2.0.jar" 
+			todir="${basedir}/profile"/>
+		<copy file="${basedir}/lib/asm-commons-2.0.jar" 
+			todir="${basedir}/profile"/>		
+	</target>
+	
+</project>

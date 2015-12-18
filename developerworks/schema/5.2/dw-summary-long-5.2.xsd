@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:dw="http://www.ibm.com/developerWorks/" elementFormDefault="unqualified" attributeFormDefault="unqualified" version="1.0">
+  <xsd:include schemaLocation="dw-common-5.2.xsd"/>
+  <xsd:element name="dw-summary-long">
+    <xsd:annotation>
+      <xsd:documentation xml:lang="en">
+        <title>Define a developerWorks summary page</title>
+        <desc>Contains a developerWorks summary page for long documents.</desc>
+      </xsd:documentation>
+    </xsd:annotation>
+    <xsd:complexType>
+      <xsd:sequence>
+        <xsd:element ref="id" minOccurs="0"/>
+        <xsd:element ref="keywords"/>
+        <xsd:element ref="meta-last-updated" minOccurs="0"/>
+        <xsd:element ref="content-area-primary"/>
+        <xsd:element ref="content-area-secondary" minOccurs="0" maxOccurs="unbounded"/>
+        <xsd:element ref="series" minOccurs="0"/>
+        <xsd:element ref="title"/>
+        <xsd:element ref="subtitle" minOccurs="0"/>
+        <xsd:element ref="forum-url" minOccurs="0"/>
+        <xsd:element ref="author-summary" minOccurs="0" maxOccurs="unbounded"/>
+        <xsd:element ref="date-published"/>
+        <xsd:element ref="date-updated" minOccurs="0" maxOccurs="unbounded"/>
+        <xsd:element ref="abstract"/>
+        <xsd:element ref="abstract-extended" minOccurs="0"/>
+        <xsd:element ref="in-this-doc" minOccurs="0"/>
+        <!-- 5.0 05/10 tdc:  system-requirements should be optional -->
+        <xsd:element ref="system-requirements" minOccurs="0"/>
+        <xsd:element ref="docbody" minOccurs="0"/>
+        <xsd:element ref="target-content-file" minOccurs="0" maxOccurs="unbounded"/>
+        <xsd:element ref="target-content-page" minOccurs="0" maxOccurs="unbounded"/>
+        <xsd:element ref="attribution" minOccurs="0"/>
+        <xsd:element ref="trademarks" minOccurs="0"/>
+        <xsd:choice minOccurs="0">
+          <xsd:element ref="resource-list"/>
+          <xsd:element ref="resources"/>
+        </xsd:choice>
+        <xsd:element ref="file-formats"/>
+        <xsd:element ref="foreign-language" minOccurs="0"/>
+        <xsd:element ref="link-to-english" minOccurs="0"/>
+      </xsd:sequence>
+      <xsd:attribute name="skill-level" type="skill-level" use="optional"/>
+      <xsd:attribute name="local-site" type="site" use="required"/>
+      <!-- 5.0 3/16 tdc:  Removed ratings-form attrib; will always have ratings form -->
+    </xsd:complexType>
+  </xsd:element>
+</xsd:schema>

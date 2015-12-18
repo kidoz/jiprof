@@ -1,0 +1,3 @@
+Manifest-Version: 1.0
+Main-Class: org/yasl/arch/impl/application/YASLApplicationStarter
+Class-Path: lib/yasl-arch-1.3.jar lib/yasl-components-1.3.jar lib/yasl-slf4j-1.3.jar lib/slf4j-api-1.4.3.jar lib/BrowserLauncher2.jar

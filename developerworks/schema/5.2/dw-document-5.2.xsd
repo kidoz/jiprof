@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- <?xml-stylesheet type="text/xsl" href="E:\developerworks\library\schema\3.0\ia\schema-to-article.xsl"?> -->
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:dw="http://www.ibm.com/developerWorks/" elementFormDefault="unqualified" attributeFormDefault="unqualified" version="1.0">
+  <xsd:include schemaLocation="dw-common-5.2.xsd"/>
+  <xsd:include schemaLocation="dw-article-5.2.xsd"/>
+  <!-- 5.1 05/27/05 JPP/EGD Added XSD for Product Landing Pages -->
+  <xsd:include schemaLocation="dw-landing-product-5.2.xsd"/>
+  <xsd:include schemaLocation="dw-sidefile-5.2.xsd"/>
+  <xsd:include schemaLocation="dw-summary-demo-5.2.xsd"/>
+  <xsd:include schemaLocation="dw-summary-long-5.2.xsd"/>
+  <xsd:include schemaLocation="dw-summary-presentation-5.2.xsd"/>
+  <!-- 5.2 09/20 fjc:  added new doctype -->
+  <xsd:include schemaLocation="dw-summary-podcast-5.2.xsd"/>
+  <xsd:include schemaLocation="dw-summary-sample-5.2.xsd"/>
+  <xsd:include schemaLocation="dw-summary-spec-5.2.xsd"/>
+  <xsd:include schemaLocation="dw-summary-tutorial-5.2.xsd"/>
+  <xsd:include schemaLocation="dw-summary-training-5.2.xsd"/>
+  <xsd:include schemaLocation="dw-tutorial-5.2.xsd"/>  
+  <!-- ================================================================ -->
+  <!-- Annotations that define other content for the automatically-     -->
+  <!-- generated article about our xml tag set.                                              -->
+  <!-- ================================================================ -->
+  <xsd:annotation id="setup">
+    <xsd:documentation xml:lang="en">
+      <mainTitle>The developerWorks document schema</mainTitle>
+      <referenceSectionTitle>Tag Reference</referenceSectionTitle>
+      <filename>article</filename>
+      <img>images/tutorial.jpg</img>
+      <alt>The developerWorks document schema</alt>
+      <feedback-link>feedback-panel</feedback-link>
+      <content-area-primary>XML</content-area-primary>
+      <abstract>This article documents the production-level 5.2 schema for the documents we create using xml, including articles, side files, summary pages, tutorials, and product pages.</abstract>
+      <exit_url>http://www.ibm.com/developerWorks/xml/</exit_url>
+    </xsd:documentation>
+  </xsd:annotation>
+  <xsd:annotation id="before">
+    <xsd:documentation source="dw-document-before.xml" xml:lang="en"/>
+    <xsd:documentation source="editorial-guidelines.xml" xml:lang="en"/>
+  </xsd:annotation>
+  <xsd:annotation id="after">
+    <xsd:documentation source="submitting-your-article.xml" xml:lang="en"/>
+    <xsd:documentation source="dw-document-after.xml" xml:lang="en"/>
+  </xsd:annotation>
+  <!-- ================================================================ -->
+  <!-- Elements that define document types                              -->
+  <!-- ================================================================ -->
+  <!-- <dw-document> element, the root element for everything           -->
+  <!-- ================================================================ -->
+  <xsd:element name="dw-document">
+    <xsd:annotation>
+      <xsd:documentation xml:lang="en">
+        <title>The root element of all dW content</title>
+        <desc>Contains a dW document.</desc>
+      </xsd:documentation>
+    </xsd:annotation>
+    <xsd:complexType>
+      <xsd:choice>
+        <xsd:element ref="dw-article"/>
+         <!-- 5.1 05/27/05 JPP/EGD Added document reference for Product Landing Pages -->
+        <xsd:element ref="dw-landing-product"/>	 
+        <xsd:element ref="dw-sidefile"/>
+        <xsd:element ref="dw-summary-demo"/>
+        <xsd:element ref="dw-summary-long"/>
+        <!-- 5.2 9/20/05 fjc:  Added podcast -->
+        <xsd:element ref="dw-summary-podcast"/>
+        <xsd:element ref="dw-summary-presentation"/>
+        <xsd:element ref="dw-summary-sample"/>
+        <xsd:element ref="dw-summary-spec"/>
+        <xsd:element ref="dw-summary-tutorial"/>
+        <xsd:element ref="dw-summary-training"/>
+        <xsd:element ref="dw-tutorial"/>
+      </xsd:choice>
+    </xsd:complexType>
+  </xsd:element>
+</xsd:schema>

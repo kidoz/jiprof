@@ -1,0 +1,1 @@
+java -javaagent:lib\vc.jar -classpath bin test.verboseclass.Main

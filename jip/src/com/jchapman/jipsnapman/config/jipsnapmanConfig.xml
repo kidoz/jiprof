@@ -1,0 +1,197 @@
+<!--
+Copyright (c) 2008 Jeff Chapman
+
+All rights reserved.
+
+Redistribution and use in source and binary forms, with or without
+modification, are permitted provided that the following conditions
+are met:
+
+    * Redistributions of source code must retain the above
+      copyright notice, this list of conditions and the following
+      disclaimer.
+    * Redistributions in binary form must reproduce the above
+      copyright notice, this list of conditions and the following
+      disclaimer in the documentation and/or other materials provided
+      with the distribution.
+
+THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+"AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
+LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
+A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR
+CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
+PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
+LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+-->
+<!-- $Id: jipsnapmanConfig.xml  -->
+<yaslConfig>
+  <property key="bundleName" value="com.jchapman.jipsnapman.resources.jipsnapmanStrings"/>
+  <property key="prefsFolder" value="jipsnapman"/>
+  <property key="prefsFilename" value="jipsnapmanPrefs.properties"/>
+  <property key="menuConfig" value="/com/jchapman/jipsnapman/config/jipsnapmanMenuConfig.xml"/>
+  <property key="jip.viewer.jar" value="jipViewer.jar"/>
+  <property key="jip.port" value="15599"/>
+  <property key="jip.host" value="localhost"/>
+
+  <singletonsConfig>
+    <singleton class="java.lang.String" key="default_port">
+      <argPrimitive type="String" value="$jip.port"/>
+    </singleton>
+    <singleton class="java.lang.String" key="default_host">
+      <argPrimitive type="String" value="$jip.host"/>
+    </singleton>
+    <singleton class="java.lang.String" key="jip_viewer_jar">
+      <argPrimitive type="String" value="$jip.viewer.jar"/>
+    </singleton>
+    <singleton class="org.yasl.arch.impl.resources.YASLResourceManagerImpl" key="yasl_resource_manager">
+      <argPrimitive type="String" value="$bundleName"/>
+    </singleton>
+    <!-- snapshot event manager -->
+    <singleton class="com.jchapman.jipsnapman.events.SnapshotEventManager" key="snapshot_event_manager"/>
+    <!-- browser launcher -->
+    <singleton class="edu.stanford.ejalbert.BrowserLauncher" key="appKeyBrowserLauncher"/>
+    <!-- hyperlink listener -->
+    <singleton class="com.jchapman.jipsnapman.events.JipSMHyperlinkListener" key="appKeyHyperlinkListener">
+      <argKeyedObject keyType="singletons" key="appKeyBrowserLauncher"/>
+    </singleton>
+    <!-- default preferences -->
+    <map key="default_prefs" keyType="temporary">
+      <mapEntry mapKey="yasl.pref.app.width" mapValue="495"/>
+      <mapEntry mapKey="yasl.pref.app.height" mapValue="560"/>
+      <mapEntry mapKey="yasl.pref.app.pos.x" mapValue="100"/>
+      <mapEntry mapKey="yasl.pref.app.pos.y" mapValue="100"/>
+      <mapEntry mapKey="jip.port" mapValue="$jip.port"/>
+      <mapEntry mapKey="jip.host" mapValue="$jip.host"/>
+    </map>
+    <!-- preferences manager -->
+    <singleton class="org.yasl.arch.impl.prefs.PreferencesManagerImpl" key="yasl_preferences_manager">
+      <argKeyedObject keyType="temporary" key="default_prefs"/>
+      <argPrimitive type="String" value="$prefsFolder"/>
+      <argPrimitive type="String" value="$prefsFilename"/>
+    </singleton>
+    <!-- app frame -->
+    <singleton class="com.jchapman.jipsnapman.JIPSnapManFrame" key="yasl_swing_app_frame">
+      <argPrimitive type="String" value="$menuConfig"/>
+    </singleton>
+    <!-- about info model -->
+    <singleton class="org.yasl.about.impl.AboutInfoModelImpl" key="about_info_model">
+      <argRBString bundle="$bundleName" key="about.app.info"/>
+      <argRBString bundle="$bundleName" key="about.system.info.props"/>
+      <argRBString bundle="$bundleName" key="about.contributors"/>
+    </singleton>
+    <methodCall keyType="singletons" key="about_info_model" method="setHyperlinkListener">
+      <argKeyedObject keyType="singletons" key="appKeyHyperlinkListener"/>
+    </methodCall>
+    <!-- edit popup handler -->
+    <singleton class="org.yasl.text.EditPopupHandler" key="edit_popup_handler"/>
+    <!-- add cut, copy, paste text actions -->
+    <methodCall keyType="singletons" key="edit_popup_handler" method="addActionItem">
+      <argComplex class="javax.swing.text.DefaultEditorKit\$CutAction"/>
+      <argRBString bundle="$bundleName" key="menu.item.cut"/>
+      <argPrimitive type="String" value="cut"/>
+    </methodCall>
+    <methodCall keyType="singletons" key="edit_popup_handler" method="addActionItem">
+      <argComplex class="javax.swing.text.DefaultEditorKit\$CopyAction"/>
+      <argRBString bundle="$bundleName" key="menu.item.copy"/>
+      <argPrimitive type="String" value="copy"/>
+    </methodCall>
+    <methodCall keyType="singletons" key="edit_popup_handler" method="addActionItem">
+      <argComplex class="javax.swing.text.DefaultEditorKit\$PasteAction"/>
+      <argRBString bundle="$bundleName" key="menu.item.paste"/>
+      <argPrimitive type="String" value="paste"/>
+    </methodCall>
+    <methodCall keyType="singletons" key="edit_popup_handler" method="addActionItem">
+      <argComplex class="org.yasl.text.SelectAllAction"/>
+      <argRBString bundle="$bundleName" key="menu.item.selectall"/>
+      <argPrimitive type="String" value="selectall"/>
+    </methodCall>
+    <!-- main panel -->
+    <singleton class="com.jchapman.jipsnapman.gui.MainPanel" key="main_panel">
+      <argKeyedObject keyType="singletons" key="yasl_application"/>
+    </singleton>
+    <methodCall keyType="singletons" key="snapshot_event_manager" method="addSnapshotEventListener">
+      <argKeyedObject keyType="singletons" key="main_panel"/>
+    </methodCall>
+  </singletonsConfig>
+  <actionsConfig>
+    <!-- exit action -->
+    <action class="org.yasl.arch.impl.action.YASLDefaultSwingAppExitAction" key="yasl_action_application_exit">
+      <argRBString bundle="$bundleName" key="menu.item.exit"/>
+      <argKeyedObject keyType="singletons" key="yasl_application"/>
+    </action>
+    <!-- start action -->
+    <action class="org.yasl.arch.impl.action.YASLDefaultSwingAppStartAction" key="yasl_action_application_start">
+      <argKeyedObject keyType="singletons" key="yasl_application"/>
+    </action>
+    <!-- about action -->
+    <action class="org.yasl.about.action.AboutInfoAction" key="help_about">
+      <argRBString bundle="$bundleName" key="menu.item.about"/>
+      <argPrimitive type="boolean" value="true"/>
+      <argKeyedObject keyType="singletons" key="yasl_application"/>
+      <argRBString bundle="$bundleName" key="dlg.title.about"/>
+      <argKeyedObject keyType="singletons" key="about_info_model"/>
+    </action>
+    <!-- browse path action -->
+    <action class="com.jchapman.jipsnapman.actions.BrowsePathAction" key="browse_path">
+      <argRBString bundle="$bundleName" key="bttn.browseforfolder"/>
+      <argKeyedObject keyType="singletons" key="main_panel"/>
+      <argKeyedObject keyType="singletons" key="yasl_application"/>
+    </action>
+    <methodCall keyType="singletons" key="main_panel" method="setBrowsePathAction">
+      <argKeyedObject keyType="actions" key="browse_path"/>
+    </methodCall>
+    <methodCall keyType="singletons" key="snapshot_event_manager" method="addSnapshotEventListener">
+      <argKeyedObject keyType="actions" key="browse_path"/>
+    </methodCall>
+    <!-- start snapshot action -->
+    <action class="com.jchapman.jipsnapman.actions.StartSnapshotAction" key="start_snapshot">
+      <argRBString bundle="$bundleName" key="bttn.start"/>
+      <argKeyedObject keyType="singletons" key="main_panel"/>
+      <argKeyedObject keyType="singletons" key="snapshot_event_manager"/>
+      <argKeyedObject keyType="singletons" key="yasl_application"/>
+    </action>
+    <methodCall keyType="singletons" key="main_panel" method="setStartSnapshotAction">
+      <argKeyedObject keyType="actions" key="start_snapshot"/>
+    </methodCall>
+    <methodCall keyType="singletons" key="snapshot_event_manager" method="addSnapshotEventListener">
+      <argKeyedObject keyType="actions" key="start_snapshot"/>
+    </methodCall>
+    <!-- finish snapshot action -->
+    <action class="com.jchapman.jipsnapman.actions.FinishSnapshotAction" key="finish_snapshot">
+      <argRBString bundle="$bundleName" key="bttn.finish"/>
+      <argKeyedObject keyType="singletons" key="snapshot_event_manager"/>
+      <argKeyedObject keyType="singletons" key="yasl_application"/>
+    </action>
+    <methodCall keyType="singletons" key="main_panel" method="setFinishSnapshotAction">
+      <argKeyedObject keyType="actions" key="finish_snapshot"/>
+    </methodCall>
+    <methodCall keyType="singletons" key="snapshot_event_manager" method="addSnapshotEventListener">
+      <argKeyedObject keyType="actions" key="finish_snapshot"/>
+    </methodCall>
+    <!-- view snapshot action -->
+    <action class="com.jchapman.jipsnapman.actions.ViewSnapshotAction" key="view_snapshot">
+      <argRBString bundle="$bundleName" key="bttn.launchjipviewer"/>
+      <argKeyedObject keyType="singletons" key="main_panel"/>
+      <argKeyedObject keyType="singletons" key="yasl_application"/>
+    </action>
+    <methodCall keyType="singletons" key="main_panel" method="setLaunchJIPAction">
+      <argKeyedObject keyType="actions" key="view_snapshot"/>
+    </methodCall>
+    <methodCall keyType="singletons" key="snapshot_event_manager" method="addSnapshotEventListener">
+      <argKeyedObject keyType="actions" key="view_snapshot"/>
+    </methodCall>
+    <!-- error display action -->
+    <action class="com.jchapman.jipsnapman.actions.ErrorDisplayAction" key="err_display">
+      <argKeyedObject keyType="singletons" key="yasl_application"/>
+    </action>
+    <!-- log display action -->
+    <action class="com.jchapman.jipsnapman.actions.LogAction" key="log_action">
+      <argKeyedObject keyType="singletons" key="main_panel"/>
+      <argKeyedObject keyType="singletons" key="yasl_application"/>
+    </action>
+  </actionsConfig>
+</yaslConfig>

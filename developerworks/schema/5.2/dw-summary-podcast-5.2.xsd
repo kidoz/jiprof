@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:dw="http://www.ibm.com/developerWorks/" elementFormDefault="unqualified" attributeFormDefault="unqualified" version="5.2">
+  <xsd:include schemaLocation="dw-common-5.2.xsd"/>
+  <xsd:element name="dw-summary-podcast">
+    <xsd:annotation>
+      <xsd:documentation xml:lang="en">
+        <title>Define a developerWorks podcast summary page</title>
+        <desc>Contains a developerWorks summary page for podcasts.</desc>
+      </xsd:documentation>
+    </xsd:annotation>
+    <xsd:complexType>
+      <xsd:sequence>
+        <xsd:element ref="id" minOccurs="0"/>
+        <xsd:element ref="keywords"/>
+        <xsd:element ref="meta-last-updated" minOccurs="0"/>
+        <xsd:element ref="content-area-primary"/>
+        <xsd:element ref="content-area-secondary" minOccurs="0" maxOccurs="unbounded"/>
+        <xsd:element ref="series" minOccurs="0"/>
+        <xsd:element ref="title"/>
+        <xsd:element ref="subtitle" minOccurs="0"/>
+        <xsd:element ref="forum-url" minOccurs="0"/>
+        <xsd:element ref="author-summary" minOccurs="0" maxOccurs="unbounded"/>
+        <xsd:element ref="date-published"/>
+        <xsd:element ref="date-updated" minOccurs="0" maxOccurs="unbounded"/>
+        <xsd:element ref="abstract"/>
+        <xsd:element ref="abstract-extended" minOccurs="0"/>
+        <xsd:element ref="in-this-doc" />
+        <xsd:element ref="audience" minOccurs="0"/>
+        <xsd:element ref="system-requirements" />
+        <xsd:element ref="docbody" minOccurs="0"/>
+        <xsd:element ref="duration"/>
+        <xsd:element ref="target-content-file"  maxOccurs="unbounded"/>
+        <xsd:element ref="target-content-page" minOccurs="0" maxOccurs="unbounded"/>
+        <xsd:element ref="attribution" minOccurs="0"/>
+        <xsd:element ref="trademarks" minOccurs="0"/>       
+        <xsd:element ref="resources" minOccurs="0"/>
+        <xsd:element ref="foreign-language" minOccurs="0"/>
+        <xsd:element ref="link-to-english" minOccurs="0"/>
+      </xsd:sequence>
+      <xsd:attribute name="skill-level" type="skill-level" use="optional"/>
+      <xsd:attribute name="local-site" type="site" use="required"/>
+    </xsd:complexType>
+  </xsd:element>
+</xsd:schema>

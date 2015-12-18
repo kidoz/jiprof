@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="JIP" default="compile" basedir=".">
+    <property name="jipsnapshot.version" value="-1.0" />
+    <property name="jipsnapshot.dir" value="jipSnapman"/>
+
+	<target name="clean">
+		<delete dir="${basedir}/bin"/>
+		<delete dir="${basedir}/profile"/>
+		<delete dir="${basedir}/client"/>
+		<delete dir="${basedir}/tools/lib"/>
+		<delete dir="${basedir}/tools"/>
+
+	</target>
+
+	<target name="compile" depends="clean">
+		<mkdir dir="${basedir}/bin"/>
+	    <javac srcdir="${basedir}/src"
+           destdir="${basedir}/bin"
+           optimize="on"
+           extdirs="${basedir}/lib">
+		   <compilerarg value="-nowarn" compiler="javac1.5"/>
+		</javac>
+	</target>
+
+	<target name="javadoc">
+		<delete dir="${basedir}/doc/javadoc"/>
+		<mkdir dir="${basedir}/doc/javadoc"/>
+		<javadoc packagenames="com.mentorgen.*,net.sourceforge.jiprof.*,com.tivo.*,org.objectweb.asm.jip.*"
+						sourcepath="${basedir}/src"
+						 destdir="${basedir}/doc/javadoc"
+						 classpath="bin"
+						 author="true"
+						 version="true"
+						 use="true"
+						 windowtitle="Java Interactive Profiler" >
+			<doctitle><![CDATA[<h1>Java Interactive Profiler</h1>]]></doctitle>
+		</javadoc>
+	</target>
+
+	<target name="dist" depends="compile,javadoc">
+		<mkdir  dir="${basedir}/profile"/>
+		<mkdir  dir="${basedir}/client"/>
+		<mkdir  dir="${basedir}/tools"/>
+		<mkdir  dir="${basedir}/tools/lib"/>
+
+		<jar jarfile="${basedir}/client/client.jar"
+			basedir="${basedir}/bin"
+			manifest="${basedir}/src/client-manifest"
+			includes="com/mentorgen/tools/util/**"/>
+		<jar jarfile="${basedir}/profile/profile.jar"
+			basedir="${basedir}/bin"
+			manifest="${basedir}/src/manifest"
+			includes="com/mentorgen/tools/profile/**,org/**,net/**"/>
+		<jar jarfile="${basedir}/tools/jipViewer.jar"
+			basedir="${basedir}/bin"
+			manifest="${basedir}/src/viewer-manifest"
+			includes="com/tivo/**"/>
+
+		<copy todir="${basedir}/profile">
+			<fileset dir="${basedir}/src/example-properties">
+			</fileset>
+		</copy>
+
+		<copy todir="${basedir}/client">
+			<fileset dir="${basedir}/src/client"/>
+		</copy>
+
+		<copy file="${basedir}/src/jipViewer/jipViewer.sh" todir="${basedir}/tools"/>
+		<copy file="${basedir}/src/jipViewer/jipViewer.bat" todir="${basedir}/tools"/>
+
+                <!-- build instructions for jip snapshot manager -->
+                <!-- copy non-java files to bin dir -->
+                <copy todir="${basedir}/bin">
+                  <fileset dir="${basedir}/src" includes="**/*.properties,**/*.xml"/>
+                </copy>
+                <copy todir="${basedir}/bin"
+                  flatten="true"
+                  overwrite="true"
+                  file="${basedir}/src/com/jchapman/jipsnapman/yaslAppConfig.properties"/>
+                <!-- create standalone app jar -->
+                <!-- ant seems to have a problem when creating a manifest
+                with a class-path attribute so we are using jar
+                directly -->
+                <exec dir="${basedir}/bin" executable="jar">
+                  <arg value="cfm"/>
+                  <arg value="../tools/jipSnapshotManager${jipsnapshot.version}.jar"/>
+                  <arg value="../src/${jipsnapshot.dir}/jipsnapman-manifest.mf"/>
+                  <arg value="com/jchapman/"/>
+                  <arg value="com/mentorgen/tools/util/"/>
+                  <arg value="yaslAppConfig.properties"/>
+                  <!--<arg value="yaslslf4jlogging.properties"/>-->
+                </exec>
+                <!-- copy jar files from lib to deploydir -->
+                <copy todir="${basedir}/tools/lib">
+                  <fileset dir="${basedir}/lib" includes="**/*.jar"/>
+                </copy>
+		<copy file="${basedir}/src/${jipsnapshot.dir}/jipSnapshotManager.sh" todir="${basedir}/tools"/>
+		<copy file="${basedir}/src/${jipsnapshot.dir}/jipSnapshotManager.bat" todir="${basedir}/tools"/>
+
+	</target>
+
+</project>

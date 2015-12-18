@@ -1,0 +1,617 @@
+<!--  developerWorks ARTICLE TEMPLATE V5.2 for AUTHORS
+ 31 Oct 2005  updated by Gretchen Moore
+
+Welcome, authors!  We hope you find this template easy to use, 
+but if you have any questions at all, please consult: 
+     The many comment lines we've included in this file
+     The indepth article: "Authoring with the developerWorks XML template,"
+         which includes this template and the complete author file package: 
+         http://www.ibm.com/developerworks/library/i-dwauthors/
+     Your developerWorks editor  
+     
+To make this template simple to complete, we've indicated the items you 
+need to fill in vs. the ones that you can ignore (for developerWorks staff use).
+Remember to keep all tag names (the XML coding between angle brackets) 
+lowercase.  
+
+In this template, these are the minimum items you'll need to fill in for your article:
+  KEYWORDS
+  CONTENT-AREA-PRIMARY
+  ARTICLE TITLE
+  ARTICLE SUBTITLE
+  ABSTRACT
+  ARTICLE BODY (Includes headings, paragraphs, lists, code listings, sidebars, 
+  figures, and tables as needed)
+
+Please send feedback on this template to your developerWorks editor.  Thanks!       
+-->
+<!-- DW-DOCUMENT
+For developerWorks staff use only -->
+<?xml-stylesheet type="text/xsl" href="..\xsl\5.2\dw-document-html-5.2.xsl"?>
+<dw-document xmlns:dw="http://www.ibm.com/developerWorks/" 
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+xsi:noNamespaceSchemaLocation="..\schema\5.2\dw-document-5.2.xsd">
+
+<!-- DW-ARTICLE
+For developerWorks staff use only. -->
+<dw-article local-site="worldwide" skill-level="3">
+
+<!-- ID
+For developerWorks staff use only.  -->
+<id cma-id="" domino-uid="" content-id="" original="yes" />
+
+<!-- KEYWORDS
+For authors: add keywords that will help external search engines find your article. -->
+<keywords content="java, performance, profiling, agent interface, aspect oriented" />
+
+<!-- META-LAST-UPDATED
+For developerWorks staff use only. -->
+<meta-last-updated day="24" month="10" year="2005" initials="gem" />
+
+<!-- CONTENT-AREA-PRIMARY
+For authors: select the main developerWorks content area
+ (product or technology) that your article applies to. Your article will then 
+ include (1) a link to that content area's top page in the navigation at the top of 
+ the article and (2) a link to that content area's library below the left nav. -->
+<content-area-primary name="java" />
+
+<!-- CONTENT-AREA-SECONDARY
+For authors (optional): select any related developerWorks content areas (product 
+  or technology) that your article applies to. Links to these content areas will also 
+  appear in the top navigation and below the left nav. 
+<content-area-secondary name="workplace" />-->
+
+<!-- SERIES
+For authors (optional):  if your article is part of a series or a regular developerWorks 
+  column, fill in the series title.  If your article is a numbered part in a series, 
+  include the part number in the series-title tag, as in 
+  <series-title>High-availability middleware on Linux, Part 5</series-title>. 
+  developerWorks staff will fill in the series-url. 
+<series>
+  <series-title>Series title</series-title>
+  <series-url>http://www.ibm.com/developerworks/views/java/libraryview.jsp?search_by=taming+tiger:</series-url>
+</series>-->
+    
+<!-- ARTICLE TITLE
+For authors. Try to use short, active verbs in your title. -->
+<title>A Pure Java Profiler</title>
+
+<!-- ARTICLE SUBTITLE
+For authors (optional but recommended). -->
+<subtitle>Building a profiler with the Agent interface and aspect-oriented techniques</subtitle>
+
+<!-- FORUM URL
+For authors (optional):  if your article has an associated forum, include the forum's url. A sample
+  forum is included here. In your resulting article, the "Discuss" document option will appear at the 
+  top of the article, and a link to the forum will be included automatically in the "Discuss" section of 
+  Resources. -->
+<forum-url url="http://www.ibm.com/developerworks/forums/dw_forum.jsp?forum=375&amp;cat=5" />
+
+<!-- TARGET-CONTENT-FILE  
+For authors (optional):  if your article has any associated 
+  download(s), such as sample code, or associated PDFs 
+  (not a PDF of the article itself), fill in its name, type, size
+  (omit any space in the size attribute: it's 10KB, not 10 KB), 
+  and description - and be sure to send that code (zipped, 
+  ideally) or PDF to your developerWorks editor.  We'll take 
+  care of the rest.  In your resulting article, a "Downloads" 
+  section and a corresponding TOC entry will appear. -->
+<!-- First download or PDF; copy for as many downloads or PDFs as your article has. -->
+<target-content-file filename="cp35.zip" file-type="zip" size="10KB" 
+file-description="Sample Perl scripts for this article" 
+target-content-type="Code sample" link-method-ftp="yes" 
+url-ftp="ftp://www6.software.ibm.com/software/developer/library/xxx/cp35.zip" 
+link-method-http="no" url-http="no" link-method-dd="no" 
+url-download-director="no" show-license="yes" registration-required="no" />
+<!-- Second download or PDF. -->
+<target-content-file filename="mypdf.pdf" file-type="pdf" size="50KB" 
+file-description="A related PDF (not of the article)" 
+target-content-type="Product documentation" link-method-ftp="yes" 
+url-ftp="ftp://www6.software.ibm.com/software/developer/library/xxx/mypdf.pdf" 
+link-method-http="no" url-http="" link-method-dd="no" 
+url-download-director="" show-license="yes" registration-required="no" />
+
+<!-- TARGET-CONTENT-PAGE
+For authors (optional):  if your article needs to point to another page 
+  that has a link to a code sample, demo, presentation, etc. on it, fill 
+  in the type, name, and location of that page.  In your resulting article, 
+  a "Downloads" or "More downloads" section and a corresponding TOC entry 
+  will appear. -->
+<!-- First page; copy for as many pages as your article needs to point to. 
+<target-content-page target-content-type="Demo" 
+link-text="How to code a widget" url-target-page="http://demo-page.html" 
+registration-required="no" />-->
+<!-- Second page. 
+<target-content-page target-content-type="Presentation" 
+link-text="Why code widgets instead of whatnots" 
+url-target-page="http://prez-page.html" registration-required="no" />-->
+
+<!-- AUTHOR
+For authors: most fields are required; the optional ones are email-cc, 
+  prefix, middlename, suffix, and img (for tips on your author photo, 
+  see "Illustrating your article or tutorial for developerWorks" 
+  at: http://www.ibm.com/developerworks/library/i-dwgraphics/). 
+  email-cc includes that e-mail address (such as your developerWorks 
+  editor's) on any e-mails that readers send to the author. -->
+    <author jobtitle="Senior Architect" email-cc="" email="andrew.wilcox@mentorgen.com">
+      <bio>Andrew Wilcox is a software architect at MentorGen LLC in Columbus, Ohio. 
+				He has over 15 years of industry experience, nine of those with Java.
+				He specializes in frameworks, performance tuning and metaprogramming. His focus is on tools and techniques 
+				to increase developer productivity and software reliability. He is also the creator of the 
+				<a href="http://sourceforge.net/projects/jiprof">Java Interactive Profiler</a>.
+				</bio>
+      <img src="a-wilcox.jpg" 
+      width="64" height="80" alt="Author1 photo"></img>
+      <author-name>
+        <Prefix></Prefix>
+        <GivenName>Andrew</GivenName>
+<!--        <MiddleName>D.</MiddleName> -->
+        <FamilyName>Wilcox</FamilyName>
+        <Suffix></Suffix>
+      </author-name>
+      <company-name>MentorGen LLC</company-name>
+    </author>
+<!--  For authors: if you have additional authors, add more author tags. 
+    <author jobtitle="Author2 job title" email-cc="" email="Author2 email address">
+      <bio>Your co-author's bio goes here. Include his or her experience and expertise 
+           in the subject matter as well.</bio>
+      <img src="http://www.ibm.com/developerworks/i/photo.jpg" 
+      width="64" height="80" alt="Author2 photo"></img>
+      <author-name>
+        <Prefix></Prefix>
+        <GivenName>Joe</GivenName>
+        <MiddleName></MiddleName>
+        <FamilyName>Blow</FamilyName>
+        <Suffix>III</Suffix>
+      </author-name>
+      <company-name>Author2 company</company-name>
+    </author>
+    -->
+<!-- DATE-PUBLISHED
+For developerWorks staff use only. -->
+<date-published day="24" month="10" year="2005" />
+
+<!-- DATE-UPDATED
+For developerWorks staff use only. 
+<date-updated day="20" month="12" year="2005" /> -->
+
+<!-- ABSTRACT
+For authors: do not include carriage returns/line breaks, HTML tagging, or special 
+  characters in the abstract. The abstract should be enticing yet succinct. 
+  Aim for 3 to 5 sentences that express why the readers would care about the content 
+  (motive) and what he or she can gain from reading the content (benefits). 
+  This content also shows up in the "E-mail this page" document option, the META 
+  abstract tag, and search results. -->
+<abstract>Profiling is a technique for finding out where a program is spending	its resources, including CPU time and memory.  This article examines the 	benefits of code profiling, some current profiling options, and the 	shortcomings of current profiling approaches.  We then look at the new Java5 agent interface as a way to use aspect oriented techniques to build a better profiler.</abstract>
+
+<!-- ABSTRACT-EXTENDED
+For developerWorks staff use only. If you need HTML tagging or special characters 
+  in the abstract, or want to include more than 5 sentences, fill in the 
+  abstract-extended IN ADDITION to the abstract. When both are filled 
+  in, the abstract is used in "E-mail this page", the META abstract tag, and
+  search results, while the abstract-extended appears in the article itself.
+<abstract-extended>Your article abstract goes here. Put the main points and key phrases at the beginning of the abstract, because it may be truncated in search results. Include symbols for any trademarked terms, such as Java<trade/> or WebSphere<reg/>, as well as any HTML tagging needed for <i>highlighting</i> or linking to <a href="http://www.ibm.com/developerworks">related developerWorks content</a>.  If this article is part of a series, always point the reader to the <a href="http://www.ibm.com/developerworks/views/linux/libraryview.jsp?topic_by=All+topics+and+related+products&amp;sort_order=asc&amp;lcl_sort_order=asc&amp;search_by=IPC+apps&amp;search_flag=true&amp;type_by=Articles&amp;show_abstract=false&amp;sort_by=Relevance&amp;end_no=100&amp;show_all=false">entire series</a>.</abstract-extended>
+ -->
+<!-- START OF ARTICLE BODY
+For authors: your article can contain paragraphs, major headings, minor headings, 
+  code listings, images, tables, sidebars, lists, and highlighting. 
+
+  Do not copy or cut and paste text from word processors such as 
+  Microsoft Word. The encoding method they use (even if UTF-8) 
+  will create invalid characters in the resulting HTML.  Instead, 
+  save the Word document as a text file and then copy the text.  -->
+
+<docbody>
+	
+<heading alttoc="" type="minor">Profiling code</heading>	
+<p>
+There are two common approaches for measuring the performance of an application:
+</p>
+<ul>
+	<li><code type="inline">System.currentTimeMillis()</code> and <code type="inline">System.out.println()</code> </li>
+	<li>Code profilers like <code type="inline">hprof</code>, Jprobe, OptimizeIt, Jprofiler, Yourkit, …</li>
+</ul>
+<p>
+Using <code type="inline">System.currentTimeMillis()</code> is probably the most common technique because it is so easy: measure the time at the beginning of a routine and again at the end, and print the difference. This works, but has two big downsides: 
+</p>	
+<ul>
+	<li>It’s a manual process – the developer must determine what will be measured, instrument the code, recompile, redeploy, run, and analyze the results, back out the instrumentation code when done, and redo all of these steps the next time there is a problem.</li>
+	<li>It doesn’t give a comprehensive view of how all the parts of the application are performing.</li>
+</ul>
+
+<p>
+The other method is to use a code profiler like <code type="inline">hprof</code> (the free profiler that ships with the JDK) or one of the many commercial alternatives. Profilers avoid the problems associated with ad-hoc measurement – no modification of the program is required. Profilers also give the developer a more comprehensive view of program performance because they gather timing information for every method call, not just a particular section of the code.  
+</p>
+<heading alttoc="" type="minor">Limitations of current approaches</heading>
+<p>
+While <code type="inline">hprof</code> is a good tool, it does have a few limitations. 
+Its biggest problem is that it is slow – running a program with <code type="inline">hprof</code> can slow it down by a 
+factor of 20.  That means an ETL (extract, transform and load) operation that normally takes 
+an hour could take a day to profile! Not only is waiting inconvenient, but changing the 
+timescale of the application can actually skew the results. Take a program that does a lot 
+of I/O. Since the I/O is performed by the operating system, the profiler does not slow it down, 
+so I/O appears to run 20 times faster than it actually does! This means 
+<code type="inline">hprof</code> cannot always 
+be counted on to give you an accurate picture of your application’s performance. 
+</p>
+<p>
+	Another problem with <code type="inline">hprof</code> has to do with how Java programs are loaded and run. Unlike statically linked languages like C or C++, the classes in a Java program are linked at runtime rather than compile time. Classes are not loaded by the JVM until the first time they are referenced, and code is not compiled from bytecode to machine code until it has been executed a number of times. If you are trying to measure the performance of a method but its class has not yet been loaded by the JVM, your measurement will include the class loading time and compilation time in addition to the runtime.  Since these only happen at the beginning of an application’s life, you usually don’t want to include them when measuring performance of long lived applications. When your code is running in an application server or servlet engine, things can get even more complicated.  Profilers like <code type="inline">hprof</code> profile the entire application, servlet container and all.  But you don’t want to profile the servlet engine, you want to profile your application. 
+</p>
+<heading alttoc="" type="minor">The ideal profiler</heading>
+<p>
+Like selecting any other tool, selecting a profiler involves tradeoffs.  Free tools like <code type="inline">hprof</code> are easy to use, but have limitations like the inability to filter out classes or packages from the profile; commercial tools offer more features but can be expensive and have restrictive license terms.  Some profilers require that you launch the application through the profiler, which means reconstructing your execution environment in terms of an unfamiliar tool.  Since picking a profiler involves compromises, what would an ideal profiler look like? Here are some of the things you’d probably want to have:
+</p>
+<ul>
+	<li>Fast. Since profiling every class slows the process down, one way to speed things up would be to not profile every class. Java’s core libraries and other third party libraries can’t be changed, so it makes sense not to profile them.</li>
+	<li>Interactive. By being able to turn the profiler on and off at runtime, you could avoid measuring class loading, compilation, and interpreted execution (pre-JIT) times.</li>
+	<li>Filter by class or package. This allows the developer to focus on the problem at hand rather than being overwhelmed by too much information.</li>
+	<li>100% Java. An ideal profiler wouldn’t require the use of native libraries.</li>
+	<li>Open Source. This allows developers to be get started quickly and avoid the overhead associated with commercial licenses.</li>
+</ul>
+
+<heading alttoc="" refname="" type="major" back-to-top="no">BYOP – build your own profiler</heading>
+<heading alttoc="" type="minor">The basis of a solution</heading>
+<p>
+The problem with using <code type="inline">System.currentTimeMillis()</code> to generate timing information is that it is a manual process.  If we could automate the instrumentation of the code, many of its disadvantages would go away.  This type of problem is a perfect candidate for an aspect-oriented solution. The agent interface introduced in JDK 5.0 is ideal for building an aspect-oriented profiler, offering an easy way to hook into the classloader and modfy classes as they are loaded.		
+</p>	
+<heading alttoc="" type="minor">How java agents are built</heading>
+The <code type="inline">-javaagent</code> JVM option is, unfortunately, very sparsely documented, and there aren’t many books on the topic – no <i>Java Agents for Dummies</i> or <i>Java Agents in 21 days</i>. Probably the best source of information is an article called &quot;Instrumentation: Modify Applications with Java 5 Class File Transformations&quot;.  (See <a href="#resources">Resources</a>.)  	
+<p>
+The basic idea behind an agent is that, as the JVM loads a class, the agent can modify the classes’ byte code. To create an agent, there are only three requirements. 	
+</p>
+<ul>
+	<li>Implement the <code type="inline">java.lang.instrument.ClassFileTransformer</code> interface:
+		<br/>
+		<code type="section" width="100%"><heading refname="listing1" type="code">Listing 1. ClassFileTransformer Interface</heading>public interface ClassFileTransformer {
+
+public byte[] transform(ClassLoader loader, String className, 
+        Class&lt;?&gt; classBeingRedefined, ProtectionDomain protectionDomain, 
+        byte[] classfileBuffer) throws IllegalClassFormatException;
+			
+}				</code>
+	</li>
+	<li>Create a &quot;premain&quot; method, which will be called before the application&apos;s <code type="inline">main()</code> method and has the following signature:
+		<br/>
+		<code type="section" width="100%"><heading refname="listing2" type="code">Listing 2. A class with a premain method</heading>package sample.verboseclass;
+			
+public class Main {
+    public static void <b>premain</b>(String args, Instrumentation inst) {
+        ...
+    }
+}		</code>
+	</li>
+	
+	<li>In the agent JAR file, include a manifest entry identifying the class containing the <code type="inline">premain()</code> method.
+	<br/>
+	<code type="section" width="100%"><heading refname="listing3" type="code">Listing 3. Agent manifest</heading>Manifest-Version: 1.0
+Premain-Class: sample.verboseclass.Main</code>
+	</li>
+</ul>
+	
+<heading alttoc="" type="minor">A Simple Agent</heading>
+<p>
+Lets write a simple agent that prints out the name of each class as it is loaded, similar to the behavior of the <code type="inline">–verbose:class</code> JVM option. This requires only a few lines of code:
+</p>
+<code type="section" width="100%"><heading refname="listing4" type="code">Listing 4. A simple agent</heading>package sample.verboseclass;
+
+public class Main {
+
+    public static void premain(String args, Instrumentation inst) {
+        inst.addTransformer(new Transformer());
+    }
+}
+
+class Transformer implements ClassFileTransformer {
+	
+    public byte[] transform(ClassLoader l, String className, Class&lt;?&gt; c, 
+            ProtectionDomain pd, byte[] b) throws IllegalClassFormatException {
+        System.out.print("Loading class: ");
+        System.out.println(className);
+        return b;
+    }
+}</code>	
+<p>	
+If the agent is packaged in a JAR file called <code type="inline">vc.jar</code>, the JVM would be started with the <code type="inline">–javaagent</code> option as follows:
+</p>
+<blockquote><code type="inline">
+java -javaagent:vc.jar MyApplicationClass
+</code></blockquote>
+<heading alttoc="" type="minor">A simple profiling aspect</heading>
+<p>
+Now that we’ve got all the basics for building an agent in place, we are ready to add a simple profiling aspect to classes as they are loaded. You don’t need to master the details of the JVM instruction set to modify bytecode; toolkits like the ASM library from the ObjectWeb consortium can insulate you from the details of the class file format. ASM uses the visitor pattern to allow developers to transform class files, in much the same way that SAX events can be used to traverse and transform an XML document.
+</p>
+<p>
+Let’s write a profiling aspect that outputs the class name, method name and a timestamp every time that the JVM enters or leaves a method.  We’ll use a helper class with <code type="inline">start()</code> and <code type="inline">end()</code> methods to do the actual logging: 	
+</p>	
+<code type="section" width="100%"><heading refname="listing5" type="code">Listing 5. A simple profile logger</heading>package sample.profiler;
+
+public class Profile {
+
+    public static void start(String className, String methodName) {
+        System.out.println(new StringBuilder(className)
+            .append('\t')
+            .append(methodName)
+            .append("\tstart\t")
+            .append(System.currentTimeMillis()));
+	}
+
+    public static void end(String className, String methodName) {
+        System.out.println(new StringBuilder(className)
+            .append('\t')
+            .append(methodName)
+            .append("\end\t")
+            .append(System.currentTimeMillis()));
+    }
+}</code>	
+<p>
+(A more sophisticated profiler would probably want to use a high resolution timer like Java5<trade/>&apos;s <code type="inline">System.nanoTime()</code>.)  
+</p>	
+<p>
+If we were profiling by hand, we would modify every method to look something like this:
+</p>
+<code type="section" width="100%"><heading refname="listing6" type="code">Listing 6.</heading>void myMethod() {
+    Profile.start(“MyClass”, “myMethod”); 
+        ...
+    Profile.end(“MyClass”, “myMethod”);
+}</code>
+<p>
+We need to figure out what the bytecode for the <code type="inline">start()</code> and <code type="inline">end()</code> calls looks like.  ASM has a Bytecode Outline plugin for Eclipse (see <a href="#resources">Resouces</a>) that allows you to view the byte code of any class or method (we could also use a disassembler like <code type="inline">javap</code> which is part of the JDK). Using the bytecode plugin, the byte code for the method above looks like (see <a href="#fig1">figure 1</a>)	
+	
+</p>	
+<figure>
+<a name="fig1"/>
+<heading refname="fig1" type="figure" alttoc="">Figure 1.</heading>
+<img src="bytecode.gif" alt="Bytecode" />
+</figure>
+<p>
+One of the many outstanding features of the ASM plugin is that it will generate the ASM code for you that can be used to generate the corresponding byte code, as shown in <a href="#fig2">Figure 2</a>	
+</p>	
+<figure>
+<a name="fig2"/>
+<heading refname="fig1" type="figure" alttoc="">Figure 2.</heading>
+<img src="asm-hilighted.gif" alt="ASM code" />
+</figure>
+<p>
+We can cut and paste the highlighted code and derive a generalized version of <code type="inline">Profile.start()</code>.
+</p>
+<code type="section" width="100%"><heading refname="listing7" type="code">Listing 7. The ASM code to inject a call to the profiler</heading>visitLdcInsn(className);
+visitLdcInsn(methodName);
+visitMethodInsn(INVOKESTATIC, 
+	"sample/profiler/Profile", 
+	"start", 
+	"(Ljava/lang/String;Ljava/lang/String;)V");</code>
+<p>
+To inject the start and end calls, we’ll subclass ASM’s <code type="inline">MethodAdapter</code>:	
+</p>
+<code type="section" width="100%"><heading refname="listing8" type="code">Listing 8. The ASM code to inject a call to the profiler</heading>package sample.profiler;
+
+import org.objectweb.asm.MethodAdapter;
+import org.objectweb.asm.MethodVisitor;
+import org.objectweb.asm.Opcodes;
+
+import static org.objectweb.asm.Opcodes.INVOKESTATIC;
+
+
+public class PerfMethodAdapter extends MethodAdapter {
+    private String className, methodName;
+	
+    public PerfMethodAdapter(MethodVisitor visitor, String className, 
+            String methodName) { 
+        super(visitor);
+        className = className;
+        methodName = methodName;
+    }
+
+    public void visitCode() {
+        this.visitLdcInsn(className);
+        this.visitLdcInsn(methodName);
+        this.visitMethodInsn(INVOKESTATIC, 
+            "sample/profiler/Profile", 
+            "start", 
+            "(Ljava/lang/String;Ljava/lang/String;)V");
+        super.visitCode();
+    }
+
+    public void visitInsn(int inst) {
+        switch (inst) {
+        case Opcodes.ARETURN:
+        case Opcodes.DRETURN:
+        case Opcodes.FRETURN:
+        case Opcodes.IRETURN:
+        case Opcodes.LRETURN:
+        case Opcodes.RETURN:
+        case Opcodes.ATHROW:
+            this.visitLdcInsn(className);
+            this.visitLdcInsn(methodName);
+            this.visitMethodInsn(INVOKESTATIC, 
+                "sample/profiler/Profile", 
+                "end", 
+                "(Ljava/lang/String;Ljava/lang/String;)V");
+            break;
+        default:
+            break;
+        }
+		
+        super.visitInsn(inst);
+    }
+}</code>
+<p>
+The code to hook this into our agent is very simple, 	and is part of the code download for this article (see <a href="#resources">resources</a>).
+</p>	
+<p>
+Since this agent uses ASM, we need to ensure that the ASM classes are loaded in order for everything to work. There are many class paths in a Java application: the application classpath, the extensions classpath or the bootstrap classpath. Perhaps surprisingly, the ASM JAR doesn’t go in any of these – we use the manifest to tell the JVM which JAR files the agent needs, as shown in Listing 9. In this case, the JAR files must be in the same directory as the agent’s JAR.
+</p>
+<code type="section" width="100%"><heading refname="listing9" type="code">Listing 9. The manifest file for the profiler</heading>Manifest-Version: 1.0
+Premain-Class: sample.profiler.Main
+Boot-Class-Path: asm-2.0.jar asm-attrs-2.0.jar asm-commons-2.0.jar</code>	
+<p>
+Once everything is compiled and packaged, you can run it against any Java application. Here is part of the output from a profile of Ant running the build.xml that compiles the agent:	
+</p>	
+<code type="section" width="100%"><heading refname="listing10" type="code">Listing 10. A sample of the output from the profiler</heading>org/apache/tools/ant/Main                       runBuild        start   1138565072002
+org/apache/tools/ant/Project                    &lt;init&gt;    start   1138565072029
+org/apache/tools/ant/Project$AntRefTable        &lt;init&gt;    start   1138565072031
+org/apache/tools/ant/Project$AntRefTable        &lt;init&gt;    end     1138565072033
+org/apache/tools/ant/types/FilterSet            &lt;init&gt;    start   1138565072054
+org/apache/tools/ant/types/DataType             &lt;init&gt;    start   1138565072055
+org/apache/tools/ant/ProjectComponent           &lt;init&gt;    start   1138565072055
+org/apache/tools/ant/ProjectComponent           &lt;init&gt;    end     1138565072055
+org/apache/tools/ant/types/DataType             &lt;init&gt;    end     1138565072055
+org/apache/tools/ant/types/FilterSet            &lt;init&gt;    end     1138565072055
+org/apache/tools/ant/ProjectComponent           setProject      start   1138565072055
+org/apache/tools/ant/ProjectComponent           setProject      end     1138565072055
+org/apache/tools/ant/types/FilterSetCollection  &lt;init&gt;   start   1138565072057
+org/apache/tools/ant/types/FilterSetCollection  addFilterSet   start   1138565072057
+org/apache/tools/ant/types/FilterSetCollection  addFilterSet   end     1138565072057
+org/apache/tools/ant/types/FilterSetCollection  &lt;init&gt;   end     1138565072057
+org/apache/tools/ant/util/FileUtils             &lt;clinit&gt; start   1138565072075
+org/apache/tools/ant/util/FileUtils             &lt;clinit&gt; end     1138565072076
+org/apache/tools/ant/util/FileUtils             newFileUtils   start   1138565072076
+org/apache/tools/ant/util/FileUtils             &lt;init&gt;   start   1138565072076
+org/apache/tools/ant/taskdefs/condition/Os      &lt;clinit&gt; start   1138565072080
+org/apache/tools/ant/taskdefs/condition/Os      &lt;clinit&gt; end     1138565072081
+org/apache/tools/ant/taskdefs/condition/Os      isFamily       start   1138565072082
+org/apache/tools/ant/taskdefs/condition/Os      isOs           start   1138565072082
+org/apache/tools/ant/taskdefs/condition/Os      isOs           end     1138565072082
+org/apache/tools/ant/taskdefs/condition/Os      isFamily       end     1138565072082
+org/apache/tools/ant/util/FileUtils             &lt;init&gt;   end     1138565072082
+org/apache/tools/ant/util/FileUtils             newFileUtils   end     1138565072082
+org/apache/tools/ant/input/DefaultInputHandler  &lt;init&gt;   start   1138565072084
+org/apache/tools/ant/input/DefaultInputHandler  &lt;init&gt;   end     1138565072085
+org/apache/tools/ant/Project                    &lt;init&gt;   end     1138565072085
+org/apache/tools/ant/Project                    setCoreLoader  start   1138565072085
+org/apache/tools/ant/Project                    setCoreLoader  end     1138565072085
+org/apache/tools/ant/Main                       addBuildListener start 1138565072085
+org/apache/tools/ant/Main                       createLogger   start   1138565072085
+org/apache/tools/ant/DefaultLogger              &lt;clinit&gt; start   1138565072092
+org/apache/tools/ant/util/StringUtils           &lt;clinit&gt; start   1138565072096
+org/apache/tools/ant/util/StringUtils           &lt;clinit&gt; end     1138565072096</code>
+	
+<heading alttoc="" type="minor">Tracking the call stack</heading>
+<p>
+With only a few lines of code, we have the basis for a simple aspect oriented profiler! However, our simple example is missing some important profiling information, such as thread and call stack data. Call stack information is necessary in order to determine the gross and net method execution times. In addition, each call stack is associated with a thread, so thread information needs to be kept as well. In order to do this kind of analysis, most profilers use a two pass design – first gather data, then analyze it. We will adopt this approach rather than just printing the data out.
+</p>
+<p>
+<a href="#fig3">Figure 3</a> shows the data structures for tracking call stack and thread information:	
+</p>
+<figure>
+<a name="fig3"/>
+<heading refname="fig1" type="figure" alttoc="">Figure 3.</heading>
+<img src="callstack.gif" alt="Call stack" />
+</figure>
+<p>	
+The Profile class can be easily enhanced to capture this information. Instead of printing out times at the start and end of each method, we can store this information using these data structures. 
+</p>
+<p>
+There are a number of ways to gather information about the call stack. 
+One is to instantiate an Exception, but doing this at the beginning and end of each method would be far too slow. 
+A simpler way is for the profiler to manage its own internal call stack. 
+Since <code type="inline">start()</code> is called for every method, this is easy; the only tricky part is unwinding the internal call stack when an exception is thrown.
+How can we detect exceptions? By checking the expected class and method name when <code type="inline">Profile.end()</code> is called, we can detect when an exception has been thrown. 
+</p>
+<p>
+If we’re not printing profiling information out in real-time, how and when does it get printed out? We can create a <i>shutdown</i> hook using <code type="inline">Runtime.addShutdownHook()</code> to register a Thread that runs at shutdown time and prints a profiling report to the console.	
+</p>		
+<sidebar width="">
+<heading refname="" type="sidebar">JIP – the Java Interactive Profiler</heading>
+<p>
+In this article we built a simple profiler that has some of the characteristics of an ideal profiler. However, since this is an article and not a book, there just wasn’t enough space to build all of the capabilities of our ideal profiler. The good news is that there’s an Open Source project that’s already done this: the Java Interactive Profiler (JIP). Built using the same aspect oriented / Java<trade/> agent techniques, it adds many of the features of our ideal profiler, including:
+</p>
+<ul>
+	<li>Interactive profiling.</li>
+	<li>The ability to exclude classes or packages.</li>
+	<li>The ability to include only classes loaded by a particular classloader. </li>
+	<li>A facility for tracking object allocations.</li>
+	<li>Performance measurement in addition to code profiling.</li>
+</ul>
+JIP can be downloaded from <a href="http://sourceforge.net/projects/jiprof">Sourceforge</a> and is distributed under a BSD style license.	
+</sidebar>	
+<heading refname="" type="major">Conclusion</heading>	
+<p>
+This article started by talking about profilers and what an ideal profiler might look like. From there, we built a simple aspect oriented profiler using the Java5<trade/> agent interface. We didn’t fully realize our ideal profiler, but with the groundwork laid, it’s easy to imagine how many other capabilities could be added to make a better profiler. 	
+</p>	
+
+<!-- END OF ARTICLE BODY
+For developerWorks staff use only. -->
+</docbody>
+
+<!-- TRADEMARKS
+For developerWorks staff use only; optional and reserved for future schema use. 
+You may code attribution statements for future use, but they will not appear in 
+5.2-compliant article html. -->
+<trademarks>
+   <trademark>This is the first trademark attribution statement.</trademark>
+  <trademark>This is the second trademark attribution statement.</trademark>
+</trademarks>
+
+<!--  RESOURCES
+For authors (optional but recommended): include links 
+  to Web content cited in the article, as well as links 
+  to other related articles, tutorials, developerWorks 
+  downloads, views, Web sites, forums, blogs, tech briefings, 
+  Webcasts, demos, books, or offers related to the topic. 
+  Aim for 7 to 12 resources sorted into the categories of 
+  "Learn," "Get products and technologies," and "Discuss." 
+  
+  In the resulting article, resources appear in the "Resources" 
+  section at the end of the article. Resource items are grouped into 
+  categories, provided: 
+  - You have at least three resource elements, total
+  - You have at least one item in at least two categories  
+  Even if the resources are not clustered by category in the xml file, 
+  they will be in the html.
+  
+  Resources can be on developerWorks, alphaWorks, IBM 
+  product or research sites, or non-IBM sites. Do NOT include 
+  links to download files related to the article (use target-content-file 
+  above), nor links to a discussion forum URL if you coded the 
+  <forum-url> element (this link will be added automatically). 
+  
+  The developerWorks staff will adjust the tactic code (S_TACT) 
+  and campaign code (S_CMP) as needed; these codes are 
+  required on urls for trial downloads, tutorials, offers, and 
+  technical events.
+   -->  
+<a name="resources"/>
+<resources>
+	
+<resource resource-category="Learn">
+<a href="http://asm.objectweb.org/">ASM</a>: The ASM bytecode manipluation framework.
+</resource>	
+
+<resource resource-category="Learn">
+<a href="http://java.sun.com/j2se/1.5.0/docs/api/java/lang/instrument/package-summary.html">
+<code type="inline">java.lang.instrument:</code></a> The javadoc for creating agents.
+</resource>
+	
+<resource resource-category="Learn">
+<a href="http://www.javalobby.org/java/forums/t19309.html">&quot;Instrumentation: Modify Applications with Java 5 Class File Transformations&quot;</a> (R. J. Lorimer, JavaLobby, June 2005)	
+</resource>
+	
+<resource resource-category="Learn">
+<a href="http://www-128.ibm.com/developerworks/java/library/j-aopwork10">&quot;AOP@Work: Performance monitoring with AspectJ, Part 1&quot;</a> (Ron Bodkin, developerWorks, September 2005)
+</resource>	
+	
+<resource resource-category="Learn">
+<a href="http://www-128.ibm.com/developerworks/java/library/j-aopwork12/index.html">&quot;AOP@Work: Performance monitoring with AspectJ, Part 2&quot;</a> (Ron Bodkin, developerWorks, November 2005)
+</resource>	
+	
+<resource resource-category="Learn">
+&quot;JDC Tech Tips: January 24, 2000 <a href="http://java.sun.com/developer/TechTips/2000/tt0124.html#tip2">Using HPROF to Tune Performance</a>&quot;	
+</resource>
+	
+<resource resource-category="Get products and technologies">
+	<a href="http://sourceforge.net/projects/jiprof">JIP</a> the Java Interactive Profiler.
+</resource>
+	
+<resource resource-category="Get products and technologies">
+	The ASM <a href="http://asm.objectweb.org/eclipse/bco/index.html">bytecode outline plugin for Eclipse</a>.
+</resource>
+	
+	
+	
+</resources>
+
+</dw-article>
+</dw-document>
+
+
