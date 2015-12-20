@@ -1,0 +1,3 @@
+rootProject.name = 'jiprof'
+
+include ':jip', ':jip-test', ':jip-plugin', ':simple-profiler', ':verbose-class'
