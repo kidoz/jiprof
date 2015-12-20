@@ -85,3 +85,11 @@ project(':simple-profiler') {
         compile fileTree(dir: 'lib', include: '*.jar')
     }
 }
+
+project(':verbose-class') {
+    jar {
+        manifest {
+            attributes 'Premain-Class': 'sample.verboseclass.Main'
+        }
+    }
+}
