@@ -1,4 +1,4 @@
-package test.profiler;
+package profiler;
 
 import java.io.File;
 
