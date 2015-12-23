@@ -74,8 +74,16 @@ project(':jip') {
     }
 }
 
+project(':jip-plugin') {
+    dependencies {
+        compile fileTree(dir: 'lib', include: '*.jar')
+    }
+}
+
 project(':jip-test') {
     dependencies {
+        testCompile project(':jip')
+
         testCompile 'junit:junit:4.12'
     }
 }
