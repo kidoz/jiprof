@@ -71,20 +71,14 @@ subprojects {
 project(':jip') {
     dependencies {
         compile fileTree(dir: 'lib', include: '*.jar')
+
+        testCompile 'junit:junit:4.12'
     }
 }
 
 project(':jip-plugin') {
     dependencies {
         compile fileTree(dir: 'lib', include: '*.jar')
-    }
-}
-
-project(':jip-test') {
-    dependencies {
-        testCompile project(':jip')
-
-        testCompile 'junit:junit:4.12'
     }
 }
 
