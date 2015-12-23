@@ -37,12 +37,11 @@ class Transformer implements ClassFileTransformer {
 			return classfileBuffer;
 		}		
 		
-		byte[] result = classfileBuffer;
 		ClassReader reader = new ClassReader(classfileBuffer);
 		ClassWriter writer = new ClassWriter(true);
 		ClassAdapter adapter = new PerfClassAdapter(writer, className);
 		reader.accept(adapter, true);
-		result = writer.toByteArray();
-		return result;
+
+		return writer.toByteArray();
 	}
 }
