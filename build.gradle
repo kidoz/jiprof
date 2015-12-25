@@ -77,11 +77,9 @@ project(':jip') {
 }
 
 project(':jip-plugin') {
-
     jar {
         manifest {
-            attributes 'Manifest-Version': 1.0,
-                    'Bundle-ManifestVersion': 2,
+            attributes 'Bundle-ManifestVersion': 2,
                     'Bundle-Name': 'JIP Plug-in',
                     'Bundle-SymbolicName': 'com.mentorgen.tools.profile; singleton:=true',
                     'Bundle-Version': '1.0.0',
