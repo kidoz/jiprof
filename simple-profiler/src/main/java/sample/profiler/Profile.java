@@ -9,6 +9,7 @@ public class Profile {
 				.append("\tstart\t")
 				.append(System.currentTimeMillis()));
 	}
+
 	public static void start(String className, String methodName, Object o) {
 		System.out.println(new StringBuilder(className)
 				.append('\t')
@@ -17,6 +18,7 @@ public class Profile {
 				.append(System.currentTimeMillis()));
 		System.out.println("object: " + o);
 	}
+
 	public static void end(String className, String methodName) {
 		System.out.println(new StringBuilder(className)
 				.append('\t')
@@ -24,6 +26,7 @@ public class Profile {
 				.append("\tend\t")
 				.append(System.currentTimeMillis()));		
 	}
+
 	public static void end(String className, String methodName, Object o) {
 		System.out.println(new StringBuilder(className)
 				.append('\t')
