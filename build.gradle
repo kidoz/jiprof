@@ -1,9 +1,23 @@
+plugins {
+    id "net.saliman.cobertura" version "2.3.0"
+    id "com.github.kt3k.coveralls" version "2.6.3"
+}
+
+cobertura.coverageFormats = ['html', 'xml']
+
+
+repositories {
+    mavenCentral()
+}
+
 description = 'JIP is a code profiling tool much like the hprof tool that ships with the JDK'
 
 subprojects {
     apply plugin: 'java'
     apply plugin: 'findbugs'
     apply plugin: 'pmd'
+    apply plugin: "net.saliman.cobertura"
+    apply plugin: "com.github.kt3k.coveralls"
 
     sourceCompatibility = 1.8
     targetCompatibility = 1.8
