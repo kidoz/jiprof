@@ -5,8 +5,8 @@ import java.lang.instrument.IllegalClassFormatException;
 import java.lang.instrument.Instrumentation;
 import java.security.ProtectionDomain;
 
-import org.objectweb.asm.ClassAdapter;
 import org.objectweb.asm.ClassReader;
+import org.objectweb.asm.ClassVisitor;
 import org.objectweb.asm.ClassWriter;
 
 
@@ -38,9 +38,9 @@ class Transformer implements ClassFileTransformer {
 		}		
 		
 		ClassReader reader = new ClassReader(classfileBuffer);
-		ClassWriter writer = new ClassWriter(true);
-		ClassAdapter adapter = new PerfClassAdapter(writer, className);
-		reader.accept(adapter, true);
+		ClassWriter writer = new ClassWriter(ClassWriter.COMPUTE_FRAMES);
+		ClassVisitor adapter = new PerfClassAdapter(writer, className);
+		reader.accept(adapter, ClassReader.EXPAND_FRAMES);
 
 		return writer.toByteArray();
 	}

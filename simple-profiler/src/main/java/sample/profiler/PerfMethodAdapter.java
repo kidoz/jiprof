@@ -1,13 +1,12 @@
 package sample.profiler;
 
-import org.objectweb.asm.MethodAdapter;
 import org.objectweb.asm.MethodVisitor;
 import org.objectweb.asm.Opcodes;
 
 import static org.objectweb.asm.Opcodes.INVOKESTATIC;
 
 
-public class PerfMethodAdapter extends MethodAdapter {
+public class PerfMethodAdapter extends MethodVisitor {
 	private String _className, _methodName;
 	private boolean _isStatic;
 	
@@ -15,7 +14,7 @@ public class PerfMethodAdapter extends MethodAdapter {
 			String className,
 			String methodName,
 			boolean isStatic) { 
-		super(visitor);
+		super(Opcodes.ASM5, visitor);
 		_className = className;
 		_methodName = methodName;
 		_isStatic = isStatic;

@@ -112,7 +112,7 @@ project(':jip-plugin') {
 
 project(':simple-profiler') {
     dependencies {
-        compile fileTree(dir: 'lib', include: '*.jar')
+        compile 'org.ow2.asm:asm:5.0.4'
     }
 }
 
