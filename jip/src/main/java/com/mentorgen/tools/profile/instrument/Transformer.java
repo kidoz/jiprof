@@ -32,9 +32,9 @@ import java.lang.instrument.ClassFileTransformer;
 import java.lang.instrument.IllegalClassFormatException;
 import java.security.ProtectionDomain;
 
-import org.objectweb.asm.jip.ClassAdapter;
-import org.objectweb.asm.jip.ClassReader;
-import org.objectweb.asm.jip.ClassWriter;
+import org.objectweb.asm.ClassVisitor;
+import org.objectweb.asm.ClassReader;
+import org.objectweb.asm.ClassWriter;
 
 import com.mentorgen.tools.profile.Controller;
 
@@ -113,8 +113,8 @@ public class Transformer implements ClassFileTransformer {
 			
 			ClassReader reader = new ClassReader(classfileBuffer);
 			ClassWriter writer = new ClassWriter(ClassWriter.COMPUTE_MAXS);
-			ClassAdapter adapter = new PerfClassAdapter(writer, className);
-			reader.accept(adapter, ClassReader.SKIP_DEBUG);
+			ClassVisitor visitor = new PerfClassAdapter(writer, className);
+			reader.accept(visitor, ClassReader.SKIP_DEBUG);
 			result = writer.toByteArray();
 		} catch (Throwable t) {
 			t.printStackTrace();

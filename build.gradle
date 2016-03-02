@@ -84,6 +84,8 @@ subprojects {
 
 project(':jip') {
     dependencies {
+        compile 'org.ow2.asm:asm:5.0.4'
+
         compile fileTree(dir: 'lib', include: '*.jar')
 
         testCompile 'junit:junit:4.12'
