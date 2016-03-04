@@ -1,13 +1,10 @@
-plugins {
-    id "net.saliman.cobertura" version "2.3.0"
-    id "com.github.kt3k.coveralls" version "2.6.3"
-}
-
-cobertura.coverageFormats = ['html', 'xml']
-
-
-repositories {
-    mavenCentral()
+buildscript {
+    repositories {
+        mavenCentral()
+    }
+    dependencies {
+        classpath 'org.kt3k.gradle.plugin:coveralls-gradle-plugin:2.6.3'
+    }
 }
 
 description = 'JIP is a code profiling tool much like the hprof tool that ships with the JDK'
@@ -16,11 +13,11 @@ subprojects {
     apply plugin: 'java'
     apply plugin: 'findbugs'
     apply plugin: 'pmd'
-    apply plugin: "net.saliman.cobertura"
-    apply plugin: "com.github.kt3k.coveralls"
+    apply plugin: 'jacoco'
+    apply plugin: 'com.github.kt3k.coveralls'
 
-    sourceCompatibility = 1.8
-    targetCompatibility = 1.8
+    sourceCompatibility = JavaVersion.VERSION_1_8
+    targetCompatibility = JavaVersion.VERSION_1_8
 
     version = '1.2'
 
@@ -78,6 +75,17 @@ subprojects {
         reports {
             xml.enabled = false
             html.enabled = true
+        }
+    }
+
+    tasks.coveralls {
+        dependsOn 'check'
+    }
+
+    jacocoTestReport {
+        reports {
+            xml.enabled = true
+            html.enabled = false
         }
     }
 }
