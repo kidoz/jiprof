@@ -119,6 +119,12 @@ project(':jip-plugin') {
 }
 
 project(':simple-profiler') {
+    jar {
+        manifest {
+            attributes 'Premain-Class': 'sample.profiler.Main'
+        }
+    }
+
     dependencies {
         compile 'org.ow2.asm:asm:5.0.4'
     }
