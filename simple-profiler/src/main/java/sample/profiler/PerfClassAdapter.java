@@ -13,19 +13,23 @@ public class PerfClassAdapter extends ClassVisitor {
         this.className = theClass;
     }
 
-
-    public MethodVisitor visitMethod(int arg,
-                                     String name,
-                                     String descriptor,
-                                     String signature,
-                                     String[] exceptions) {
-        MethodVisitor mv = super.visitMethod(arg,
+    @Override
+    public MethodVisitor visitMethod(
+            int arg,
+            String name,
+            String descriptor,
+            String signature,
+            String[] exceptions
+    ) {
+        final MethodVisitor methodVisitor = super.visitMethod(
+                arg,
                 name,
                 descriptor,
                 signature,
-                exceptions);
-        boolean isStatic = ((arg & Opcodes.ACC_STATIC) != 0) || (name.equals("<init>"));
+                exceptions
+        );
+        final boolean isStatic = ((arg & Opcodes.ACC_STATIC) != 0) || (name.equals("<init>"));
 
-        return new PerfMethodAdapter(mv, className, name, isStatic);
+        return new PerfMethodAdapter(methodVisitor, className, name, isStatic);
     }
 }

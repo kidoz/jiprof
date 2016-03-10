@@ -1,13 +1,13 @@
 package sample.profiler;
 
+import org.objectweb.asm.ClassReader;
+import org.objectweb.asm.ClassVisitor;
+import org.objectweb.asm.ClassWriter;
+
 import java.lang.instrument.ClassFileTransformer;
 import java.lang.instrument.IllegalClassFormatException;
 import java.lang.instrument.Instrumentation;
 import java.security.ProtectionDomain;
-
-import org.objectweb.asm.ClassReader;
-import org.objectweb.asm.ClassVisitor;
-import org.objectweb.asm.ClassWriter;
 
 
 public class Main {
@@ -18,12 +18,16 @@ public class Main {
 }
 
 class Transformer implements ClassFileTransformer {
-	
-	public byte[] transform(ClassLoader loader, String className, 
-			Class<?> classBeingRedefined, ProtectionDomain protectionDomain, 
-			byte[] classfileBuffer) throws IllegalClassFormatException {
-		
-		// can only profile classes that will be able to see
+
+    public byte[] transform(
+            ClassLoader loader,
+            String className,
+            Class<?> classBeingRedefined,
+            ProtectionDomain protectionDomain,
+            byte[] classfileBuffer
+    ) throws IllegalClassFormatException {
+
+        // can only profile classes that will be able to see
 		// the Profile class which is loaded by the application
 		// classloader
 		//
@@ -35,12 +39,12 @@ class Transformer implements ClassFileTransformer {
 		//
 		if (className.startsWith("sample/profiler")) {
 			return classfileBuffer;
-		}		
-		
-		ClassReader reader = new ClassReader(classfileBuffer);
-		ClassWriter writer = new ClassWriter(ClassWriter.COMPUTE_FRAMES);
-		ClassVisitor adapter = new PerfClassAdapter(writer, className);
-		reader.accept(adapter, ClassReader.EXPAND_FRAMES);
+		}
+
+        final ClassReader reader = new ClassReader(classfileBuffer);
+        final ClassWriter writer = new ClassWriter(ClassWriter.COMPUTE_FRAMES);
+        final ClassVisitor adapter = new PerfClassAdapter(writer, className);
+        reader.accept(adapter, ClassReader.EXPAND_FRAMES);
 
 		return writer.toByteArray();
 	}
