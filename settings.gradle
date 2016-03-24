@@ -1,5 +1,5 @@
 rootProject.name = 'jiprof'
 
-include ':jip', ':jip-plugin', ':jip-viewer', ':simple-profiler', ':verbose-class'
+include ':jip', ':jip-plugin', ':jip-snapman', ':jip-viewer', ':simple-profiler', ':verbose-class'
 include 'jip-viewer'
 

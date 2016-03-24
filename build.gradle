@@ -91,10 +91,14 @@ subprojects {
 }
 
 project(':jip') {
+    jar {
+        manifest {
+            attributes 'Premain-Class': 'com.mentorgen.tools.profile.Main'
+        }
+    }
+
     dependencies {
         compile 'org.ow2.asm:asm:5.0.4'
-
-        compile fileTree(dir: 'lib', include: '*.jar')
 
         testCompile 'junit:junit:4.12'
     }
@@ -118,10 +122,22 @@ project(':jip-plugin') {
     }
 }
 
+project(':jip-snapman') {
+    dependencies {
+        compile fileTree(dir: 'lib', include: '*.jar')
+    }
+
+    jar {
+        manifest {
+            attributes 'Main-Class': 'com.mentorgen.tools.util.profile.Client'
+        }
+    }
+}
+
 project(':jip-viewer') {
     jar {
         manifest {
-            attributes 'Premain-Class': 'com.tivo.jipviewer.JipViewer'
+            attributes 'Main-Class': 'com.mentorgen.tools.profile.Main'
         }
     }
 }
