@@ -30,22 +30,22 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 // $Id: SnapshotListModel.java,v 1.1 2008/09/23 04:48:18 jchapman0 Exp $
 package com.jchapman.jipsnapman.models;
 
+import javax.swing.*;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
-import javax.swing.AbstractListModel;
+import static java.lang.String.CASE_INSENSITIVE_ORDER;
 
 /**
- *
  * @author not attributable
  * @version 1.0
  */
-public class SnapshotListModel
-        extends AbstractListModel {
-    private static final Comparator snapshotComparator = new SnapshotComp();
-    private final List itemsList = new ArrayList();
+public class SnapshotListModel extends AbstractListModel {
+
+    private static final Comparator<Snapshot> SNAPSHOT_COMPARATOR = new SnapshotComparator();
+    private final List<Snapshot> itemsList = new ArrayList<>();
 
     public SnapshotListModel() {
         super();
@@ -55,10 +55,11 @@ public class SnapshotListModel
         int lastIdx;
         synchronized (itemsList) {
             itemsList.add(item);
-            Collections.sort(itemsList, snapshotComparator);
-            lastIdx = itemsList.size()-1;
+            Collections.sort(itemsList, SNAPSHOT_COMPARATOR);
+            lastIdx = itemsList.size() - 1;
         }
-        fireContentsChanged(this,0,lastIdx);
+
+        fireContentsChanged(this, 0, lastIdx);
     }
 
     /* --------------------- from ListModel -------------------- */
@@ -70,11 +71,9 @@ public class SnapshotListModel
      * @return the value at <code>index</code>
      */
     public Object getElementAt(int index) {
-        Object obj = null;
         synchronized (itemsList) {
-            obj = itemsList.get(index);
+            return itemsList.get(index);
         }
-        return obj;
     }
 
     /**
@@ -83,33 +82,29 @@ public class SnapshotListModel
      * @return the length of the list
      */
     public int getSize() {
-        int size = 0;
         synchronized (itemsList) {
-            size = itemsList.size();
+            return itemsList.size();
         }
-        return size;
     }
 
     /* --------------- Snapshot Comparator ----------------- */
 
-    private static final class SnapshotComp
-            implements Comparator {
-        public int compare(Object o1, Object o2) {
-            int rtrnValue;
-            if (o1 == o2) {
-                rtrnValue = 0;
+    private static final class SnapshotComparator implements Comparator<Snapshot> {
+
+        public int compare(Snapshot firstSnapshot, Snapshot secondSnapshot) {
+            if (firstSnapshot == secondSnapshot) {
+                return 0;
             }
-            else if (o1 == null) {
-                rtrnValue = 1;
+
+            if (firstSnapshot == null) {
+                return 1;
             }
-            else if (o2 == null) {
-                rtrnValue = -1;
+
+            if (secondSnapshot == null) {
+                return -1;
             }
-            else {
-                rtrnValue = ((Snapshot) o1).getName().compareToIgnoreCase(
-                        ((Snapshot) o2).getName());
-            }
-            return rtrnValue;
+
+            return CASE_INSENSITIVE_ORDER.compare(firstSnapshot.getName(), secondSnapshot.getName());
         }
     }
 }
