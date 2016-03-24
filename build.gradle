@@ -118,6 +118,14 @@ project(':jip-plugin') {
     }
 }
 
+project(':jip-viewer') {
+    jar {
+        manifest {
+            attributes 'Premain-Class': 'com.tivo.jipviewer.JipViewer'
+        }
+    }
+}
+
 project(':simple-profiler') {
     jar {
         manifest {
