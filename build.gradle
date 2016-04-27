@@ -1,9 +1,15 @@
 buildscript {
+    ext {
+        coverallsGradlePluginVersion = '2.6.3'
+        asmVersion = '5.1'
+        junitVersion = '4.12'
+    }
+
     repositories {
         mavenCentral()
     }
     dependencies {
-        classpath 'org.kt3k.gradle.plugin:coveralls-gradle-plugin:2.6.3'
+        classpath 'org.kt3k.gradle.plugin:coveralls-gradle-plugin:' + coverallsGradlePluginVersion
     }
 }
 
@@ -98,9 +104,9 @@ project(':jip') {
     }
 
     dependencies {
-        compile 'org.ow2.asm:asm:5.0.4'
+        compile 'org.ow2.asm:asm:' + asmVersion
 
-        testCompile 'junit:junit:4.12'
+        testCompile 'junit:junit:' + junitVersion
     }
 }
 
@@ -150,7 +156,7 @@ project(':simple-profiler') {
     }
 
     dependencies {
-        compile 'org.ow2.asm:asm:5.0.4'
+        compile 'org.ow2.asm:asm:' + asmVersion
     }
 }
 
