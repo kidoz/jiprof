@@ -1,6 +1,11 @@
 buildscript {
     ext {
+        projectVersion = '1.2'
+
+        gradleWrapperVersion = '3.0'
+
         coverallsGradlePluginVersion = '2.6.3'
+
         asmVersion = '5.1'
         junitVersion = '4.12'
     }
@@ -25,10 +30,14 @@ subprojects {
     sourceCompatibility = JavaVersion.VERSION_1_8
     targetCompatibility = JavaVersion.VERSION_1_8
 
-    version = '1.2'
+    version = projectVersion
 
     repositories {
         mavenCentral()
+    }
+
+    task wrapper(type: Wrapper) {
+        gradleVersion = gradleWrapperVersion
     }
 
     test.onlyIf {
@@ -104,9 +113,9 @@ project(':jip') {
     }
 
     dependencies {
-        compile 'org.ow2.asm:asm:' + asmVersion
+        compile group: 'org.ow2.asm', name: 'asm', version: asmVersion
 
-        testCompile 'junit:junit:' + junitVersion
+        testCompile group: 'junit', name: 'junit', version: junitVersion
     }
 }
 
@@ -156,7 +165,7 @@ project(':simple-profiler') {
     }
 
     dependencies {
-        compile 'org.ow2.asm:asm:' + asmVersion
+        compile group: 'org.ow2.asm', name: 'asm', version: asmVersion
     }
 }
 
