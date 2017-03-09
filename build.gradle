@@ -1,12 +1,12 @@
 buildscript {
     ext {
-        projectVersion = '1.2'
+        projectVersion = '1.2.1'
 
-        gradleWrapperVersion = '3.0'
+        gradleWrapperVersion = '3.4.1'
 
-        coverallsGradlePluginVersion = '2.6.3'
+        coverallsGradlePluginVersion = '2.8.1'
 
-        asmVersion = '5.1'
+        asmVersion = '5.2'
         junitVersion = '4.12'
     }
 
