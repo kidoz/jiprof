@@ -106,6 +106,8 @@ subprojects {
 }
 
 project(':jip') {
+    jar.baseName = 'profile'
+
     jar {
         manifest {
             attributes 'Premain-Class': 'com.mentorgen.tools.profile.Main'
