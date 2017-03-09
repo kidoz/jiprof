@@ -112,6 +112,12 @@ project(':jip') {
         manifest {
             attributes 'Premain-Class': 'com.mentorgen.tools.profile.Main'
         }
+
+        from {
+            configurations.compile.collect { it.isDirectory() ? it : zipTree(it) }
+        }
+
+        version = null
     }
 
     dependencies {
