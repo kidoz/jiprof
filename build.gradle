@@ -22,7 +22,6 @@ description = 'JIP is a code profiling tool much like the hprof tool that ships 
 
 subprojects {
     apply plugin: 'java'
-    apply plugin: 'findbugs'
     apply plugin: 'pmd'
     apply plugin: 'jacoco'
     apply plugin: 'com.github.kt3k.coveralls'
@@ -42,11 +41,6 @@ subprojects {
 
     test.onlyIf {
         !Boolean.getBoolean('skip.tests')
-    }
-
-    findbugs {
-        ignoreFailures = true
-        effort = 'max'
     }
 
     pmd {
@@ -86,13 +80,6 @@ subprojects {
         }
     }
 
-    tasks.withType(FindBugs) {
-        reports {
-            xml.enabled = false
-            html.enabled = true
-        }
-    }
-
     tasks.coveralls {
         dependsOn 'check'
     }
@@ -114,16 +101,16 @@ project(':jip') {
         }
 
         from {
-            configurations.compile.collect { it.isDirectory() ? it : zipTree(it) }
+            configurations.runtimeClasspath.collect { it.isDirectory() ? it : zipTree(it) }
         }
 
         version = null
     }
 
     dependencies {
-        compile group: 'org.ow2.asm', name: 'asm', version: asmVersion
+        implementation group: 'org.ow2.asm', name: 'asm', version: asmVersion
 
-        testCompile group: 'junit', name: 'junit', version: junitVersion
+        testImplementation group: 'junit', name: 'junit', version: junitVersion
     }
 }
 
@@ -141,13 +128,13 @@ project(':jip-plugin') {
         }
     }
     dependencies {
-        compile fileTree(dir: 'lib', include: '*.jar')
+        implementation fileTree(dir: 'lib', include: '*.jar')
     }
 }
 
 project(':jip-snapman') {
     dependencies {
-        compile fileTree(dir: 'lib', include: '*.jar')
+        implementation fileTree(dir: 'lib', include: '*.jar')
     }
 
     jar {
@@ -173,7 +160,7 @@ project(':simple-profiler') {
     }
 
     dependencies {
-        compile group: 'org.ow2.asm', name: 'asm', version: asmVersion
+        implementation group: 'org.ow2.asm', name: 'asm', version: asmVersion
     }
 }
 
