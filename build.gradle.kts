@@ -1,27 +1,47 @@
+import net.ltgt.gradle.errorprone.errorprone
+
+plugins {
+    alias(libs.plugins.spotless) apply false
+    alias(libs.plugins.errorprone) apply false
+}
+
 buildscript {
     repositories {
         mavenCentral()
     }
     dependencies {
-        classpath("org.kt3k.gradle.plugin:coveralls-gradle-plugin:2.8.1")
+        classpath(libs.coveralls.plugin)
     }
 }
 
-val projectVersion: String by extra("1.2.1")
-val gradleWrapperVersion: String by extra("9.1.0")
-val coverallsGradlePluginVersion: String by extra("2.8.1")
-val asmVersion: String by extra("9.6")
-val junitVersion: String by extra("4.13.2")
+val projectVersion = libs.versions.project.get()
+val gradleWrapperVersion = "9.1.0"
+val catalog = libs
 
 description = "JIP is a code profiling tool much like the hprof tool that ships with the JDK"
 
 subprojects {
     apply(plugin = "java")
+    apply(plugin = "com.diffplug.spotless")
+    apply(plugin = "net.ltgt.errorprone")
 
     version = projectVersion
 
     repositories {
         mavenCentral()
+    }
+
+    dependencies {
+        "errorprone"(catalog.errorprone.core)
+    }
+
+    configure<com.diffplug.gradle.spotless.SpotlessExtension> {
+        java {
+            eclipse()
+            removeUnusedImports()
+            trimTrailingWhitespace()
+            endWithNewline()
+        }
     }
 
     tasks.withType<Test>().configureEach {
@@ -32,6 +52,8 @@ subprojects {
 
     tasks.withType<JavaCompile>().configureEach {
         options.release.set(17)
+        options.errorprone.disableWarningsInGeneratedCode.set(true)
+        options.compilerArgs.add("-XDshould-stop.ifError=FLOW")
     }
 }
 
@@ -59,48 +81,8 @@ project(":jip") {
     }
 
     dependencies {
-        "implementation"("org.ow2.asm:asm:$asmVersion")
-        "testImplementation"("junit:junit:$junitVersion")
-    }
-}
-
-project(":jip-plugin") {
-    tasks.named<Jar>("jar") {
-        manifest {
-            attributes(
-                "Bundle-ManifestVersion" to 2,
-                "Bundle-Name" to "JIP Plug-in",
-                "Bundle-SymbolicName" to "com.mentorgen.tools.profile; singleton:=true",
-                "Bundle-Version" to "1.0.0",
-                "Bundle-Localization" to "plugin",
-                "Require-Bundle" to "org.eclipse.core.runtime, org.eclipse.ui",
-                "Eclipse-AutoStart" to "true",
-                "Import-Package" to "org.eclipse.core.runtime, org.eclipse.ui, org.eclipse.swt, org.eclipse.jface"
-            )
-        }
-    }
-    dependencies {
-        "implementation"(fileTree(mapOf("dir" to "lib", "include" to listOf("*.jar"))))
-    }
-}
-
-project(":jip-snapman") {
-    dependencies {
-        "implementation"(fileTree(mapOf("dir" to "lib", "include" to listOf("*.jar"))))
-    }
-
-    tasks.named<Jar>("jar") {
-        manifest {
-            attributes("Main-Class" to "com.mentorgen.tools.util.profile.Client")
-        }
-    }
-}
-
-project(":jip-viewer") {
-    tasks.named<Jar>("jar") {
-        manifest {
-            attributes("Main-Class" to "com.mentorgen.tools.profile.Main")
-        }
+        "implementation"(catalog.asm)
+        "testImplementation"(catalog.junit)
     }
 }
 
@@ -112,8 +94,8 @@ project(":simple-profiler") {
     }
 
     dependencies {
-        "implementation"("org.ow2.asm:asm:$asmVersion")
-        "testImplementation"("junit:junit:$junitVersion")
+        "implementation"(catalog.asm)
+        "testImplementation"(catalog.junit)
     }
 }
 
@@ -125,6 +107,6 @@ project(":verbose-class") {
     }
 
     dependencies {
-        "testImplementation"("junit:junit:$junitVersion")
+        "testImplementation"(catalog.junit)
     }
 }
