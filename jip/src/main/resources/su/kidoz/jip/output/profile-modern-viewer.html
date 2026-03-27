@@ -314,6 +314,30 @@
           <h2>Artifacts</h2>
           <div id="artifact-list" class="artifact-list"></div>
         </section>
+
+        <section id="jfr-panel" class="panel" hidden>
+          <h2>JFR Sampled Hotspots</h2>
+          <p id="jfr-warning" class="warning" hidden></p>
+          <table>
+            <thead>
+              <tr>
+                <th>Method</th>
+                <th>Samples</th>
+              </tr>
+            </thead>
+            <tbody id="jfr-methods-body"></tbody>
+          </table>
+          <table id="jfr-allocations-table" style="margin-top: 1rem;" hidden>
+            <thead>
+              <tr>
+                <th>Allocation Class</th>
+                <th>Samples</th>
+                <th>Bytes</th>
+              </tr>
+            </thead>
+            <tbody id="jfr-allocations-body"></tbody>
+          </table>
+        </section>
       </div>
     </section>
 
@@ -393,9 +417,53 @@
 
     function renderArtifacts() {
       const artifactList = document.getElementById("artifact-list");
-      artifactList.innerHTML = Object.entries(snapshot.artifacts).map(([name, path]) => `
+      artifactList.innerHTML = Object.entries(snapshot.artifacts)
+        .filter(([, path]) => path)
+        .map(([name, path]) => `
         <div><strong>${escapeHtml(name)}</strong><br>${escapeHtml(path)}</div>
       `).join("");
+    }
+
+    function renderJfr() {
+      const panel = document.getElementById("jfr-panel");
+      const warning = document.getElementById("jfr-warning");
+      const methodsBody = document.getElementById("jfr-methods-body");
+      const allocationsTable = document.getElementById("jfr-allocations-table");
+      const allocationsBody = document.getElementById("jfr-allocations-body");
+      const jfr = snapshot.jfr;
+
+      if (!jfr || !jfr.enabled) {
+        panel.hidden = true;
+        return;
+      }
+
+      panel.hidden = false;
+      warning.hidden = !jfr.warning;
+      warning.textContent = jfr.warning || "";
+
+      methodsBody.innerHTML = (jfr.topSampledMethods || []).map((method) => `
+        <tr>
+          <td class="method-name">${escapeHtml(method.name)}</td>
+          <td class="numeric">${escapeHtml(formatInt(method.samples))}</td>
+        </tr>
+      `).join("") || `
+        <tr>
+          <td class="muted" colspan="2">No sampled Java hotspots were captured for this snapshot.</td>
+        </tr>
+      `;
+
+      if ((jfr.topAllocationSamples || []).length === 0) {
+        allocationsTable.hidden = true;
+      } else {
+        allocationsTable.hidden = false;
+        allocationsBody.innerHTML = jfr.topAllocationSamples.map((allocation) => `
+          <tr>
+            <td class="method-name">${escapeHtml(allocation.className)}</td>
+            <td class="numeric">${escapeHtml(formatInt(allocation.samples))}</td>
+            <td class="numeric">${escapeHtml(formatInt(allocation.bytes))}</td>
+          </tr>
+        `).join("");
+      }
     }
 
     function frameNode(frame) {
@@ -445,6 +513,7 @@
     renderMethods("method-summary-body", snapshot.methodSummary, "");
     renderAllocations();
     renderArtifacts();
+    renderJfr();
     renderThreads("");
   </script>
 </body>
