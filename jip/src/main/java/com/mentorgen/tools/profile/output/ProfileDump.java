@@ -52,22 +52,22 @@ public final class ProfileDump {
 
 		synchronized (Profile.class) {
 			ProfileOutputFiles files = ProfileOutputFiles.create();
-				JfrProfileSupport.prepareReport(files);
+			JfrProfileSupport.prepareReport(files);
 
-				switch (Controller._outputType) {
-					case JSON :
-						ProfileJsonDump.dump(files);
-						break;
-					case Modern :
-						ProfileJsonDump.dump(files);
-						ProfileHtmlDump.dump(files);
-						break;
-					default :
-						ProfileJsonDump.dump(files);
-						ProfileHtmlDump.dump(files);
-						break;
-				}
+			switch (Controller._outputType) {
+				case JSON :
+					ProfileJsonDump.dump(files);
+					break;
+				case Modern :
+					ProfileJsonDump.dump(files);
+					ProfileHtmlDump.dump(files);
+					break;
+				default :
+					ProfileJsonDump.dump(files);
+					ProfileHtmlDump.dump(files);
+					break;
 			}
 		}
+	}
 
 }

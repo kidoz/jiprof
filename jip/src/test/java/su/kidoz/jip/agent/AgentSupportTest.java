@@ -2,9 +2,9 @@ package su.kidoz.jip.agent;
 
 import com.mentorgen.tools.profile.Controller;
 import com.mentorgen.tools.profile.instrument.clfilter.ClassLoaderFilter;
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import su.kidoz.jip.testfixtures.TransformFixture;
 
 import java.lang.instrument.ClassFileTransformer;
@@ -17,10 +17,10 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertSame;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertSame;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class AgentSupportTest {
 	private static final ClassLoaderFilter ACCEPT_ALL_FILTER = new ClassLoaderFilter() {
@@ -37,8 +37,8 @@ public class AgentSupportTest {
 
 	private ControllerState controllerState;
 
-	@Before
-	public void setUp() {
+	@BeforeEach
+	void setUp() {
 		controllerState = ControllerState.capture();
 		Controller._includeList = new String[0];
 		Controller._excludeList = new String[0];
@@ -47,8 +47,8 @@ public class AgentSupportTest {
 		AgentSupport.resetForTests();
 	}
 
-	@After
-	public void tearDown() {
+	@AfterEach
+	void tearDown() {
 		AgentSupport.resetForTests();
 		controllerState.restore();
 	}

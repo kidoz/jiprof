@@ -4,9 +4,9 @@ import com.mentorgen.tools.profile.Controller;
 import com.mentorgen.tools.profile.instrument.clfilter.ClassLoaderFilter;
 import com.mentorgen.tools.profile.output.ProfileDump;
 import com.mentorgen.tools.profile.runtime.Profile;
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -14,8 +14,8 @@ import java.nio.file.Path;
 import java.util.Comparator;
 import java.util.stream.Stream;
 
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class ProfileDumpModernOutputTest {
 	private static final ClassLoaderFilter ACCEPT_ALL_FILTER = new ClassLoaderFilter() {
@@ -33,8 +33,8 @@ public class ProfileDumpModernOutputTest {
 	private ControllerState controllerState;
 	private Path tempDirectory;
 
-	@Before
-	public void setUp() throws IOException {
+	@BeforeEach
+	void setUp() throws IOException {
 		controllerState = ControllerState.capture();
 		tempDirectory = Files.createTempDirectory("jip-modern-output");
 		Profile.init();
@@ -49,8 +49,8 @@ public class ProfileDumpModernOutputTest {
 		Controller._jfrSamplePeriodMs = 1;
 	}
 
-	@After
-	public void tearDown() throws IOException {
+	@AfterEach
+	void tearDown() throws IOException {
 		controllerState.restore();
 		Profile.init();
 		if (tempDirectory != null) {

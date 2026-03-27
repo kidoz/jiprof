@@ -1,9 +1,9 @@
 package su.kidoz.jip.jfr;
 
 import com.mentorgen.tools.profile.Controller;
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import su.kidoz.jip.output.ProfileOutputFiles;
 
 import java.io.IOException;
@@ -12,8 +12,8 @@ import java.nio.file.Path;
 import java.util.Comparator;
 import java.util.stream.Stream;
 
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class JfrProfileSupportTest {
 	private boolean jfrEnabled;
@@ -22,8 +22,8 @@ public class JfrProfileSupportTest {
 	private String fileName;
 	private Path tempDirectory;
 
-	@Before
-	public void setUp() throws IOException {
+	@BeforeEach
+	void setUp() throws IOException {
 		jfrEnabled = Controller._jfrEnabled;
 		jfrSamplePeriodMs = Controller._jfrSamplePeriodMs;
 		trackObjectAlloc = Controller._trackObjectAlloc;
@@ -37,8 +37,8 @@ public class JfrProfileSupportTest {
 		JfrProfileSupport.resetForTests();
 	}
 
-	@After
-	public void tearDown() throws IOException {
+	@AfterEach
+	void tearDown() throws IOException {
 		JfrProfileSupport.resetForTests();
 		Controller._jfrEnabled = jfrEnabled;
 		Controller._jfrSamplePeriodMs = jfrSamplePeriodMs;

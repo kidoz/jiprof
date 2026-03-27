@@ -1,9 +1,9 @@
 package com.mentorgen.tools.profile.runtime;
 
 import com.mentorgen.tools.profile.Controller;
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -13,7 +13,7 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class ProfileConcurrencyTest {
 	private static final int THREADS = 4;
@@ -21,15 +21,15 @@ public class ProfileConcurrencyTest {
 
 	private boolean profile;
 
-	@Before
-	public void setUp() {
+	@BeforeEach
+	void setUp() {
 		profile = Controller._profile;
 		Profile.init();
 		Controller._profile = true;
 	}
 
-	@After
-	public void tearDown() {
+	@AfterEach
+	void tearDown() {
 		Controller._profile = profile;
 		Profile.init();
 	}

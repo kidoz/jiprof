@@ -33,6 +33,7 @@ subprojects {
 
     dependencies {
         "errorprone"(catalog.errorprone.core)
+        "testRuntimeOnly"(catalog.junit.platform.launcher)
     }
 
     configure<com.diffplug.gradle.spotless.SpotlessExtension> {
@@ -45,6 +46,7 @@ subprojects {
     }
 
     tasks.withType<Test>().configureEach {
+        useJUnitPlatform()
         onlyIf {
             !java.lang.Boolean.getBoolean("skip.tests")
         }
@@ -82,7 +84,7 @@ project(":jip") {
 
     dependencies {
         "implementation"(catalog.asm)
-        "testImplementation"(catalog.junit)
+        "testImplementation"(catalog.junit.jupiter)
     }
 }
 
@@ -95,7 +97,7 @@ project(":simple-profiler") {
 
     dependencies {
         "implementation"(catalog.asm)
-        "testImplementation"(catalog.junit)
+        "testImplementation"(catalog.junit.jupiter)
     }
 }
 
@@ -107,6 +109,6 @@ project(":verbose-class") {
     }
 
     dependencies {
-        "testImplementation"(catalog.junit)
+        "testImplementation"(catalog.junit.jupiter)
     }
 }

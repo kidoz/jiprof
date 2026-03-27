@@ -1,7 +1,7 @@
 [versions]
 project = "1.2.1"
-asm = "9.6"
-junit = "4.13.2"
+asm = "9.8"
+junit = "5.12.2"
 spotless = "6.25.0"
 errorprone-plugin = "4.0.0"
 errorprone-core = "2.36.0"
@@ -9,7 +9,8 @@ coveralls = "2.8.1"
 
 [libraries]
 asm = { module = "org.ow2.asm:asm", version.ref = "asm" }
-junit = { module = "junit:junit", version.ref = "junit" }
+junit-jupiter = { module = "org.junit.jupiter:junit-jupiter", version.ref = "junit" }
+junit-platform-launcher = { module = "org.junit.platform:junit-platform-launcher" }
 errorprone-core = { module = "com.google.errorprone:error_prone_core", version.ref = "errorprone-core" }
 coveralls-plugin = { module = "org.kt3k.gradle.plugin:coveralls-gradle-plugin", version.ref = "coveralls" }
 

@@ -3,9 +3,9 @@ package su.kidoz.jip.instrumentation;
 import com.mentorgen.tools.profile.Controller;
 import com.mentorgen.tools.profile.instrument.clfilter.ClassLoaderFilter;
 import com.mentorgen.tools.profile.instrument.Transformer;
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -13,9 +13,10 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.Arrays;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertThrows;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertInstanceOf;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class TransformerInstrumentationTest {
 	private static final String FIXTURE_BINARY_NAME = "su.kidoz.jip.testfixtures.TransformFixture";
@@ -35,16 +36,16 @@ public class TransformerInstrumentationTest {
 
 	private ControllerState controllerState;
 
-	@Before
-	public void setUp() {
+	@BeforeEach
+	void setUp() {
 		controllerState = ControllerState.capture();
 		System.clearProperty("jiprof.transform.fixture.initialized");
 		TestProfiler.reset();
 		configureController(false);
 	}
 
-	@After
-	public void tearDown() {
+	@AfterEach
+	void tearDown() {
 		TestProfiler.reset();
 		System.clearProperty("jiprof.transform.fixture.initialized");
 		controllerState.restore();
@@ -100,7 +101,7 @@ public class TransformerInstrumentationTest {
 		InvocationTargetException exception = assertThrows(InvocationTargetException.class,
 				() -> throwsException.invoke(fixture));
 
-		assertTrue(exception.getCause() instanceof IllegalArgumentException);
+		assertInstanceOf(IllegalArgumentException.class, exception.getCause());
 		assertEquals(Arrays.asList("start:" + FIXTURE_INTERNAL_NAME + "#throwsException",
 				"end:" + FIXTURE_INTERNAL_NAME + "#throwsException"), TestProfiler.events());
 	}
@@ -162,7 +163,7 @@ public class TransformerInstrumentationTest {
 		InvocationTargetException exception = assertThrows(InvocationTargetException.class,
 				() -> fixtureClass.getConstructor(boolean.class).newInstance(true));
 
-		assertTrue(exception.getCause() instanceof IllegalArgumentException);
+		assertInstanceOf(IllegalArgumentException.class, exception.getCause());
 		assertEquals(Arrays.asList("alloc:" + FIXTURE_INTERNAL_NAME, "start:" + FIXTURE_INTERNAL_NAME + "#<init>",
 				"end:" + FIXTURE_INTERNAL_NAME + "#<init>"), TestProfiler.events());
 	}
