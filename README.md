@@ -1,12 +1,3 @@
-[![Build Status][travis-image]][travis-url] [![Coverage Status][coveralls-image]][coveralls-url]
-
-[travis-image]: https://travis-ci.org/kidoz/jiprof.svg?branch=master
-[travis-url]: https://travis-ci.org/kidoz/jiprof
-
-[coveralls-image]: https://coveralls.io/repos/github/kidoz/jiprof/badge.svg?branch=master
-[coveralls-url]: https://coveralls.io/github/kidoz/jiprof?branch=master
-
------------------------------------------------------------------------------
 JIP is a code profiling tool much like the hprof tool that ships with the JDK. There are, however, a few differences:
 
 * **Interactivity.** hprof is not an interactive profiler. It starts when your program starts and ends when the JVM exits. In many cases this doesn't give you a true measure of performance since the Just In Time compiler doesn't compile code on the first pass. In addition, this type of profiler is not useable at all in web applications since you end up profiling the web container as well as the web application. JIP, on the other hand, allows you to turn the profiler on and off while the JVM is running.
