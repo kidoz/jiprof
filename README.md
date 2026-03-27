@@ -27,7 +27,10 @@ Modern output modes:
 
 * `output=json` writes a versioned snapshot next to the requested output file.
 * `output=modern` writes both the JSON snapshot and a self-contained HTML report.
-* `output=all` writes the legacy text/XML outputs plus the new JSON/HTML artifacts.
+* `jfr=on` enables a companion Java Flight Recorder capture for the active profiling window.
+* `jfr.sample.period.ms=20` controls the JFR execution/native sampling period in milliseconds.
+
+The built-in sampled profiling companion is JFR. `async-profiler` is not bundled into this repository.
 
 The built agent jar now also exposes `Agent-Class` and `Can-Retransform-Classes`, so it can be attached to a live JVM with the standard Java Attach API and then retransform already loaded eligible classes.
 

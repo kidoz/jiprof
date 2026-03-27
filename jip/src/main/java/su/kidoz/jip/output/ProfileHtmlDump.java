@@ -8,30 +8,31 @@ import java.io.PrintWriter;
 import java.nio.charset.StandardCharsets;
 
 public final class ProfileHtmlDump {
-    private static final String JSON_PLACEHOLDER = "__PROFILE_JSON__";
+	private static final String JSON_PLACEHOLDER = "__PROFILE_JSON__";
 
-    public static void dump(ProfileOutputFiles files) throws IOException {
-        String template = loadTemplate();
-        String json = ProfileJsonDump.buildSnapshot(files);
-        String html = template.replace(JSON_PLACEHOLDER, escapeForInlineScript(json));
+	public static void dump(ProfileOutputFiles files) throws IOException {
+		String template = loadTemplate();
+		String json = ProfileJsonDump.buildSnapshot(files);
+		String html = template.replace(JSON_PLACEHOLDER, escapeForInlineScript(json));
 
-        FileWriter out = new FileWriter(files.htmlFileName());
-        BufferedWriter bufferedWriter = new BufferedWriter(out);
-        PrintWriter writer = new PrintWriter(bufferedWriter);
-        writer.print(html);
-        writer.flush();
-        out.close();
-    }
+		FileWriter out = new FileWriter(files.htmlFileName());
+		BufferedWriter bufferedWriter = new BufferedWriter(out);
+		PrintWriter writer = new PrintWriter(bufferedWriter);
+		writer.print(html);
+		writer.flush();
+		out.close();
+	}
 
-    private static String loadTemplate() throws IOException {
-        InputStream inputStream = ProfileHtmlDump.class.getResourceAsStream("/su/kidoz/jip/output/profile-modern-viewer.html");
-        if (inputStream == null) {
-            throw new IOException("Missing embedded modern viewer template.");
-        }
-        return new String(inputStream.readAllBytes(), StandardCharsets.UTF_8);
-    }
+	private static String loadTemplate() throws IOException {
+		InputStream inputStream = ProfileHtmlDump.class
+				.getResourceAsStream("/su/kidoz/jip/output/profile-modern-viewer.html");
+		if (inputStream == null) {
+			throw new IOException("Missing embedded modern viewer template.");
+		}
+		return new String(inputStream.readAllBytes(), StandardCharsets.UTF_8);
+	}
 
-    private static String escapeForInlineScript(String json) {
-        return json.replace("</script>", "<\\/script>");
-    }
+	private static String escapeForInlineScript(String json) {
+		return json.replace("</script>", "<\\/script>");
+	}
 }
