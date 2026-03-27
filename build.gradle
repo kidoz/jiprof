@@ -2,12 +2,12 @@ buildscript {
     ext {
         projectVersion = '1.2.1'
 
-        gradleWrapperVersion = '3.4.1'
+        gradleWrapperVersion = '9.1.0'
 
         coverallsGradlePluginVersion = '2.8.1'
 
-        asmVersion = '5.2'
-        junitVersion = '4.12'
+        asmVersion = '9.6'
+        junitVersion = '4.13.2'
     }
 
     repositories {
@@ -22,12 +22,6 @@ description = 'JIP is a code profiling tool much like the hprof tool that ships 
 
 subprojects {
     apply plugin: 'java'
-    apply plugin: 'pmd'
-    apply plugin: 'jacoco'
-    apply plugin: 'com.github.kt3k.coveralls'
-
-    sourceCompatibility = JavaVersion.VERSION_1_8
-    targetCompatibility = JavaVersion.VERSION_1_8
 
     version = projectVersion
 
@@ -35,69 +29,27 @@ subprojects {
         mavenCentral()
     }
 
-    task wrapper(type: Wrapper) {
-        gradleVersion = gradleWrapperVersion
-    }
-
     test.onlyIf {
         !Boolean.getBoolean('skip.tests')
     }
 
-    pmd {
-        ignoreFailures = true
-        ruleSets = [
-                'java-basic',
-                'java-braces',
-                'java-clone',
-                'java-codesize',
-                'java-comments',
-                'java-controversial',
-                'java-design',
-                'java-empty',
-                'java-finalizers',
-                'java-imports',
-                'java-j2ee',
-                'java-javabeans',
-                'java-junit',
-                'java-logging-jakarta-commons',
-                'java-logging-java',
-                'java-migrating',
-                'java-naming',
-                'java-optimizations',
-                'java-strictexception',
-                'java-strings',
-                'java-sunsecure',
-                'java-typeresolution',
-                'java-unnecessary',
-                'java-unusedcode'
-        ]
-    }
-
-    tasks.withType(Pmd) {
-        reports {
-            xml.enabled = false
-            html.enabled = true
-        }
-    }
-
-    tasks.coveralls {
-        dependsOn 'check'
-    }
-
-    jacocoTestReport {
-        reports {
-            xml.enabled = true
-            html.enabled = false
-        }
+    tasks.withType(JavaCompile).configureEach {
+        options.release = 17
     }
 }
 
-project(':jip') {
-    jar.baseName = 'profile'
+wrapper {
+    gradleVersion = gradleWrapperVersion
+}
 
+project(':jip') {
     jar {
+        archiveBaseName = 'profile'
+
         manifest {
-            attributes 'Premain-Class': 'com.mentorgen.tools.profile.Main'
+            attributes 'Premain-Class': 'com.mentorgen.tools.profile.Main',
+                    'Agent-Class': 'com.mentorgen.tools.profile.Main',
+                    'Can-Retransform-Classes': 'true'
         }
 
         from {
@@ -108,9 +60,9 @@ project(':jip') {
     }
 
     dependencies {
-        implementation group: 'org.ow2.asm', name: 'asm', version: asmVersion
+        implementation "org.ow2.asm:asm:${asmVersion}"
 
-        testImplementation group: 'junit', name: 'junit', version: junitVersion
+        testImplementation "junit:junit:${junitVersion}"
     }
 }
 
@@ -160,7 +112,8 @@ project(':simple-profiler') {
     }
 
     dependencies {
-        implementation group: 'org.ow2.asm', name: 'asm', version: asmVersion
+        implementation "org.ow2.asm:asm:${asmVersion}"
+        testImplementation "junit:junit:${junitVersion}"
     }
 }
 
@@ -169,5 +122,9 @@ project(':verbose-class') {
         manifest {
             attributes 'Premain-Class': 'sample.verboseclass.Main'
         }
+    }
+
+    dependencies {
+        testImplementation "junit:junit:${junitVersion}"
     }
 }
