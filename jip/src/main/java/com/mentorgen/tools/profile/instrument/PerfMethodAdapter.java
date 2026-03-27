@@ -59,7 +59,7 @@ public class PerfMethodAdapter extends MethodVisitor {
 	public PerfMethodAdapter(MethodVisitor visitor, 
 			String className,
 			String methodName) { 
-		super(Opcodes.ASM5, visitor);
+		super(Opcodes.ASM9, visitor);
 		_className = className;
 		_methodName = methodName;
 
@@ -81,6 +81,7 @@ public class PerfMethodAdapter extends MethodVisitor {
 		}
 	}
 
+	@Override
 	public void visitCode() {
 		if (_clinit) {
 			super.visitCode();
@@ -92,22 +93,17 @@ public class PerfMethodAdapter extends MethodVisitor {
 		//
 		if (Controller._trackObjectAlloc && _init) {
 			this.visitLdcInsn(_className);
-			this.visitMethodInsn(INVOKESTATIC, 
-					Controller._profiler, 
-					"alloc", 
-					"(Ljava/lang/String;)V");			
+			visitProfilerMethod("alloc", "(Ljava/lang/String;)V");
 		}
 		
 		this.visitLdcInsn(_className);
 		this.visitLdcInsn(_methodName);
-		this.visitMethodInsn(INVOKESTATIC, 
-				Controller._profiler, 
-				"start", 
-				"(Ljava/lang/String;Ljava/lang/String;)V");
+		visitProfilerMethod("start", "(Ljava/lang/String;Ljava/lang/String;)V");
 		
 		super.visitCode();
 	}
 
+	@Override
 	public void visitInsn(int inst) {
 		if (_clinit) {
 			super.visitInsn(inst);
@@ -125,11 +121,7 @@ public class PerfMethodAdapter extends MethodVisitor {
 			
 			this.visitLdcInsn(_className);
 			this.visitLdcInsn(_methodName);
-						
-			this.visitMethodInsn(INVOKESTATIC, 
-					Controller._profiler, 
-					"end", 
-					"(Ljava/lang/String;Ljava/lang/String;)V");
+			visitProfilerMethod("end", "(Ljava/lang/String;Ljava/lang/String;)V");
 			break;
 
 		default:
@@ -139,49 +131,33 @@ public class PerfMethodAdapter extends MethodVisitor {
 		if (Opcodes.MONITORENTER == inst) {
 			this.visitLdcInsn(_className);
 			this.visitLdcInsn(_methodName);
-						
-			this.visitMethodInsn(INVOKESTATIC, 
-					Controller._profiler, 
-					"beginWait", 
-					"(Ljava/lang/String;Ljava/lang/String;)V");
+			visitProfilerMethod("beginWait", "(Ljava/lang/String;Ljava/lang/String;)V");
 			
 			super.visitInsn(inst);
 
 			this.visitLdcInsn(_className);
 			this.visitLdcInsn(_methodName);
-						
-			this.visitMethodInsn(INVOKESTATIC, 
-					Controller._profiler, 
-					"endWait", 
-					"(Ljava/lang/String;Ljava/lang/String;)V");			
+			visitProfilerMethod("endWait", "(Ljava/lang/String;Ljava/lang/String;)V");
 		} else {
 			super.visitInsn(inst);
 		}
 	}
 
 	@Override
-	public void visitMethodInsn(int opcode, String owner, String name, String desc) {
+	public void visitMethodInsn(int opcode, String owner, String name, String desc, boolean isInterface) {
 		if (isWaitInsn(opcode, owner, name, desc)) {
 
 			this.visitLdcInsn(_className);
 			this.visitLdcInsn(_methodName);
-						
-			this.visitMethodInsn(INVOKESTATIC, 
-					Controller._profiler, 
-					"beginWait", 
-					"(Ljava/lang/String;Ljava/lang/String;)V");
+			visitProfilerMethod("beginWait", "(Ljava/lang/String;Ljava/lang/String;)V");
 			
-			super.visitMethodInsn(opcode, owner, name, desc);
+			super.visitMethodInsn(opcode, owner, name, desc, isInterface);
 
 			this.visitLdcInsn(_className);
 			this.visitLdcInsn(_methodName);
-						
-			this.visitMethodInsn(INVOKESTATIC, 
-					Controller._profiler, 
-					"endWait", 
-					"(Ljava/lang/String;Ljava/lang/String;)V");
+			visitProfilerMethod("endWait", "(Ljava/lang/String;Ljava/lang/String;)V");
 		} else {
-			super.visitMethodInsn(opcode, owner, name, desc);
+			super.visitMethodInsn(opcode, owner, name, desc, isInterface);
 		}
 	}
 	
@@ -210,10 +186,7 @@ public class PerfMethodAdapter extends MethodVisitor {
 			this.visitLdcInsn(_methodName);
 			this.visitLdcInsn(((ExceptionInfo)label.info).type);
 
-			this.visitMethodInsn(INVOKESTATIC, 
-					Controller._profiler, 
-					"unwind", 
-					"(Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;)V");
+			visitProfilerMethod("unwind", "(Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;)V");
 		}
 	}
 
@@ -255,8 +228,15 @@ public class PerfMethodAdapter extends MethodVisitor {
 		
 		return isWait;
 	}
+
+	private void visitProfilerMethod(String methodName, String descriptor) {
+		super.visitMethodInsn(INVOKESTATIC,
+				Controller._profiler,
+				methodName,
+				descriptor,
+				false);
+	}
 	
 	
 	
 }
-

@@ -9,7 +9,7 @@ public class PerfClassAdapter extends ClassVisitor {
     private String className;
 
     public PerfClassAdapter(ClassVisitor visitor, String theClass) {
-        super(Opcodes.ASM5, visitor);
+        super(Opcodes.ASM9, visitor);
         this.className = theClass;
     }
 

@@ -1,0 +1,451 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>JIP Modern Profile Viewer</title>
+  <style>
+    :root {
+      --bg: #f4efe6;
+      --surface: rgba(255, 252, 247, 0.92);
+      --surface-strong: #fffdf9;
+      --ink: #1f1a14;
+      --muted: #6d6255;
+      --accent: #0d7c66;
+      --accent-soft: #d7efe8;
+      --line: rgba(61, 48, 35, 0.12);
+      --shadow: 0 18px 50px rgba(54, 36, 20, 0.12);
+      --warning: #a84e1d;
+      --mono: "SFMono-Regular", "JetBrains Mono", "Menlo", monospace;
+      --sans: "Avenir Next", "Segoe UI", "Helvetica Neue", sans-serif;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: var(--sans);
+      color: var(--ink);
+      background:
+        radial-gradient(circle at top left, rgba(13, 124, 102, 0.12), transparent 28rem),
+        radial-gradient(circle at top right, rgba(168, 78, 29, 0.10), transparent 24rem),
+        linear-gradient(180deg, #fbf7f0 0%, var(--bg) 100%);
+    }
+
+    .page {
+      max-width: 1280px;
+      margin: 0 auto;
+      padding: 2rem 1rem 4rem;
+    }
+
+    .hero {
+      display: grid;
+      gap: 1rem;
+      padding: 1.5rem;
+      background: linear-gradient(135deg, rgba(255, 253, 249, 0.98), rgba(246, 239, 230, 0.92));
+      border: 1px solid var(--line);
+      border-radius: 1.5rem;
+      box-shadow: var(--shadow);
+    }
+
+    .eyebrow {
+      font-size: 0.78rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin: 0;
+    }
+
+    h1 {
+      margin: 0;
+      font-size: clamp(2rem, 4vw, 3.5rem);
+      line-height: 0.95;
+      letter-spacing: -0.04em;
+    }
+
+    .subtitle {
+      margin: 0;
+      color: var(--muted);
+      max-width: 52rem;
+      font-size: 1rem;
+    }
+
+    .toolbar {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(16rem, 1fr));
+      gap: 0.75rem;
+      margin-top: 1.5rem;
+    }
+
+    .card-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(13rem, 1fr));
+      gap: 0.9rem;
+      margin: 1.5rem 0;
+    }
+
+    .card,
+    .panel {
+      background: var(--surface);
+      border: 1px solid var(--line);
+      border-radius: 1.25rem;
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(8px);
+    }
+
+    .card {
+      padding: 1rem;
+    }
+
+    .card .label {
+      color: var(--muted);
+      font-size: 0.78rem;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      margin-bottom: 0.35rem;
+    }
+
+    .card .value {
+      font-size: 1.75rem;
+      font-weight: 700;
+      line-height: 1.05;
+    }
+
+    .panel {
+      padding: 1rem;
+      margin-top: 1rem;
+    }
+
+    .panel h2 {
+      margin: 0 0 0.8rem;
+      font-size: 1rem;
+      text-transform: uppercase;
+      letter-spacing: 0.14em;
+    }
+
+    input[type="search"] {
+      width: 100%;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      padding: 0.8rem 1rem;
+      font: inherit;
+      background: var(--surface-strong);
+      color: var(--ink);
+    }
+
+    .layout {
+      display: grid;
+      grid-template-columns: 1.2fr 0.8fr;
+      gap: 1rem;
+      align-items: start;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.94rem;
+    }
+
+    th,
+    td {
+      text-align: left;
+      padding: 0.7rem 0.5rem;
+      border-bottom: 1px solid var(--line);
+      vertical-align: top;
+    }
+
+    th {
+      color: var(--muted);
+      font-size: 0.78rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    td.numeric {
+      font-family: var(--mono);
+      white-space: nowrap;
+    }
+
+    .method-name {
+      font-family: var(--mono);
+      font-size: 0.84rem;
+      word-break: break-word;
+    }
+
+    .bar {
+      position: relative;
+      height: 0.55rem;
+      border-radius: 999px;
+      background: rgba(13, 124, 102, 0.10);
+      overflow: hidden;
+      margin-top: 0.35rem;
+    }
+
+    .bar > span {
+      position: absolute;
+      inset: 0 auto 0 0;
+      background: linear-gradient(90deg, var(--accent), #17a589);
+      border-radius: inherit;
+    }
+
+    .tree-stack {
+      display: grid;
+      gap: 0.8rem;
+    }
+
+    details {
+      background: var(--surface-strong);
+      border: 1px solid var(--line);
+      border-radius: 1rem;
+      padding: 0.7rem 0.85rem;
+    }
+
+    summary {
+      cursor: pointer;
+      font-weight: 600;
+      list-style: none;
+    }
+
+    summary::-webkit-details-marker {
+      display: none;
+    }
+
+    .tree-node {
+      margin: 0.5rem 0 0.5rem 0.8rem;
+      padding-left: 0.9rem;
+      border-left: 1px solid rgba(13, 124, 102, 0.18);
+    }
+
+    .tree-node .meta {
+      color: var(--muted);
+      font-size: 0.85rem;
+    }
+
+    .artifact-list {
+      display: grid;
+      gap: 0.45rem;
+      font-family: var(--mono);
+      font-size: 0.78rem;
+      word-break: break-all;
+    }
+
+    .muted {
+      color: var(--muted);
+    }
+
+    .warning {
+      color: var(--warning);
+    }
+
+    @media (max-width: 960px) {
+      .layout {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="page">
+    <section class="hero">
+      <p class="eyebrow">JIP Modern Viewer</p>
+      <h1>Profiling snapshot with a modern local report</h1>
+      <p class="subtitle">
+        This report is self-contained. It embeds the versioned JSON snapshot and renders the hottest methods,
+        aggregated method totals, allocation counts, and per-thread interaction trees without requiring a server.
+      </p>
+      <div class="toolbar">
+        <input id="method-search" type="search" placeholder="Filter methods, classes, or signatures">
+        <input id="thread-search" type="search" placeholder="Filter thread trees">
+      </div>
+    </section>
+
+    <section id="summary-cards" class="card-grid"></section>
+
+    <section class="layout">
+      <div>
+        <section class="panel">
+          <h2>Top Methods</h2>
+          <table>
+            <thead>
+              <tr>
+                <th>Method</th>
+                <th>Net</th>
+                <th>Total</th>
+                <th>Calls</th>
+              </tr>
+            </thead>
+            <tbody id="top-methods-body"></tbody>
+          </table>
+        </section>
+
+        <section class="panel">
+          <h2>Method Summary</h2>
+          <table>
+            <thead>
+              <tr>
+                <th>Method</th>
+                <th>Net</th>
+                <th>Total</th>
+                <th>Calls</th>
+              </tr>
+            </thead>
+            <tbody id="method-summary-body"></tbody>
+          </table>
+        </section>
+      </div>
+
+      <div>
+        <section class="panel">
+          <h2>Allocations</h2>
+          <table>
+            <thead>
+              <tr>
+                <th>Class</th>
+                <th>Count</th>
+              </tr>
+            </thead>
+            <tbody id="allocations-body"></tbody>
+          </table>
+        </section>
+
+        <section class="panel">
+          <h2>Artifacts</h2>
+          <div id="artifact-list" class="artifact-list"></div>
+        </section>
+      </div>
+    </section>
+
+    <section class="panel">
+      <h2>Thread Call Trees</h2>
+      <div id="thread-tree" class="tree-stack"></div>
+    </section>
+  </div>
+
+  <script id="profile-data" type="application/json">__PROFILE_JSON__</script>
+  <script>
+    const snapshot = JSON.parse(document.getElementById("profile-data").textContent);
+    const totalObserved = Math.max(snapshot.summary.totalObservedTimeNanos, 1);
+
+    const formatMs = (nanos) => `${(nanos / 1_000_000).toFixed(3)} ms`;
+    const formatInt = (value) => new Intl.NumberFormat().format(value);
+    const escapeHtml = (value) => value
+      .replaceAll("&", "&amp;")
+      .replaceAll("<", "&lt;")
+      .replaceAll(">", "&gt;")
+      .replaceAll('"', "&quot;");
+
+    function renderSummary() {
+      const hottest = snapshot.methodSummary[0];
+      const cards = [
+        ["Schema", snapshot.schemaVersion],
+        ["Generated", snapshot.generatedAt],
+        ["Threads", formatInt(snapshot.summary.threadCount)],
+        ["Frames", formatInt(snapshot.summary.frameCount)],
+        ["Observed", formatMs(snapshot.summary.totalObservedTimeNanos)],
+        ["Hottest Method", hottest ? hottest.name : "n/a"]
+      ];
+
+      document.getElementById("summary-cards").innerHTML = cards.map(([label, value]) => `
+        <article class="card">
+          <div class="label">${escapeHtml(label)}</div>
+          <div class="value">${escapeHtml(String(value))}</div>
+        </article>
+      `).join("");
+    }
+
+    function renderMethods(targetId, methods, query) {
+      const filtered = methods.filter((method) => {
+        if (!query) {
+          return true;
+        }
+        const haystack = `${method.name} ${method.className} ${method.methodName}`.toLowerCase();
+        return haystack.includes(query);
+      });
+
+      const tbody = document.getElementById(targetId);
+      tbody.innerHTML = filtered.map((method) => {
+        const width = Math.max(2, (method.netTimeNanos / totalObserved) * 100);
+        return `
+          <tr>
+            <td>
+              <div class="method-name">${escapeHtml(method.name)}</div>
+              <div class="bar"><span style="width: ${width}%"></span></div>
+            </td>
+            <td class="numeric">${escapeHtml(formatMs(method.netTimeNanos))}</td>
+            <td class="numeric">${escapeHtml(formatMs(method.totalTimeNanos))}</td>
+            <td class="numeric">${escapeHtml(formatInt(method.count))}</td>
+          </tr>
+        `;
+      }).join("");
+    }
+
+    function renderAllocations() {
+      const tbody = document.getElementById("allocations-body");
+      tbody.innerHTML = snapshot.allocations.map((allocation) => `
+        <tr>
+          <td class="method-name">${escapeHtml(allocation.className)}</td>
+          <td class="numeric">${escapeHtml(formatInt(allocation.count))}</td>
+        </tr>
+      `).join("");
+    }
+
+    function renderArtifacts() {
+      const artifactList = document.getElementById("artifact-list");
+      artifactList.innerHTML = Object.entries(snapshot.artifacts).map(([name, path]) => `
+        <div><strong>${escapeHtml(name)}</strong><br>${escapeHtml(path)}</div>
+      `).join("");
+    }
+
+    function frameNode(frame) {
+      return `
+        <div class="tree-node">
+          <div class="method-name">${escapeHtml(frame.name)}</div>
+          <div class="meta">
+            Net ${escapeHtml(formatMs(frame.netTimeNanos))} · Total ${escapeHtml(formatMs(frame.totalTimeNanos))} · Calls ${escapeHtml(formatInt(frame.count))}
+          </div>
+          ${frame.children.map(frameNode).join("")}
+        </div>
+      `;
+    }
+
+    function renderThreads(query) {
+      const target = document.getElementById("thread-tree");
+      target.innerHTML = snapshot.threads
+        .filter((thread) => !query || String(thread.threadId).includes(query) || JSON.stringify(thread).toLowerCase().includes(query))
+        .map((thread) => `
+          <details open>
+            <summary>Thread ${escapeHtml(String(thread.threadId))} · ${escapeHtml(formatMs(thread.totalTimeNanos))}</summary>
+            ${thread.interactions.map((interaction, index) => `
+              <details ${index === 0 ? "open" : ""}>
+                <summary>Interaction ${index + 1}</summary>
+                ${frameNode(interaction)}
+              </details>
+            `).join("")}
+          </details>
+        `).join("");
+    }
+
+    const methodSearch = document.getElementById("method-search");
+    const threadSearch = document.getElementById("thread-search");
+
+    methodSearch.addEventListener("input", () => {
+      const query = methodSearch.value.trim().toLowerCase();
+      renderMethods("top-methods-body", snapshot.topMethods, query);
+      renderMethods("method-summary-body", snapshot.methodSummary, query);
+    });
+
+    threadSearch.addEventListener("input", () => {
+      renderThreads(threadSearch.value.trim().toLowerCase());
+    });
+
+    renderSummary();
+    renderMethods("top-methods-body", snapshot.topMethods, "");
+    renderMethods("method-summary-body", snapshot.methodSummary, "");
+    renderAllocations();
+    renderArtifacts();
+    renderThreads("");
+  </script>
+</body>
+</html>

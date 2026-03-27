@@ -44,6 +44,7 @@ import com.mentorgen.tools.profile.Controller;
 import com.mentorgen.tools.profile.runtime.ClassAllocation;
 import com.mentorgen.tools.profile.runtime.Frame;
 import com.mentorgen.tools.profile.runtime.Profile;
+import su.kidoz.jip.output.ProfileOutputFiles;
 
 /**
  * This class outputs the profile in a human-readable text format.
@@ -55,6 +56,10 @@ final class ProfileTextDump {
 	static HashMap<String, Holder> _clumpedFrameMap;
 	
 	static void dump() throws IOException {
+		dump(ProfileOutputFiles.create());
+	}
+
+	static void dump(ProfileOutputFiles files) throws IOException {
 		
 		// init
 		//
@@ -63,25 +68,7 @@ final class ProfileTextDump {
 		//
 		// output
 		//
-		String fileName = null;
-		File f = new File(Controller._fileName);
-		Date now = new Date();
-		
-		if (f.isDirectory()) {
-			StringBuffer b = new StringBuffer(f.getAbsolutePath());
-			b.append(File.separator);
-			b.append(new SimpleDateFormat("yyyyMMdd-HHmmss").format(now));
-			b.append(".txt");
-			fileName = b.toString();
-		} else {
-			if (Controller._fileName.endsWith(".txt")) {
-				fileName = Controller._fileName;
-			} else {
-				StringBuffer b = new StringBuffer(Controller._fileName);
-				b.append(".txt");
-				fileName = b.toString();
-			}
-		}
+		String fileName = files.textFileName();
 		
 		FileWriter out = new FileWriter(fileName);
 		BufferedWriter bufferedWriter = new BufferedWriter(out);
@@ -91,7 +78,7 @@ final class ProfileTextDump {
 		writer.print("|  File: ");
 		writer.println(fileName);
 		writer.print("|  Date: ");
-		writer.println(new SimpleDateFormat("yyyy.MM.dd HH:mm:ss a").format(now));
+		writer.println(files.legacyDisplayTimestamp());
 		writer.println("+----------------------------------------------------------------------");
 		writer.println();
 

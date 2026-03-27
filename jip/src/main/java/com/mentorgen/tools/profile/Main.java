@@ -28,14 +28,8 @@ modification, are permitted provided that the following conditions are met:
  */
 package com.mentorgen.tools.profile;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
 import java.lang.instrument.Instrumentation;
-import java.util.Properties;
-
-import com.mentorgen.tools.profile.instrument.Transformer;
-
+import su.kidoz.jip.agent.AgentSupport;
 
 public class Main {
 	
@@ -49,31 +43,10 @@ public class Main {
 	 * @param inst
 	 */
 	public static void premain(String args, Instrumentation inst) {
-		Properties props = null;
-		
-		if (args != null && args.length() != 0 && !args.equals("null")) {
-			System.err.println("The -javaagent:foo=bar syntax is no " +
-					"longer supported.");
-			System.err.println("Use the VM property profile.properties " +
-					"instead.");
-			System.err.println("Continuing using the defaults.");
-		}
-		
-		if (args == null || args.length() == 0 || args.equals("null")) {
-			props = new Properties();
-		} else if (! new File(args).exists()) {
-			props = new Properties();
-		} else {
-			props = new Properties();
-			try {
-				props.load(new FileInputStream(args));
-			} catch (IOException e) {
-				e.printStackTrace();
-				// leave the props file empty
-			}
-		}
-		
-		inst.addTransformer(new Transformer());
+		AgentSupport.installAtStartup(args, inst);
 	}
 
+	public static void agentmain(String args, Instrumentation inst) {
+		AgentSupport.installIntoRunningJvm(args, inst);
+	}
 }

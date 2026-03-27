@@ -19,6 +19,20 @@ JIP is a code profiling tool much like the hprof tool that ships with the JDK. T
 Setup / Usage
 -------------
 
-Build profiler: gradle jip:clean jip:jar
+Build profiler: ./gradlew :jip:clean :jip:jar
 
 Usage: java -javaagent:lib/profile.jar -Dprofile.properties=properties-file-name
+
+Modern output modes:
+
+* `output=json` writes a versioned snapshot next to the requested output file.
+* `output=modern` writes both the JSON snapshot and a self-contained HTML report.
+* `output=all` writes the legacy text/XML outputs plus the new JSON/HTML artifacts.
+
+The built agent jar now also exposes `Agent-Class` and `Can-Retransform-Classes`, so it can be attached to a live JVM with the standard Java Attach API and then retransform already loaded eligible classes.
+
+Attach hardening:
+
+* `attach.retransform=eligible` keeps the default attach behavior.
+* `attach.retransform=include-only` only retransforms already loaded classes that also match `include=...`.
+* `attach.retransform=off` installs the agent without retransformation.

@@ -18,7 +18,7 @@ public class PerfMethodAdapter extends MethodVisitor {
             String methodName,
             boolean isStatic
     ) {
-        super(Opcodes.ASM5, visitor);
+        super(Opcodes.ASM9, visitor);
         this.className = className;
         this.methodName = methodName;
         this.isStatic = isStatic;
@@ -91,4 +91,3 @@ public class PerfMethodAdapter extends MethodVisitor {
         super.visitInsn(inst);
     }
 }
-

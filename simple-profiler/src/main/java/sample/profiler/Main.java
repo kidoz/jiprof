@@ -19,6 +19,7 @@ public class Main {
 
 class Transformer implements ClassFileTransformer {
 
+    @Override
     public byte[] transform(
             ClassLoader loader,
             String className,
@@ -26,6 +27,31 @@ class Transformer implements ClassFileTransformer {
             ProtectionDomain protectionDomain,
             byte[] classfileBuffer
     ) throws IllegalClassFormatException {
+        return transformClass(loader, className, classBeingRedefined, protectionDomain, classfileBuffer);
+    }
+
+    @Override
+    public byte[] transform(
+            Module module,
+            ClassLoader loader,
+            String className,
+            Class<?> classBeingRedefined,
+            ProtectionDomain protectionDomain,
+            byte[] classfileBuffer
+    ) throws IllegalClassFormatException {
+        return transformClass(loader, className, classBeingRedefined, protectionDomain, classfileBuffer);
+    }
+
+    private byte[] transformClass(
+            ClassLoader loader,
+            String className,
+            Class<?> classBeingRedefined,
+            ProtectionDomain protectionDomain,
+            byte[] classfileBuffer
+    ) {
+        if (className == null || classfileBuffer == null) {
+            return classfileBuffer;
+        }
 
         // can only profile classes that will be able to see
 		// the Profile class which is loaded by the application
@@ -42,7 +68,7 @@ class Transformer implements ClassFileTransformer {
 		}
 
         final ClassReader reader = new ClassReader(classfileBuffer);
-        final ClassWriter writer = new ClassWriter(ClassWriter.COMPUTE_FRAMES);
+        final ClassWriter writer = new ClassWriter(reader, ClassWriter.COMPUTE_FRAMES);
         final ClassVisitor adapter = new PerfClassAdapter(writer, className);
         reader.accept(adapter, ClassReader.EXPAND_FRAMES);
 

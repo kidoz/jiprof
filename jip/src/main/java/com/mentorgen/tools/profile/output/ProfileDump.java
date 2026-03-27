@@ -32,6 +32,9 @@ import java.io.IOException;
 
 import com.mentorgen.tools.profile.Controller;
 import com.mentorgen.tools.profile.runtime.Profile;
+import su.kidoz.jip.output.ProfileHtmlDump;
+import su.kidoz.jip.output.ProfileJsonDump;
+import su.kidoz.jip.output.ProfileOutputFiles;
 
 /**
  * Will output the profile to a text file, an XML file or both
@@ -47,21 +50,34 @@ public final class ProfileDump {
 	public static void dump() throws IOException {
 		
 		synchronized (Profile.class) {
+			ProfileOutputFiles files = ProfileOutputFiles.create();
 			
 			switch (Controller._outputType) {
 				case Text: 
-					ProfileTextDump.dump();
+					ProfileTextDump.dump(files);
 					break;
 				case XML : 
-					ProfileXMLDump.dump();
+					ProfileXMLDump.dump(files);
+					break;
+				case JSON:
+					ProfileJsonDump.dump(files);
+					break;
+				case Modern:
+					ProfileJsonDump.dump(files);
+					ProfileHtmlDump.dump(files);
+					break;
+				case All:
+					ProfileTextDump.dump(files);
+					ProfileXMLDump.dump(files);
+					ProfileJsonDump.dump(files);
+					ProfileHtmlDump.dump(files);
 					break;
 				default: 
-					ProfileTextDump.dump();
-					ProfileXMLDump.dump();
+					ProfileTextDump.dump(files);
+					ProfileXMLDump.dump(files);
 					break;
 			}
 		}
 	}
 	
 }
-

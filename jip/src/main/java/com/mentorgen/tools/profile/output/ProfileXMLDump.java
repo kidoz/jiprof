@@ -41,6 +41,7 @@ import com.mentorgen.tools.profile.Controller;
 import com.mentorgen.tools.profile.runtime.ClassAllocation;
 import com.mentorgen.tools.profile.runtime.Frame;
 import com.mentorgen.tools.profile.runtime.Profile;
+import su.kidoz.jip.output.ProfileOutputFiles;
 
 /**
  * This class outputs the profile as an XML document. We're creating the
@@ -77,7 +78,12 @@ final class ProfileXMLDump {
 	private static String _date;
 
 	static void dump() throws IOException {
-		createFileName();
+		dump(ProfileOutputFiles.create());
+	}
+
+	static void dump(ProfileOutputFiles files) throws IOException {
+		_fileName = files.xmlFileName();
+		_date = files.snapshotTimestamp();
 		
 		FileWriter out = new FileWriter(_fileName);
 		BufferedWriter bufferedWriter = new BufferedWriter(out);
@@ -91,37 +97,6 @@ final class ProfileXMLDump {
 		
 		writer.flush();
 		out.close();
-	}
-	
-	
-	private static void createFileName() {
-		File f = new File(Controller._fileName);
-		SimpleDateFormat df = new SimpleDateFormat("yyyyMMdd-HHmmss");
-		_date = df.format(new Date());
-		
-		if (f.isDirectory()) {
-			StringBuffer b = new StringBuffer(f.getAbsolutePath());
-			b.append(File.separator);
-			b.append(_date);
-			b.append(".xml");
-			_fileName = b.toString();
-		} else {
-			String fileName = Controller._fileName.trim();
-			
-			if (fileName.endsWith(".txt")) {
-				String t = fileName;
-				t = t.substring(0, t.length() - 4);
-				StringBuffer b = new StringBuffer(t);
-				b.append(".xml");
-				_fileName = b.toString();
-			} else if (fileName.endsWith(".xml")) {
-				_fileName = fileName;
-			} else {
-				StringBuffer b = new StringBuffer(fileName);
-				b.append(".xml");
-				_fileName = b.toString();
-			}
-		}
 	}
 
 	

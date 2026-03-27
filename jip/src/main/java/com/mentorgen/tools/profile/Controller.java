@@ -245,11 +245,13 @@ ClassLoaderFilter.2=com.mentorgen.tools.profile.instrument.clfilter.StandardClas
 		<a name="output"/>
 		<h3>output</h3>
 		<blockquote>
-			<b>Values</b>: <code>text</code>, <code>xml</code> or <code>both</code><br/>
+			<b>Values</b>: <code>text</code>, <code>xml</code>, <code>both</code>,
+            <code>json</code>, <code>modern</code> or <code>all</code><br/>
 			<b>Default</b>: <code>text</code><br/>
 			<b>Description</b>: in addition to the standard human readable
 			profiles, this option allows you to output the profile information
-			in a raw XML format.
+			in a raw XML format, a versioned JSON snapshot, or a self-contained
+            HTML report that embeds the JSON snapshot for local visualization.
 		</blockquote>
 		
 		<a name="debug"/>
@@ -384,7 +386,8 @@ public class Controller implements Runnable {
     private static final String GETCLASSLOADERSBYNAME = "getclassloadersbyname";
     private static final String REPLACECLASSLOADERSBYNAME = "replaceclassloadersbyname";
 	
-	public static enum OutputType {Text, XML, Both };
+	public static enum OutputType {Text, XML, Both, JSON, Modern, All };
+	public static enum AttachRetransformMode { Off, Eligible, IncludeOnly };
 	public static enum TimeResolution { ms, ns };
 	
 	public static boolean _profile;
@@ -409,6 +412,7 @@ public class Controller implements Runnable {
 	public static TimeResolution _timeResoltion;
 	public static boolean _outputSummaryOnly = false;
 	public static Class[] _acceptClassLoaders;
+	public static AttachRetransformMode _attachRetransformMode = AttachRetransformMode.Eligible;
 	
 	public static int _instrumentCount = 0;
 	
@@ -443,6 +447,7 @@ public class Controller implements Runnable {
 		String methodSigs = getProperty(props, "output-method-signatures", "no");
 		String clockResolution = getProperty(props, "clock-resolution", "ms");
 		String outputSummaryOnly = getProperty(props, "output-summary-only", "no");
+		String attachRetransform = getProperty(props, "attach.retransform", "eligible");
 		
 		Controller._profile = profile.equals(ON);
 		Controller._remote = remote.equals(ON);
@@ -480,6 +485,12 @@ public class Controller implements Runnable {
 			_outputType = OutputType.XML;
 		} else if ("both".equalsIgnoreCase(outputType.trim())) {
 			_outputType = OutputType.Both;
+		} else if ("json".equalsIgnoreCase(outputType.trim())) {
+			_outputType = OutputType.JSON;
+		} else if ("modern".equalsIgnoreCase(outputType.trim())) {
+			_outputType = OutputType.Modern;
+		} else if ("all".equalsIgnoreCase(outputType.trim())) {
+			_outputType = OutputType.All;
 		}
 		
 		if ("ms".equalsIgnoreCase(clockResolution)) {
@@ -490,6 +501,14 @@ public class Controller implements Runnable {
 		
 		if ("yes".equalsIgnoreCase(outputSummaryOnly)) {
 			_outputSummaryOnly = true;
+		}
+
+		if ("off".equalsIgnoreCase(attachRetransform)) {
+			_attachRetransformMode = AttachRetransformMode.Off;
+		} else if ("include-only".equalsIgnoreCase(attachRetransform)) {
+			_attachRetransformMode = AttachRetransformMode.IncludeOnly;
+		} else {
+			_attachRetransformMode = AttachRetransformMode.Eligible;
 		}
 		
 		Controller._fileName = file;
