@@ -64,6 +64,29 @@ tasks.wrapper {
 }
 
 project(":jip") {
+    val buildViewer by tasks.registering(Exec::class) {
+        description = "Builds the Preact-based profile viewer into a single HTML file."
+        workingDir = file("${rootDir}/viewer")
+        commandLine("npm", "run", "build")
+        inputs.dir("${rootDir}/viewer/src")
+        inputs.file("${rootDir}/viewer/package.json")
+        inputs.file("${rootDir}/viewer/tsconfig.json")
+        inputs.file("${rootDir}/viewer/vite.config.ts")
+        outputs.file("${rootDir}/viewer/dist/index.html")
+    }
+
+    val copyViewer by tasks.registering(Copy::class) {
+        description = "Copies the built viewer to the JIP resources directory."
+        dependsOn(buildViewer)
+        from("${rootDir}/viewer/dist/index.html")
+        into("src/main/resources/su/kidoz/jip/output")
+        rename("index.html", "profile-modern-viewer.html")
+    }
+
+    tasks.named("processResources") {
+        dependsOn(copyViewer)
+    }
+
     tasks.named<Jar>("jar") {
         archiveBaseName.set("profile")
 
