@@ -1,3 +1,3 @@
 rootProject.name = "jiprof"
 
-include(":jip")
+include(":jip", ":example")

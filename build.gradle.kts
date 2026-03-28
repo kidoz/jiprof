@@ -63,6 +63,33 @@ tasks.wrapper {
     gradleVersion = gradleWrapperVersion
 }
 
+project(":example") {
+    tasks.named<JavaCompile>("compileJava") {
+        options.errorprone.isEnabled.set(false)
+    }
+
+    val profileRun by tasks.registering(JavaExec::class) {
+        group = "application"
+        description = "Runs the demo app with the JIP profiler agent attached."
+        dependsOn(":jip:jar")
+        val java = project.extensions.getByType<JavaPluginExtension>()
+        classpath = java.sourceSets["main"].runtimeClasspath
+        mainClass.set("demo.DemoApp")
+        workingDir = projectDir
+        val agentJar = project(":jip").tasks.named<Jar>("jar").flatMap { it.archiveFile }
+        val propFile = file("src/main/resources/profile.properties")
+        doFirst {
+            file("build/profile-output").mkdirs()
+        }
+        jvmArgumentProviders.add(CommandLineArgumentProvider {
+            listOf(
+                "-javaagent:${agentJar.get().asFile.absolutePath}",
+                "-Dprofile.properties=${propFile.absolutePath}"
+            )
+        })
+    }
+}
+
 project(":jip") {
     val buildViewer by tasks.registering(Exec::class) {
         description = "Builds the Preact-based profile viewer into a single HTML file."

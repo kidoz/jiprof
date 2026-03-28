@@ -16,3 +16,10 @@ test:
 # Build the project
 build:
     ./gradlew build
+
+# Run the demo app with the profiler and open the HTML report
+demo:
+    ./gradlew :example:profileRun
+    @echo "---"
+    @echo "Report: $(ls -t example/build/profile-output/*.html | head -1)"
+    @open "$(ls -t example/build/profile-output/*.html | head -1)" 2>/dev/null || true
