@@ -21,8 +21,8 @@ describe("TimelinePanel", () => {
 
   it("renders bucket window range", () => {
     const { container } = renderWithSnapshot();
-    const numericCells = container.querySelectorAll("td.numeric");
-    const windowCell = numericCells[0];
+    const cells = container.querySelectorAll("td");
+    const windowCell = cells[0];
     expect(windowCell?.textContent).toContain("0");
     expect(windowCell?.textContent).toContain("1,000");
   });

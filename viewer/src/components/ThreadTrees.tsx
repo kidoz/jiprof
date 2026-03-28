@@ -1,6 +1,7 @@
 import { useContext } from "preact/hooks";
 import { SnapshotContext } from "../context";
 import { formatMs, formatInt } from "../format";
+import { Panel } from "./App";
 import type { FrameNode } from "../types";
 
 interface Props {
@@ -9,9 +10,9 @@ interface Props {
 
 function FrameNodeView({ frame }: { frame: FrameNode }) {
   return (
-    <div class="tree-node">
-      <div class="method-name">{frame.name}</div>
-      <div class="meta">
+    <div class="ml-3 mt-1 border-l-2 border-accent/15 pl-3">
+      <div class="font-mono text-[0.7rem]">{frame.name}</div>
+      <div class="text-[0.65rem] text-muted">
         Net {formatMs(frame.netTimeNanos)} &middot; Total {formatMs(frame.totalTimeNanos)} &middot;
         Calls {formatInt(frame.count)}
       </div>
@@ -34,23 +35,32 @@ export function ThreadTrees({ query }: Props) {
   });
 
   return (
-    <section class="panel">
-      <h2>Thread Call Trees</h2>
-      <div class="tree-stack">
+    <Panel title="Thread Call Trees">
+      <div class="grid gap-2">
         {filtered.map((thread) => (
-          <details open key={thread.threadId}>
-            <summary>
+          <details
+            open
+            key={thread.threadId}
+            class="rounded-md border border-line bg-surface-strong p-2"
+          >
+            <summary class="cursor-pointer text-sm font-semibold [list-style:none]">
               Thread {thread.threadId} &middot; {formatMs(thread.totalTimeNanos)}
             </summary>
             {thread.interactions.map((interaction, index) => (
-              <details open={index === 0} key={index}>
-                <summary>Interaction {index + 1}</summary>
+              <details
+                open={index === 0}
+                key={index}
+                class="mt-1 rounded-md border border-line bg-surface-strong p-2"
+              >
+                <summary class="cursor-pointer text-sm font-semibold [list-style:none]">
+                  Interaction {index + 1}
+                </summary>
                 <FrameNodeView frame={interaction} />
               </details>
             ))}
           </details>
         ))}
       </div>
-    </section>
+    </Panel>
   );
 }

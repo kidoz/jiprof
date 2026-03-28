@@ -133,8 +133,8 @@ describe("InsightsPanel", () => {
     expect(screen.getByText("Sampled mismatch")).toBeTruthy();
   });
 
-  it("renders severity pill with correct CSS class", () => {
-    const { container } = renderWithInsights([
+  it("renders severity pill text", () => {
+    renderWithInsights([
       {
         type: "dominant-hotspot",
         severity: "high",
@@ -143,8 +143,6 @@ describe("InsightsPanel", () => {
         evidence: [],
       },
     ]);
-    const pill = container.querySelector(".severity-pill.high");
-    expect(pill).toBeTruthy();
-    expect(pill!.textContent).toBe("high");
+    expect(screen.getByText("high")).toBeTruthy();
   });
 });

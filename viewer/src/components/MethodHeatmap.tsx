@@ -8,13 +8,13 @@ export function MethodHeatmap() {
 
   if (!methods.length) {
     return (
-      <div class="viz-card">
-        <h3>Method Heatmap</h3>
-        <p class="viz-caption">
+      <div class="rounded-md border border-line bg-surface-strong p-3">
+        <h3 class="mb-1 text-xs font-bold uppercase tracking-wide text-muted">Method Heatmap</h3>
+        <p class="text-sm text-muted">
           The strongest tiles combine net-time dominance and call density to surface hotspots at a
           glance.
         </p>
-        <div class="muted">No method summary is available for this snapshot.</div>
+        <div class="text-muted">No method summary is available for this snapshot.</div>
       </div>
     );
   }
@@ -23,13 +23,13 @@ export function MethodHeatmap() {
   const maxCount = Math.max(...methods.map((m) => m.count || 0), 1);
 
   return (
-    <div class="viz-card">
-      <h3>Method Heatmap</h3>
-      <p class="viz-caption">
+    <div class="rounded-md border border-line bg-surface-strong p-3">
+      <h3 class="mb-1 text-xs font-bold uppercase tracking-wide text-muted">Method Heatmap</h3>
+      <p class="mb-2 text-sm text-muted">
         The strongest tiles combine net-time dominance and call density to surface hotspots at a
         glance.
       </p>
-      <div class="heatmap-grid">
+      <div class="grid grid-cols-[repeat(auto-fit,minmax(8rem,1fr))] gap-1.5">
         {methods.map((method, index) => {
           const netRatio = (method.netTimeNanos || 0) / maxNetTime;
           const countRatio = (method.count || 0) / maxCount;
@@ -37,12 +37,20 @@ export function MethodHeatmap() {
           const hue = 20 + (1 - Math.min(netRatio, 1)) * 130;
           const bg = `hsla(${hue}, 65%, ${92 - intensity * 38}%, 0.95)`;
           return (
-            <article class="heatmap-tile" style={{ background: bg }} key={index}>
-              <div class="label">Rank {index + 1}</div>
-              <div class="tile-name">{method.name}</div>
-              <div class="tile-meta">Net {formatMs(method.netTimeNanos || 0)}</div>
-              <div class="tile-meta">Total {formatMs(method.totalTimeNanos || 0)}</div>
-              <div class="tile-meta">Calls {formatInt(method.count || 0)}</div>
+            <article
+              class="grid min-h-20 content-start gap-0.5 rounded-md border border-black/5 p-2"
+              style={{ background: bg }}
+              key={index}
+            >
+              <div class="text-[0.6rem] font-semibold uppercase tracking-wide text-muted">
+                Rank {index + 1}
+              </div>
+              <div class="break-all font-mono text-[0.7rem]">{method.name}</div>
+              <div class="text-[0.7rem] text-black/55">Net {formatMs(method.netTimeNanos || 0)}</div>
+              <div class="text-[0.7rem] text-black/55">
+                Total {formatMs(method.totalTimeNanos || 0)}
+              </div>
+              <div class="text-[0.7rem] text-black/55">Calls {formatInt(method.count || 0)}</div>
             </article>
           );
         })}

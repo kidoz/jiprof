@@ -1,8 +1,15 @@
 import { useContext, useMemo } from "preact/hooks";
 import { SnapshotContext, comparisonSnapshot } from "../context";
-import { formatMs, formatInt, formatSignedMs, formatSignedInt, deltaClass } from "../format";
+import { formatMs, formatInt, formatSignedMs, formatSignedInt } from "../format";
 import { computeDeltaRows, sumBy } from "../compare";
+import { Panel } from "./App";
 import type { SnapshotDocument } from "../types";
+
+function deltaColor(value: number): string {
+  if (value > 0) return "text-warn font-semibold";
+  if (value < 0) return "text-accent font-semibold";
+  return "text-muted";
+}
 
 function buildComparisonExport(
   snapshot: SnapshotDocument,
@@ -201,124 +208,98 @@ export function ComparePanel() {
     ["Changed Methods", formatInt(comparison.methodDelta.filter((e) => e.delta !== 0).length)],
   ];
 
+  const thCls = "text-left text-[0.65rem] font-semibold uppercase tracking-wide text-muted";
+  const tdCls = "px-2 py-1.5 border-b border-line align-top";
+  const numCls = `${tdCls} font-mono text-[0.7rem] whitespace-nowrap`;
+  const codeCls = `${tdCls} font-mono text-[0.7rem] break-all`;
+
   return (
-    <section class="panel">
-      <h2>Snapshot Compare</h2>
-      <p class="muted">
+    <Panel title="Snapshot Compare">
+      <p class="mb-3 text-sm text-muted">
         Diffs are computed client-side from the current report and the baseline JSON snapshot you
         loaded.
       </p>
 
-      <section class="card-grid">
+      <section class="my-3 grid grid-cols-[repeat(auto-fit,minmax(8rem,1fr))] gap-2">
         {summaryCards.map(([label, value]) => {
           let cls = "";
-          if (label.includes("Delta") && String(value).startsWith("-")) cls = "delta-negative";
-          else if (label.includes("Delta") && String(value).startsWith("+")) cls = "delta-positive";
+          if (label.includes("Delta") && String(value).startsWith("-"))
+            cls = "text-accent font-semibold";
+          else if (label.includes("Delta") && String(value).startsWith("+"))
+            cls = "text-warn font-semibold";
           return (
-            <article class="card" key={label}>
-              <div class="label">{label}</div>
-              <div class={`value ${cls}`}>{value}</div>
+            <article
+              class="rounded-lg border border-line bg-surface px-3 py-2 shadow-sm"
+              key={label}
+            >
+              <div class="text-[0.65rem] font-semibold uppercase tracking-wide text-muted">
+                {label}
+              </div>
+              <div class={`text-lg font-bold leading-tight ${cls}`}>{value}</div>
             </article>
           );
         })}
       </section>
 
-      <div class="compare-columns">
-        <section class="compare-block">
-          <h3>Regression Candidates</h3>
-          <table>
-            <thead>
-              <tr>
-                <th>Method</th>
-                <th>Delta Net</th>
-                <th>Current</th>
-                <th>Baseline</th>
-              </tr>
-            </thead>
-            <tbody>
-              {comparison.regressions.length === 0 ? (
-                <tr>
-                  <td class="muted" colSpan={4}>
-                    No method regressions detected.
-                  </td>
-                </tr>
-              ) : (
-                comparison.regressions.map((e) => (
-                  <tr key={e.key}>
-                    <td class="method-name">{e.key}</td>
-                    <td class={`numeric ${deltaClass(e.delta)}`}>{formatSignedMs(e.delta)}</td>
-                    <td class="numeric">{formatMs(e.currentValue)}</td>
-                    <td class="numeric">{formatMs(e.baselineValue)}</td>
-                  </tr>
-                ))
-              )}
-            </tbody>
-          </table>
-        </section>
+      <div class="mt-3 grid grid-cols-[repeat(auto-fit,minmax(16rem,1fr))] gap-3">
+        <DeltaTable
+          title="Regression Candidates"
+          rows={comparison.regressions}
+          emptyMessage="No method regressions detected."
+          thCls={thCls}
+          tdCls={tdCls}
+          numCls={numCls}
+          codeCls={codeCls}
+          formatDelta={formatSignedMs}
+          formatValue={formatMs}
+        />
+        <DeltaTable
+          title="Improvements"
+          rows={comparison.improvements}
+          emptyMessage="No method improvements detected."
+          thCls={thCls}
+          tdCls={tdCls}
+          numCls={numCls}
+          codeCls={codeCls}
+          formatDelta={formatSignedMs}
+          formatValue={formatMs}
+        />
 
-        <section class="compare-block">
-          <h3>Improvements</h3>
-          <table>
+        <section class="rounded-md border border-line bg-surface-strong p-3">
+          <h3 class="mb-2 text-[0.65rem] font-bold uppercase tracking-wide text-muted">
+            Allocation Delta
+          </h3>
+          <table class="w-full border-collapse text-sm">
             <thead>
               <tr>
-                <th>Method</th>
-                <th>Delta Net</th>
-                <th>Current</th>
-                <th>Baseline</th>
-              </tr>
-            </thead>
-            <tbody>
-              {comparison.improvements.length === 0 ? (
-                <tr>
-                  <td class="muted" colSpan={4}>
-                    No method improvements detected.
-                  </td>
-                </tr>
-              ) : (
-                comparison.improvements.map((e) => (
-                  <tr key={e.key}>
-                    <td class="method-name">{e.key}</td>
-                    <td class={`numeric ${deltaClass(e.delta)}`}>{formatSignedMs(e.delta)}</td>
-                    <td class="numeric">{formatMs(e.currentValue)}</td>
-                    <td class="numeric">{formatMs(e.baselineValue)}</td>
-                  </tr>
-                ))
-              )}
-            </tbody>
-          </table>
-        </section>
-
-        <section class="compare-block">
-          <h3>Allocation Delta</h3>
-          <table>
-            <thead>
-              <tr>
-                <th>Class</th>
-                <th>Count Delta</th>
-                <th>Bytes Delta</th>
-                <th>Current</th>
-                <th>Baseline</th>
+                <th class={thCls}>Class</th>
+                <th class={thCls}>Count Delta</th>
+                <th class={thCls}>Bytes Delta</th>
+                <th class={thCls}>Current</th>
+                <th class={thCls}>Baseline</th>
               </tr>
             </thead>
             <tbody>
               {comparison.allocationChanges.length === 0 ? (
                 <tr>
-                  <td class="muted" colSpan={5}>
+                  <td class={`${tdCls} text-muted`} colSpan={5}>
                     No allocation deltas detected.
                   </td>
                 </tr>
               ) : (
                 comparison.allocationChanges.map((e) => (
                   <tr key={e.key}>
-                    <td class="method-name">{e.key}</td>
-                    <td class={`numeric ${deltaClass(e.delta)}`}>{formatSignedInt(e.delta)}</td>
-                    <td class={`numeric ${deltaClass(e.byteDelta || 0)}`}>
+                    <td class={codeCls}>{e.key}</td>
+                    <td class={`${numCls} ${deltaColor(e.delta)}`}>
+                      {formatSignedInt(e.delta)}
+                    </td>
+                    <td class={`${numCls} ${deltaColor(e.byteDelta || 0)}`}>
                       {formatSignedInt(e.byteDelta || 0)}
                     </td>
-                    <td class="numeric">
+                    <td class={numCls}>
                       {formatInt(e.currentValue)} / {formatInt(e.currentBytes || 0)}
                     </td>
-                    <td class="numeric">
+                    <td class={numCls}>
                       {formatInt(e.baselineValue)} / {formatInt(e.baselineBytes || 0)}
                     </td>
                   </tr>
@@ -329,31 +310,35 @@ export function ComparePanel() {
         </section>
 
         {showJfr && (
-          <section class="compare-block">
-            <h3>JFR Sample Delta</h3>
-            <table>
+          <section class="rounded-md border border-line bg-surface-strong p-3">
+            <h3 class="mb-2 text-[0.65rem] font-bold uppercase tracking-wide text-muted">
+              JFR Sample Delta
+            </h3>
+            <table class="w-full border-collapse text-sm">
               <thead>
                 <tr>
-                  <th>Method</th>
-                  <th>Delta Samples</th>
-                  <th>Current</th>
-                  <th>Baseline</th>
+                  <th class={thCls}>Method</th>
+                  <th class={thCls}>Delta Samples</th>
+                  <th class={thCls}>Current</th>
+                  <th class={thCls}>Baseline</th>
                 </tr>
               </thead>
               <tbody>
                 {comparison.jfrChanges.length === 0 ? (
                   <tr>
-                    <td class="muted" colSpan={4}>
+                    <td class={`${tdCls} text-muted`} colSpan={4}>
                       No sampled JFR hotspot deltas detected.
                     </td>
                   </tr>
                 ) : (
                   comparison.jfrChanges.map((e) => (
                     <tr key={e.key}>
-                      <td class="method-name">{e.key}</td>
-                      <td class={`numeric ${deltaClass(e.delta)}`}>{formatSignedInt(e.delta)}</td>
-                      <td class="numeric">{formatInt(e.currentValue)}</td>
-                      <td class="numeric">{formatInt(e.baselineValue)}</td>
+                      <td class={codeCls}>{e.key}</td>
+                      <td class={`${numCls} ${deltaColor(e.delta)}`}>
+                        {formatSignedInt(e.delta)}
+                      </td>
+                      <td class={numCls}>{formatInt(e.currentValue)}</td>
+                      <td class={numCls}>{formatInt(e.baselineValue)}</td>
                     </tr>
                   ))
                 )}
@@ -363,10 +348,10 @@ export function ComparePanel() {
         )}
       </div>
 
-      <div class="button-row" style={{ marginTop: "1rem" }}>
+      <div class="mt-3 flex gap-2">
         <button
           type="button"
-          class="button secondary"
+          class="inline-flex h-9 items-center rounded-md border border-line bg-surface-strong px-3 text-sm font-semibold"
           onClick={() => {
             const currentLabel = (comparison.exportData.currentLabel || "current").replaceAll(
               /[^a-zA-Z0-9._-]+/g,
@@ -382,6 +367,62 @@ export function ComparePanel() {
           Download Compare
         </button>
       </div>
+    </Panel>
+  );
+}
+
+function DeltaTable({
+  title,
+  rows,
+  emptyMessage,
+  thCls,
+  tdCls,
+  numCls,
+  codeCls,
+  formatDelta,
+  formatValue,
+}: {
+  title: string;
+  rows: { key: string; delta: number; currentValue: number; baselineValue: number }[];
+  emptyMessage: string;
+  thCls: string;
+  tdCls: string;
+  numCls: string;
+  codeCls: string;
+  formatDelta: (n: number) => string;
+  formatValue: (n: number) => string;
+}) {
+  return (
+    <section class="rounded-md border border-line bg-surface-strong p-3">
+      <h3 class="mb-2 text-[0.65rem] font-bold uppercase tracking-wide text-muted">{title}</h3>
+      <table class="w-full border-collapse text-sm">
+        <thead>
+          <tr>
+            <th class={thCls}>Method</th>
+            <th class={thCls}>Delta Net</th>
+            <th class={thCls}>Current</th>
+            <th class={thCls}>Baseline</th>
+          </tr>
+        </thead>
+        <tbody>
+          {rows.length === 0 ? (
+            <tr>
+              <td class={`${tdCls} text-muted`} colSpan={4}>
+                {emptyMessage}
+              </td>
+            </tr>
+          ) : (
+            rows.map((e) => (
+              <tr key={e.key}>
+                <td class={codeCls}>{e.key}</td>
+                <td class={`${numCls} ${deltaColor(e.delta)}`}>{formatDelta(e.delta)}</td>
+                <td class={numCls}>{formatValue(e.currentValue)}</td>
+                <td class={numCls}>{formatValue(e.baselineValue)}</td>
+              </tr>
+            ))
+          )}
+        </tbody>
+      </table>
     </section>
   );
 }

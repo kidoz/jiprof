@@ -1,4 +1,5 @@
 import { formatMs, formatInt } from "../format";
+import { Panel } from "./App";
 import type { MethodSummary } from "../types";
 
 interface Props {
@@ -17,16 +18,19 @@ export function MethodTable({ title, methods, query, totalObservedTimeNanos }: P
     return haystack.includes(query);
   });
 
+  const thCls = "text-left text-[0.65rem] font-semibold uppercase tracking-wide text-muted";
+  const tdCls = "px-2 py-1.5 border-b border-line align-top";
+  const numCls = `${tdCls} font-mono text-[0.7rem] whitespace-nowrap`;
+
   return (
-    <section class="panel">
-      <h2>{title}</h2>
-      <table>
+    <Panel title={title}>
+      <table class="w-full border-collapse text-sm">
         <thead>
           <tr>
-            <th>Method</th>
-            <th>Net</th>
-            <th>Total</th>
-            <th>Calls</th>
+            <th class={thCls}>Method</th>
+            <th class={thCls}>Net</th>
+            <th class={thCls}>Total</th>
+            <th class={thCls}>Calls</th>
           </tr>
         </thead>
         <tbody>
@@ -34,20 +38,23 @@ export function MethodTable({ title, methods, query, totalObservedTimeNanos }: P
             const width = Math.max(2, (method.netTimeNanos / totalObserved) * 100);
             return (
               <tr key={i}>
-                <td>
-                  <div class="method-name">{method.name}</div>
-                  <div class="bar">
-                    <span style={{ width: `${width}%` }} />
+                <td class={tdCls}>
+                  <div class="font-mono text-[0.7rem] break-all">{method.name}</div>
+                  <div class="mt-1 h-1 overflow-hidden rounded-sm bg-accent/10">
+                    <span
+                      class="block h-full bg-accent"
+                      style={{ width: `${width}%` }}
+                    />
                   </div>
                 </td>
-                <td class="numeric">{formatMs(method.netTimeNanos)}</td>
-                <td class="numeric">{formatMs(method.totalTimeNanos)}</td>
-                <td class="numeric">{formatInt(method.count)}</td>
+                <td class={numCls}>{formatMs(method.netTimeNanos)}</td>
+                <td class={numCls}>{formatMs(method.totalTimeNanos)}</td>
+                <td class={numCls}>{formatInt(method.count)}</td>
               </tr>
             );
           })}
         </tbody>
       </table>
-    </section>
+    </Panel>
   );
 }

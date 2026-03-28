@@ -65,10 +65,10 @@ export function IcicleChart() {
 
   if (!hottest) {
     return (
-      <div class="viz-card">
-        <h3>Icicle View</h3>
-        <p class="viz-caption">No thread interactions are available for this snapshot.</p>
-        <div class="muted">No icicle data available.</div>
+      <div class="rounded-md border border-line bg-surface-strong p-3">
+        <h3 class="mb-1 text-xs font-bold uppercase tracking-wide text-muted">Icicle View</h3>
+        <p class="text-sm text-muted">No thread interactions are available for this snapshot.</p>
+        <div class="text-muted">No icicle data available.</div>
       </div>
     );
   }
@@ -78,30 +78,32 @@ export function IcicleChart() {
   flattenIcicleSegments(root, Math.max(root.totalTimeNanos || 0, 1), 0, 0, rows);
 
   return (
-    <div class="viz-card">
-      <h3>Icicle View</h3>
-      <p class="viz-caption">
+    <div class="rounded-md border border-line bg-surface-strong p-3">
+      <h3 class="mb-1 text-xs font-bold uppercase tracking-wide text-muted">Icicle View</h3>
+      <p class="mb-2 text-sm text-muted">
         Showing the hottest recorded interaction from thread {hottest.threadId}. Block widths are
         proportional to total observed time.
       </p>
-      <div class="icicle-chart">
+      <div class="grid gap-1">
         {rows.map((segments, rowIndex) => (
-          <div class="icicle-row" key={rowIndex}>
+          <div class="relative min-h-7 overflow-hidden rounded-sm bg-accent/5" key={rowIndex}>
             {segments
               .filter((s) => s.width >= 1.5)
               .map((s, si) => (
                 <div
                   key={si}
-                  class="icicle-segment"
+                  class="absolute top-px bottom-px overflow-hidden rounded-sm px-1.5 py-0.5 text-white"
                   style={{
                     left: `${s.left}%`,
                     width: `${Math.max(s.width, 1.5)}%`,
                     background: colorForName(s.name, s.depth),
+                    fontSize: "0.65rem",
+                    lineHeight: "1.2",
                   }}
                   title={`${s.name} | total ${formatMs(s.totalTimeNanos)} | net ${formatMs(s.netTimeNanos)} | calls ${formatInt(s.count)}`}
                 >
-                  <span class="segment-label">{s.name}</span>
-                  <span class="segment-meta">
+                  <span class="block truncate font-mono">{s.name}</span>
+                  <span class="block truncate opacity-85" style={{ fontSize: "0.55rem" }}>
                     {formatMs(s.totalTimeNanos)} &middot; {formatInt(s.count)}
                   </span>
                 </div>
