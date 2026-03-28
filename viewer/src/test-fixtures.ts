@@ -2,7 +2,7 @@ import type { SnapshotDocument } from "./types";
 
 export function createTestSnapshot(overrides: Partial<SnapshotDocument> = {}): SnapshotDocument {
   return {
-    schemaVersion: "jip-modern-v1",
+    schemaVersion: "jip-v1",
     snapshotLabel: "test-snapshot",
     generatedAt: "20260328-170000",
     clockResolution: "ns",

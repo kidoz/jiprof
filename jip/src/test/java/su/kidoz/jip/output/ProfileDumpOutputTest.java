@@ -18,7 +18,7 @@ import java.util.stream.Stream;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-public class ProfileDumpModernOutputTest {
+public class ProfileDumpOutputTest {
 	private static final ClassLoaderFilter ACCEPT_ALL_FILTER = new ClassLoaderFilter() {
 		@Override
 		public boolean canFilter() {
@@ -37,7 +37,7 @@ public class ProfileDumpModernOutputTest {
 	@BeforeEach
 	void setUp() throws IOException {
 		controllerState = ControllerState.capture();
-		tempDirectory = Files.createTempDirectory("jip-modern-output");
+		tempDirectory = Files.createTempDirectory("jip-output");
 		Profile.init();
 		Controller._profile = true;
 		Controller._filter = ACCEPT_ALL_FILTER;
@@ -78,7 +78,7 @@ public class ProfileDumpModernOutputTest {
 		Path jsonFile = findGeneratedFile(".json");
 		String json = Files.readString(jsonFile);
 
-		assertTrue(json.contains("\"schemaVersion\": \"jip-modern-v1\""));
+		assertTrue(json.contains("\"schemaVersion\": \"jip-v1\""));
 		assertTrue(json.contains("\"snapshotLabel\":"));
 		assertTrue(json.contains("\"timeline\": {"));
 		assertTrue(json.contains("\"threads\": ["));
@@ -88,8 +88,8 @@ public class ProfileDumpModernOutputTest {
 	}
 
 	@Test
-	public void writesSelfContainedModernHtmlReport() throws Exception {
-		Controller._outputType = Controller.OutputType.Modern;
+	public void writesSelfContainedHtmlReport() throws Exception {
+		Controller._outputType = Controller.OutputType.Html;
 		createSampleProfile();
 
 		ProfileDump.dump();
@@ -99,7 +99,7 @@ public class ProfileDumpModernOutputTest {
 		String html = Files.readString(htmlFile);
 
 		assertTrue(Files.exists(jsonFile));
-		assertTrue(html.contains("JIP Modern Viewer"));
+		assertTrue(html.contains("JIP Profile Viewer"));
 		assertTrue(html.contains("application/json"));
 		assertTrue(html.contains("sample.Service:run"));
 		assertTrue(html.contains(jsonFile.toString()));
@@ -114,7 +114,7 @@ public class ProfileDumpModernOutputTest {
 
 	@Test
 	public void writesJfrCompanionArtifactWhenEnabled() throws Exception {
-		Controller._outputType = Controller.OutputType.Modern;
+		Controller._outputType = Controller.OutputType.Html;
 		Controller._jfrEnabled = true;
 
 		createSampleProfile();
@@ -145,7 +145,7 @@ public class ProfileDumpModernOutputTest {
 
 	@Test
 	public void writesAutomatedInsightsIntoSnapshotAndHtml() throws Exception {
-		Controller._outputType = Controller.OutputType.Modern;
+		Controller._outputType = Controller.OutputType.Html;
 		createInsightHeavyProfile();
 
 		ProfileDump.dump();
@@ -165,7 +165,7 @@ public class ProfileDumpModernOutputTest {
 
 	@Test
 	public void importsAsyncProfilerArtifactsIntoSnapshotAndHtml() throws Exception {
-		Controller._outputType = Controller.OutputType.Modern;
+		Controller._outputType = Controller.OutputType.Html;
 
 		Path collapsedFile = tempDirectory.resolve("cpu.collapsed");
 		Path flamegraphFile = tempDirectory.resolve("cpu-flamegraph.html");
@@ -198,7 +198,7 @@ public class ProfileDumpModernOutputTest {
 
 	@Test
 	public void generatesJfrInstrumentationMismatchInsightWhenTopMethodsDisagree() throws Exception {
-		Controller._outputType = Controller.OutputType.Modern;
+		Controller._outputType = Controller.OutputType.Html;
 		Controller._jfrEnabled = true;
 
 		createSampleProfile();
@@ -217,7 +217,7 @@ public class ProfileDumpModernOutputTest {
 
 	@Test
 	public void writesRecordingIndexAndEmbedsRecentHistory() throws Exception {
-		Controller._outputType = Controller.OutputType.Modern;
+		Controller._outputType = Controller.OutputType.Html;
 
 		createSampleProfile();
 		ProfileDump.dump();

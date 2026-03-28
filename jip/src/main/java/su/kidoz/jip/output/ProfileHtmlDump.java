@@ -28,9 +28,9 @@ public final class ProfileHtmlDump {
 
 	private static String loadTemplate() throws IOException {
 		InputStream inputStream = ProfileHtmlDump.class
-				.getResourceAsStream("/su/kidoz/jip/output/profile-modern-viewer.html");
+				.getResourceAsStream("/su/kidoz/jip/output/profile-viewer.html");
 		if (inputStream == null) {
-			throw new IOException("Missing embedded modern viewer template.");
+			throw new IOException("Missing embedded viewer template.");
 		}
 		return new String(inputStream.readAllBytes(), StandardCharsets.UTF_8);
 	}

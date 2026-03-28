@@ -58,14 +58,14 @@ public final class ProfileJsonDump {
 		AsyncProfilerReport asyncProfilerReport = AsyncProfilerSupport.prepareReport();
 		HistoryEntry currentHistoryEntry = RecordingHistorySupport.createCurrentEntry(files,
 				state.topMethods.isEmpty() ? "" : state.topMethods.get(0).name, state.threadCount,
-				state.totalObservedTimeNanos, Controller._outputType == Controller.OutputType.Modern,
+				state.totalObservedTimeNanos, Controller._outputType == Controller.OutputType.Html,
 				jfrReport.artifactPath());
 		List<HistoryEntry> historyEntries = RecordingHistorySupport.collectHistory(files, currentHistoryEntry);
 		List<HistoryEntry> embeddedHistory = RecordingHistorySupport.embeddedPreview(historyEntries);
 		StringBuilder json = new StringBuilder(64 * 1024);
 
 		json.append("{\n");
-		appendQuotedField(json, "schemaVersion", "jip-modern-v1", 1, true);
+		appendQuotedField(json, "schemaVersion", "jip-v1", 1, true);
 		appendQuotedField(json, "snapshotLabel", files.snapshotLabel(), 1, true);
 		appendQuotedField(json, "generatedAt", files.snapshotTimestamp(), 1, true);
 		appendQuotedField(json, "clockResolution", Controller._timeResoltion.name(), 1, true);

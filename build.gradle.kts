@@ -80,7 +80,7 @@ project(":jip") {
         dependsOn(buildViewer)
         from("${rootDir}/viewer/dist/index.html")
         into("src/main/resources/su/kidoz/jip/output")
-        rename("index.html", "profile-modern-viewer.html")
+        rename("index.html", "profile-viewer.html")
     }
 
     tasks.named("processResources") {

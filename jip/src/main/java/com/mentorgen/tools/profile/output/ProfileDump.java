@@ -59,7 +59,7 @@ public final class ProfileDump {
 			switch (Controller._outputType) {
 				case JSON :
 					break;
-				case Modern :
+				case Html :
 					ProfileHtmlDump.dump(files, document.json());
 					break;
 				default :

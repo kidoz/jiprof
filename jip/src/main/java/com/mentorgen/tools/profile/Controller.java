@@ -177,7 +177,7 @@ ClassLoaderFilter.2=com.mentorgen.tools.profile.instrument.clfilter.StandardClas
  * <b>Description</b>: Names the file that the profile is sent to. If this is a
  * directory, JIP will auto-generate file names and put the files in that
  * directory. The format for the generated file name is
- * <code>yyyyMMdd-HHmmss</code>. Modern output writes JSON and, when enabled, a
+ * <code>yyyyMMdd-HHmmss</code>. HTML output writes JSON and, when enabled, a
  * self-contained HTML report next to the chosen base path. </blockquote>
  *
  * <a name="exlcude"/>
@@ -212,8 +212,8 @@ ClassLoaderFilter.2=com.mentorgen.tools.profile.instrument.clfilter.StandardClas
  *
  * <a name="output"/>
  * <h3>output</h3> <blockquote> <b>Values</b>: <code>json</code> or
- * <code>modern</code><br/>
- * <b>Default</b>: <code>modern</code><br/>
+ * <code>html</code><br/>
+ * <b>Default</b>: <code>html</code><br/>
  * <b>Description</b>: controls whether the profiler writes only the versioned
  * JSON snapshot or both the JSON snapshot and the self-contained HTML report
  * that embeds it for local visualization. </blockquote>
@@ -348,7 +348,7 @@ public class Controller implements Runnable {
 	private static final String REPLACECLASSLOADERSBYNAME = "replaceclassloadersbyname";
 
 	public static enum OutputType {
-		JSON, Modern
+		JSON, Html
 	};
 	public static enum AttachRetransformMode {
 		Off, Eligible, IncludeOnly
@@ -372,7 +372,7 @@ public class Controller implements Runnable {
 	public static int _compactMethodThreshold;
 	public static boolean _trackObjectAlloc = false;
 	public static ClassLoaderFilter _filter;
-	public static OutputType _outputType = OutputType.Modern;
+	public static OutputType _outputType = OutputType.Html;
 	public static boolean _debug = false;
 	public static String _profiler;
 	public static boolean _outputMethodSignatures = false;
@@ -414,7 +414,7 @@ public class Controller implements Runnable {
 				DEFAULT_METHOD_COMPACT_THRESHOLD);
 		String file = getProperty(props, "file", DEFAULT_FILE);
 		String objectAlloc = getProperty(props, "track.object.alloc", DEFAULT_OBJECT_ALLOC);
-		String outputType = getProperty(props, "output", "modern");
+		String outputType = getProperty(props, "output", "html");
 		String debug = getProperty(props, "debug", "off");
 		String profiler = getProperty(props, "profiler-class", DEFAULT_PROFILER_CLASS);
 		String methodSigs = getProperty(props, "output-method-signatures", "no");
@@ -461,11 +461,12 @@ public class Controller implements Runnable {
 		if ("json".equalsIgnoreCase(outputType.trim())) {
 			_outputType = OutputType.JSON;
 		} else {
-			if (!"modern".equalsIgnoreCase(outputType.trim())) {
+			String trimmed = outputType.trim();
+			if (!"html".equalsIgnoreCase(trimmed) && !"modern".equalsIgnoreCase(trimmed)) {
 				System.err.println("Unsupported legacy output mode '" + outputType
-						+ "'. Falling back to modern JSON/HTML output.");
+						+ "'. Falling back to HTML output.");
 			}
-			_outputType = OutputType.Modern;
+			_outputType = OutputType.Html;
 		}
 
 		if ("ms".equalsIgnoreCase(clockResolution)) {
