@@ -150,15 +150,18 @@ public final class Frame {
 		_lastStartTime = time;
 	}
 
-	void setEndTime(long endTime) {
+	long setEndTime(long endTime) {
+		long duration = 0;
 		if (_lastStartTime == 0) {
 			_metrics.inc(0);
 		} else if (0 < (endTime - _lastStartTime)) {
-			_metrics.inc(endTime - _lastStartTime);
+			duration = endTime - _lastStartTime;
+			_metrics.inc(duration);
 		} else {
 			_metrics.inc(0);
 		}
 		_lastStartTime = 0;
+		return duration;
 	}
 
 	void beginWait(long time) {

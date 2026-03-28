@@ -41,6 +41,7 @@ import java.util.concurrent.atomic.AtomicLong;
 import com.mentorgen.tools.profile.Controller;
 import com.mentorgen.tools.profile.output.ProfileDump;
 import su.kidoz.jip.jfr.JfrProfileSupport;
+import su.kidoz.jip.timeline.TimelineRecorder;
 
 /**
  * The <code>Profiler</code> is the class that actually profiles the code. Code
@@ -105,6 +106,7 @@ public final class Profile implements Runnable {
 		_sortedFrameList = null;
 
 		_allocList = new ConcurrentHashMap<String, ClassAllocation>();
+		TimelineRecorder.init();
 	}
 
 	public static void clear() {
@@ -215,9 +217,11 @@ public final class Profile implements Runnable {
 			return;
 		}
 
+		long endTime = System.nanoTime();
 		updateActiveFrame(state, target.getParent());
 		target.overhead(System.nanoTime() - start);
-		target.setEndTime(System.nanoTime());
+		long duration = target.setEndTime(endTime);
+		TimelineRecorder.record(state.threadId, endTime, duration);
 	}
 
 	public static void beginWait(String className, String methodName) {
@@ -295,7 +299,9 @@ public final class Profile implements Runnable {
 				System.err.println(target.getMethodName());
 			}
 
-			target.setEndTime(System.nanoTime());
+			long endTime = System.nanoTime();
+			long duration = target.setEndTime(endTime);
+			TimelineRecorder.record(state.threadId, endTime, duration);
 			target = target.getParent();
 
 			if (target == null) {

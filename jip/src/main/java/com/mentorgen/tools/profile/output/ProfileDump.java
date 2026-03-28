@@ -32,10 +32,11 @@ import java.io.IOException;
 
 import com.mentorgen.tools.profile.Controller;
 import com.mentorgen.tools.profile.runtime.Profile;
-import su.kidoz.jip.jfr.JfrProfileSupport;
 import su.kidoz.jip.output.ProfileHtmlDump;
 import su.kidoz.jip.output.ProfileJsonDump;
+import su.kidoz.jip.output.ProfileJsonDump.SnapshotDocument;
 import su.kidoz.jip.output.ProfileOutputFiles;
+import su.kidoz.jip.output.RecordingHistorySupport;
 
 /**
  * Will output the profile as a versioned JSON snapshot or a JSON snapshot plus
@@ -52,19 +53,17 @@ public final class ProfileDump {
 
 		synchronized (Profile.class) {
 			ProfileOutputFiles files = ProfileOutputFiles.create();
-			JfrProfileSupport.prepareReport(files);
+			SnapshotDocument document = ProfileJsonDump.dump(files);
+			RecordingHistorySupport.writeIndex(files, document.historyEntries());
 
 			switch (Controller._outputType) {
 				case JSON :
-					ProfileJsonDump.dump(files);
 					break;
 				case Modern :
-					ProfileJsonDump.dump(files);
-					ProfileHtmlDump.dump(files);
+					ProfileHtmlDump.dump(files, document.json());
 					break;
 				default :
-					ProfileJsonDump.dump(files);
-					ProfileHtmlDump.dump(files);
+					ProfileHtmlDump.dump(files, document.json());
 					break;
 			}
 		}

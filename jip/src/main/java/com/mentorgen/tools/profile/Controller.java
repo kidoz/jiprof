@@ -325,6 +325,8 @@ public class Controller implements Runnable {
 	private static final String DEFAULT_PROFILER_CLASS = "com.mentorgen.tools.profile.runtime.Profile";
 	private static final String DEFAULT_JFR = "off";
 	private static final String DEFAULT_JFR_SAMPLE_PERIOD_MS = "20";
+	private static final String DEFAULT_ASYNC_PROFILER_COLLAPSED = "";
+	private static final String DEFAULT_ASYNC_PROFILER_ARTIFACTS = "";
 
 	private static final String ON = "on";
 
@@ -380,6 +382,8 @@ public class Controller implements Runnable {
 	public static AttachRetransformMode _attachRetransformMode = AttachRetransformMode.Eligible;
 	public static boolean _jfrEnabled = false;
 	public static int _jfrSamplePeriodMs = Integer.parseInt(DEFAULT_JFR_SAMPLE_PERIOD_MS);
+	public static String _asyncProfilerCollapsedFile = DEFAULT_ASYNC_PROFILER_COLLAPSED;
+	public static String[] _asyncProfilerArtifactPaths = new String[0];
 
 	public static int _instrumentCount = 0;
 
@@ -419,6 +423,10 @@ public class Controller implements Runnable {
 		String attachRetransform = getProperty(props, "attach.retransform", "eligible");
 		String jfr = getProperty(props, "jfr", DEFAULT_JFR);
 		String jfrSamplePeriodMs = getProperty(props, "jfr.sample.period.ms", DEFAULT_JFR_SAMPLE_PERIOD_MS);
+		String asyncProfilerCollapsed = getProperty(props, "async-profiler.collapsed",
+				DEFAULT_ASYNC_PROFILER_COLLAPSED);
+		String asyncProfilerArtifacts = getProperty(props, "async-profiler.artifacts",
+				DEFAULT_ASYNC_PROFILER_ARTIFACTS);
 
 		Controller._profile = profile.equals(ON);
 		Controller._remote = remote.equals(ON);
@@ -475,6 +483,8 @@ public class Controller implements Runnable {
 		}
 
 		_jfrSamplePeriodMs = Math.max(1, Integer.parseInt(jfrSamplePeriodMs));
+		_asyncProfilerCollapsedFile = asyncProfilerCollapsed == null ? "" : asyncProfilerCollapsed.trim();
+		_asyncProfilerArtifactPaths = parsePathList(asyncProfilerArtifacts);
 
 		if ("off".equalsIgnoreCase(attachRetransform)) {
 			_attachRetransformMode = AttachRetransformMode.Off;
@@ -589,6 +599,25 @@ public class Controller implements Runnable {
 		String[] sl = new String[al.size()];
 		al.toArray(sl);
 		return sl;
+	}
+
+	private static String[] parsePathList(String list) {
+		if (list == null || list.trim().length() == 0 || "null".equals(list)) {
+			return new String[0];
+		}
+
+		ArrayList<String> paths = new ArrayList<String>();
+		String[] tokens = list.split(",");
+		for (String token : tokens) {
+			String trimmed = token.trim();
+			if (trimmed.length() > 0) {
+				paths.add(trimmed);
+			}
+		}
+
+		String[] values = new String[paths.size()];
+		paths.toArray(values);
+		return values;
 	}
 
 	private static String getProperty(Properties props, String key, String defaultValue) {
