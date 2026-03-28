@@ -22,34 +22,34 @@ interface Props {
 export function App({ snapshot }: Props) {
   return (
     <SnapshotContext.Provider value={snapshot}>
-      <div class="page">
-        <section class="hero">
-          <p class="eyebrow">JIP Modern Viewer</p>
-          <h1>Profiling snapshot with a modern local report</h1>
-          <p class="subtitle">
-            This report is self-contained. It embeds the versioned JSON snapshot and renders the
-            hottest methods, aggregated method totals, allocation counts, and per-thread interaction
-            trees without requiring a server.
-          </p>
+      <div class="mx-auto max-w-screen-xl px-4 py-4 pb-12">
+        <header class="rounded-lg border border-line bg-surface p-4 shadow-sm">
+          <div class="flex flex-wrap items-baseline gap-3">
+            <h1 class="text-xl font-bold tracking-tight">
+              {snapshot.snapshotLabel || "Profile Snapshot"}
+            </h1>
+            {snapshot.generatedAt !== snapshot.snapshotLabel && (
+              <span class="text-sm text-muted">{snapshot.generatedAt}</span>
+            )}
+          </div>
           <Toolbar />
-        </section>
+        </header>
 
         <SummaryCards />
         <InsightsPanel />
         <TimelinePanel />
         <HistoryPanel />
 
-        <section class="panel">
-          <h2>Advanced Visualizations</h2>
-          <section class="viz-grid">
+        <Panel title="Advanced Visualizations">
+          <div class="grid grid-cols-1 items-start gap-3 lg:grid-cols-[1.3fr_0.7fr]">
             <IcicleChart />
             <MethodHeatmap />
-          </section>
-        </section>
+          </div>
+        </Panel>
 
         <ComparePanel />
 
-        <section class="layout">
+        <div class="mt-3 grid grid-cols-1 items-start gap-3 lg:grid-cols-[1.2fr_0.8fr]">
           <div>
             <MethodTable
               title="Top Methods"
@@ -70,10 +70,25 @@ export function App({ snapshot }: Props) {
             <JfrPanel />
             <AsyncProfilerPanel />
           </div>
-        </section>
+        </div>
 
         <ThreadTrees query={threadSearch.value} />
       </div>
     </SnapshotContext.Provider>
+  );
+}
+
+export function Panel({
+  title,
+  children,
+}: {
+  title: string;
+  children: preact.ComponentChildren;
+}) {
+  return (
+    <section class="mt-3 rounded-lg border border-line bg-surface p-4 shadow-sm">
+      <h2 class="mb-2 text-xs font-bold uppercase tracking-wide text-muted">{title}</h2>
+      {children}
+    </section>
   );
 }

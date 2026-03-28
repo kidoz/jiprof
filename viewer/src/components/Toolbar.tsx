@@ -28,7 +28,7 @@ export function Toolbar() {
       const text = await file.text();
       const parsed = JSON.parse(text) as SnapshotDocument;
       if (!parsed || !Array.isArray(parsed.methodSummary) || !parsed.summary) {
-        throw new Error("The selected file is not a JIP modern JSON snapshot.");
+        throw new Error("The selected file is not a JIP JSON snapshot.");
       }
       comparisonSnapshot.value = parsed;
     } catch (error) {
@@ -43,11 +43,17 @@ export function Toolbar() {
     ? `Comparing ${snapshot.snapshotLabel || "current snapshot"} against ${baseline.snapshotLabel || baseline.generatedAt || "baseline snapshot"}.`
     : "No baseline snapshot loaded.";
 
+  const inputCls =
+    "h-9 w-full rounded-md border border-line bg-surface-strong px-3 font-sans text-sm";
+  const btnCls =
+    "inline-flex h-9 items-center justify-center whitespace-nowrap rounded-md px-3 text-sm font-semibold";
+
   return (
-    <div class="toolbar">
+    <div class="mt-3 grid grid-cols-1 items-start gap-2 lg:grid-cols-[1fr_1fr_auto]">
       <input
         type="search"
         placeholder="Filter methods, classes, or signatures"
+        class={inputCls}
         value={methodSearch.value}
         onInput={(e) => {
           methodSearch.value = (e.target as HTMLInputElement).value.trim().toLowerCase();
@@ -56,19 +62,23 @@ export function Toolbar() {
       <input
         type="search"
         placeholder="Filter thread trees"
+        class={inputCls}
         value={threadSearch.value}
         onInput={(e) => {
           threadSearch.value = (e.target as HTMLInputElement).value.trim().toLowerCase();
         }}
       />
-      <div class="toolbar-item">
-        <div class="button-row">
-          <label class="button" onClick={() => fileInputRef.current?.click()}>
+      <div class="grid gap-1.5">
+        <div class="flex flex-wrap gap-1.5">
+          <label
+            class={`${btnCls} cursor-pointer bg-accent text-white`}
+            onClick={() => fileInputRef.current?.click()}
+          >
             Load Baseline Snapshot
           </label>
           <button
             type="button"
-            class="button secondary"
+            class={`${btnCls} border border-line bg-surface-strong text-ink`}
             onClick={() => {
               const label = (snapshot.snapshotLabel || "snapshot").replaceAll(
                 /[^a-zA-Z0-9._-]+/g,
@@ -82,7 +92,7 @@ export function Toolbar() {
           {baseline && (
             <button
               type="button"
-              class="button secondary"
+              class={`${btnCls} border border-line bg-surface-strong text-ink`}
               onClick={() => {
                 comparisonSnapshot.value = null;
               }}
@@ -95,9 +105,12 @@ export function Toolbar() {
           ref={fileInputRef}
           type="file"
           accept=".json,application/json"
+          class="hidden"
           onChange={handleCompareFile}
         />
-        <div class={`status-pill ${baseline ? "" : "muted"}`}>{statusText}</div>
+        <div class="rounded-md border border-line bg-surface-strong px-3 py-1.5 text-sm text-muted">
+          {statusText}
+        </div>
       </div>
     </div>
   );

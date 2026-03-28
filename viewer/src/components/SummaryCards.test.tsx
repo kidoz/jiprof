@@ -14,19 +14,19 @@ function renderWithSnapshot(overrides = {}) {
 }
 
 describe("SummaryCards", () => {
-  it("renders schema version", () => {
-    renderWithSnapshot();
-    expect(screen.getByText("jip-modern-v1")).toBeTruthy();
-  });
-
-  it("renders snapshot label", () => {
-    renderWithSnapshot();
-    expect(screen.getByText("test-snapshot")).toBeTruthy();
-  });
-
   it("renders thread count", () => {
     renderWithSnapshot();
     expect(screen.getByText("2")).toBeTruthy();
+  });
+
+  it("renders frame count", () => {
+    renderWithSnapshot();
+    expect(screen.getByText("5")).toBeTruthy();
+  });
+
+  it("renders observed time", () => {
+    renderWithSnapshot();
+    expect(screen.getByText("10.000 ms")).toBeTruthy();
   });
 
   it("renders hottest method name", () => {
@@ -34,8 +34,8 @@ describe("SummaryCards", () => {
     expect(screen.getByText("sample.Service:run")).toBeTruthy();
   });
 
-  it("renders n/a when no methods", () => {
+  it("hides hottest method when no methods", () => {
     renderWithSnapshot({ methodSummary: [] });
-    expect(screen.getByText("n/a")).toBeTruthy();
+    expect(screen.queryByText("Hottest Method")).toBeNull();
   });
 });
