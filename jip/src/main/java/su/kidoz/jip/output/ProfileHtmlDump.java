@@ -11,8 +11,11 @@ public final class ProfileHtmlDump {
 	private static final String JSON_PLACEHOLDER = "__PROFILE_JSON__";
 
 	public static void dump(ProfileOutputFiles files) throws IOException {
+		dump(files, ProfileJsonDump.buildSnapshot(files));
+	}
+
+	public static void dump(ProfileOutputFiles files, String json) throws IOException {
 		String template = loadTemplate();
-		String json = ProfileJsonDump.buildSnapshot(files);
 		String html = template.replace(JSON_PLACEHOLDER, escapeForInlineScript(json));
 
 		FileWriter out = new FileWriter(files.htmlFileName());

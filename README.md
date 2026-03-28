@@ -12,16 +12,29 @@ Setup / Usage
 
 Build profiler: ./gradlew :jip:clean :jip:jar
 
+Roadmap: see `ROADMAP.md` for the current 2026 feature plan.
+
 Usage: java -javaagent:lib/profile.jar -Dprofile.properties=properties-file-name
 
 Modern output modes:
 
 * `output=json` writes a versioned snapshot next to the requested output file.
 * `output=modern` writes both the JSON snapshot and a self-contained HTML report.
+* The HTML report can load a second JSON snapshot locally and show regression-focused diffs for methods, allocations, and JFR sampled hotspots.
+* The snapshot also carries automated insights for dominant hotspots, allocation pressure, single-thread dominance, and sampled-vs-instrumented mismatch.
 * `jfr=on` enables a companion Java Flight Recorder capture for the active profiling window.
 * `jfr.sample.period.ms=20` controls the JFR execution/native sampling period in milliseconds.
+* `async-profiler.collapsed=/path/to/profile.collapsed` imports an external async-profiler collapsed stack capture into the modern snapshot.
+* `async-profiler.artifacts=/path/to/flamegraph.html,/path/to/profile.jfr` links external async-profiler outputs in the HTML report without bundling the native profiler.
+* When the JDK supports it, the JFR companion also records CPU-time samples plus lock/contention signals (`JavaMonitorEnter`, `JavaMonitorWait`, `ThreadPark`) and exposes them in the JSON/HTML report.
+* Modern snapshots now include a coarse timeline with runtime buckets, per-thread peak windows, and JFR overlay counts for time-oriented analysis.
+* Snapshot artifacts now carry a stable `snapshotLabel`, and the HTML report can download its embedded snapshot JSON plus an exported compare summary after a baseline is loaded.
+* Allocation analysis now combines runtime allocation counts with JFR sampled allocation bytes and exposes JFR-backed allocation hot paths plus sampled-byte regressions in compare mode.
+* External async-profiler imports now surface collapsed top leaf frames, top stacks, and linked flame graph artifacts alongside JIP and JFR data.
+* When `file` points to a directory, JIP now keeps a rolling `recordings-index.json` sidecar and embeds a recent-recordings history block into each snapshot/report.
+* The self-contained HTML report now includes an icicle-style hottest-interaction view plus a method heatmap for faster visual hotspot scanning.
 
-The built-in sampled profiling companion is JFR. `async-profiler` is not bundled into this repository.
+The built-in sampled profiling companion is JFR. `async-profiler` is not bundled into this repository; interoperability is import/link based.
 
 The built agent jar now also exposes `Agent-Class` and `Can-Retransform-Classes`, so it can be attached to a live JVM with the standard Java Attach API and then retransform already loaded eligible classes.
 
