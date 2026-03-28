@@ -1,5 +1,9 @@
 # JIP — Java Interactive Profiler
 
+[![Java](https://img.shields.io/badge/Java-17%2B-blue)](https://openjdk.org/)
+[![License](https://img.shields.io/badge/License-BSD-green)](LICENSE)
+[![Build](https://img.shields.io/badge/Build-Gradle-orange)](https://gradle.org/)
+
 JIP is a lightweight, pure-Java code profiler that instruments bytecode at the classloader level. Unlike hprof it can be toggled at runtime, filters by package, and produces real-world timing measurements with very low overhead.
 
 ## Quick Start
@@ -94,3 +98,11 @@ attach.retransform=off          # install without retransformation
 ./gradlew :jip:test      # run profiler tests only
 ./gradlew :jip:jar       # build the agent JAR
 ```
+
+## License
+
+[BSD License](LICENSE)
+
+## Author
+
+Aleksandr Pavlov <ckidoz@gmail.com>
