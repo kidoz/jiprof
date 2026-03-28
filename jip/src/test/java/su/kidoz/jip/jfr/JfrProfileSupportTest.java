@@ -10,6 +10,9 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.Comparator;
+import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.locks.LockSupport;
 import java.util.stream.Stream;
 
 import static org.junit.jupiter.api.Assertions.assertNotNull;
@@ -71,6 +74,29 @@ public class JfrProfileSupportTest {
 		assertTrue(Files.exists(Path.of(report.artifactPath())));
 		assertTrue(report.executionSampleCount() >= 0);
 		assertTrue(report.nativeSampleCount() >= 0);
+		assertTrue(report.metadata().samplePeriodMs() == 1);
+	}
+
+	@Test
+	public void capturesContentionAndExtendedMetadata() throws Exception {
+		JfrProfileSupport.startProfileSession();
+		induceContention();
+		JfrProfileSupport.stopProfileSession();
+
+		ProfileOutputFiles files = ProfileOutputFiles.create();
+		JfrProfileSupport.JfrReport report = JfrProfileSupport.prepareReport(files);
+
+		assertTrue(report.enabled());
+		assertTrue(report.metadata().executionSamplingEnabled());
+		assertTrue(report.metadata().monitorEnterEventsEnabled() || report.metadata().monitorWaitEventsEnabled()
+				|| report.metadata().threadParkEventsEnabled());
+		assertTrue(report.cpuTimeSampleCount() >= 0);
+		assertTrue(report.contentionEventCount() > 0);
+		assertTrue(report.contentionDurationNanos() >= 0);
+		assertTrue(report.topAllocationPaths() != null);
+		assertTrue(!report.topContentionSamples().isEmpty());
+		assertTrue(report.timelineBucketSizeMs() > 0);
+		assertTrue(!report.timelineBuckets().isEmpty());
 	}
 
 	private static void burnCpu() {
@@ -80,5 +106,55 @@ public class JfrProfileSupportTest {
 			value += System.nanoTime() & 3;
 		}
 		assertTrue(value >= 0);
+	}
+
+	private static void induceContention() throws Exception {
+		Object monitor = new Object();
+		CountDownLatch lockHeld = new CountDownLatch(1);
+		CountDownLatch contentionDone = new CountDownLatch(1);
+
+		Thread owner = new Thread(() -> {
+			synchronized (monitor) {
+				lockHeld.countDown();
+				sleepMillis(180);
+			}
+		}, "jfr-owner");
+
+		Thread contender = new Thread(() -> {
+			await(lockHeld);
+			synchronized (monitor) {
+				contentionDone.countDown();
+			}
+		}, "jfr-contender");
+
+		owner.start();
+		contender.start();
+		assertTrue(contentionDone.await(2, TimeUnit.SECONDS));
+		owner.join();
+		contender.join();
+
+		synchronized (monitor) {
+			monitor.wait(120L);
+		}
+
+		LockSupport.parkNanos(TimeUnit.MILLISECONDS.toNanos(120));
+	}
+
+	private static void await(CountDownLatch latch) {
+		try {
+			assertTrue(latch.await(2, TimeUnit.SECONDS));
+		} catch (InterruptedException e) {
+			Thread.currentThread().interrupt();
+			throw new RuntimeException(e);
+		}
+	}
+
+	private static void sleepMillis(long millis) {
+		try {
+			Thread.sleep(millis);
+		} catch (InterruptedException e) {
+			Thread.currentThread().interrupt();
+			throw new RuntimeException(e);
+		}
 	}
 }

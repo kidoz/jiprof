@@ -4,6 +4,7 @@ import com.mentorgen.tools.profile.Controller;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import su.kidoz.jip.timeline.TimelineRecorder;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -14,6 +15,7 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 
 public class ProfileConcurrencyTest {
 	private static final int THREADS = 4;
@@ -91,6 +93,8 @@ public class ProfileConcurrencyTest {
 		assertEquals(THREADS * ITERATIONS, interactionCount);
 		assertEquals(THREADS * ITERATIONS * 2, countFrames());
 		assertEquals(THREADS * ITERATIONS, totalAllocationCount);
+		assertFalse(TimelineRecorder.snapshot().buckets().isEmpty());
+		assertEquals(THREADS, TimelineRecorder.snapshot().threadActivity().size());
 	}
 
 	@Test
