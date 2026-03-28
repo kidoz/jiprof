@@ -111,27 +111,3 @@ project(":jip") {
     }
 }
 
-project(":simple-profiler") {
-    tasks.named<Jar>("jar") {
-        manifest {
-            attributes("Premain-Class" to "sample.profiler.Main")
-        }
-    }
-
-    dependencies {
-        "implementation"(catalog.asm)
-        "testImplementation"(catalog.junit.jupiter)
-    }
-}
-
-project(":verbose-class") {
-    tasks.named<Jar>("jar") {
-        manifest {
-            attributes("Premain-Class" to "sample.verboseclass.Main")
-        }
-    }
-
-    dependencies {
-        "testImplementation"(catalog.junit.jupiter)
-    }
-}
